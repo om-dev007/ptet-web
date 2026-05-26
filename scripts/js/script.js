@@ -73,42 +73,48 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", revealOnScroll);
 
 
-    /* AUTO SCROLL REVIEWS (WITH PAUSE ON HOVER) */
+    /* ===== REVIEWS — AUTO SCROLL + ARROW BUTTONS ===== */
 
     const reviewsContainer = document.getElementById("reviews");
+    const revPrev = document.getElementById("revPrev");
+    const revNext = document.getElementById("revNext");
 
     if (reviewsContainer) {
 
-        let scrollAmount = 0;
-        let interval;
+        const CARD_SCROLL = 292; // card width (270) + gap (22)
+        let autoTimer = null;
 
-        function startScroll(){
-            interval = setInterval(() => {
-
-                scrollAmount += 1;
-
-                if (scrollAmount >= reviewsContainer.scrollWidth - reviewsContainer.clientWidth) {
-                    scrollAmount = 0;
+        function startAuto() {
+            stopAuto();
+            autoTimer = setInterval(() => {
+                const maxScroll = reviewsContainer.scrollWidth - reviewsContainer.clientWidth;
+                if (reviewsContainer.scrollLeft >= maxScroll - 1) {
+                    reviewsContainer.scrollLeft = 0;
+                } else {
+                    reviewsContainer.scrollLeft += 1;
                 }
-
-                reviewsContainer.scrollTo({
-                    left: scrollAmount,
-                    behavior: "smooth"
-                });
-
-            }, 30);
+            }, 18);
         }
 
-        function stopScroll(){
-            clearInterval(interval);
+        function stopAuto() {
+            clearInterval(autoTimer);
         }
 
-        reviewsContainer.addEventListener("mouseenter", stopScroll);
-        reviewsContainer.addEventListener("mouseleave", startScroll);
+        function scrollByCard(dir) {
+            stopAuto();
+            reviewsContainer.scrollBy({ left: dir * CARD_SCROLL, behavior: "smooth" });
+            setTimeout(startAuto, 1200); // restart auto after user click
+        }
 
-        startScroll();
+        if (revNext) revNext.addEventListener("click", () => scrollByCard(1));
+        if (revPrev) revPrev.addEventListener("click", () => scrollByCard(-1));
 
+        reviewsContainer.addEventListener("mouseenter", stopAuto);
+        reviewsContainer.addEventListener("mouseleave", startAuto);
+
+        startAuto();
     }
+
 
     /* FAQ ACCORDION (SINGLE OPEN + ANIMATION) */
 
