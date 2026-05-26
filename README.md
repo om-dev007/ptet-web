@@ -1,9 +1,10 @@
-# PTET Static Website
+# PTET Web
 
-This is a static website project built using HTML, CSS, and JavaScript.  
-The website provides PTET-related information in a simple and user-friendly format.
+A static website built to provide PTET-related information in a simple, clean, and user-friendly format.
 
-All source code, images, and other assets used in this project are included in this repository.
+🌐 Live Demo: https://ptet-web.vercel.app/
+
+All source code, assets, and project files are included in this repository.
 
 ---
 
@@ -15,27 +16,17 @@ All source code, images, and other assets used in this project are included in t
 ---
 
 ## 📁 Project Structure
-ptet-static-website/
+
+```bash
+ptet-web/
+├── assets/
+│   └── images/
+├── components/
+├── pages/
+├── scripts/
+│   └── js/
+├── styles/
+│   └── css/
+├── .vscode/
 ├── index.html
-├── style.css
-├── README.md
-└── images/
-    └── (project images)
-
----
-
-## 📌 How to Use
-1. Clone the repository:
-   git clone https://github.com/mohityadav8/ptet-static-website.git
-2. Open the index.html file in any modern web browser.
-
----
-
-## 🤝 Contribution
-Contributions are welcome.  
-Feel free to open issues or submit pull requests to improve the project.
-
----
-
-## 📄 License
-This project is open-source and intended for learning and educational purposes.
+└── README.md
