@@ -1,0 +1,724 @@
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f7f7;
+    --bg-card: #ffffff;
+    --bg-navbar: rgba(244, 246, 251, 0.95);
+    --bg-navbar-mobile: rgba(244, 246, 251, 0.92);
+    --bg-footer: rgba(244, 246, 251, 0.95);
+    --bg-dropdown: rgba(255, 255, 255, 0.95);
+    --bg-input: #fafafa;
+    --bg-input-focus: #ffffff;
+    --bg-popup: rgba(255, 255, 255, 0.92);
+    --bg-hero-text: rgba(255, 255, 255, 0.85);
+    --bg-faq-item: rgba(255, 255, 255, 0.7);
+    --bg-faq-question: #fff;
+    --bg-social-icon: white;
+    --bg-login-btn: white;
+    --bg-close-btn: #f3f3f3;
+    --bg-close-btn-hover: #eaeaea;
+    --bg-register-secondary: #f5f5f5;
+    --bg-register-secondary-hover: #ebebeb;
+    --bg-google-login: white;
+    --bg-google-login-hover: #f5f5f5;
+    --bg-github-login: #24292e;
+    --bg-github-login-hover: #1b1f23;
+    --bg-dropdown-hover: #f5f7fb;
+    --bg-hero-link: #eee;
+    --bg-hero-link-hover: #ddd;
+    --bg-hero-badge: #fff;
+    --bg-divider-span: white;
+    --bg-gradient-start: #f8f9fb;
+    --bg-gradient-end: #ffffff;
+    --bg-about-hero-start: #f7f7f7;
+    --bg-about-hero-end: #ffffff;
+    --bg-login-page-start: #eef2f7;
+    --bg-login-page-end: #f7f9fc;
+    --bg-faq-hero-start: #f7f7f7;
+    --bg-faq-hero-end: #ffffff;
+    --bg-structure-section: #f7f7f7;
+    --bg-timeline-section: #ffffff;
+    --bg-timeline-line: #e5e5e5;
+    --text-primary: #1a1a1a;
+    --text-secondary: #444;
+    --text-muted: #555;
+    --text-light: #666;
+    --text-lighter: #777;
+    --text-input-icon: #888;
+    --text-logo: #222;
+    --text-nav-link: #444;
+    --text-review-name: #923939;
+    --text-footer-col-title: #222;
+    --text-footer-link: #555;
+    --text-social-icon: #333;
+    --text-user-name: #333;
+    --text-profile-arrow: #555;
+    --text-dropdown-link: #333;
+    --text-login-btn: #333;
+    --border-card: rgba(0, 0, 0, 0.08);
+    --border-input: #ddd;
+    --border-footer: rgba(0, 0, 0, 0.05);
+    --border-footer-bottom: rgba(0, 0, 0, 0.08);
+    --border-newsletter: rgba(0, 0, 0, 0.15);
+    --border-hero-badge: #eee;
+    --border-register-secondary: #e5e5e5;
+    --border-close-btn: #e2e2e2;
+    --border-google-login: #ddd;
+    --shadow-card: rgba(0, 0, 0, 0.08);
+    --shadow-card-hover: rgba(0, 0, 0, 0.15);
+    --shadow-navbar: rgba(0, 0, 0, 0.18);
+    --shadow-hero: rgba(0, 0, 0, 0.22);
+    --scrollbar-track: transparent;
+    --shimmer: rgba(255, 255, 255, 0.6);
+    --shimmer-card: rgba(255, 255, 255, 0.3);
+    --overlay-bg: rgba(0, 0, 0, 0.65);
+    --theme-toggle-bg: rgba(0, 0, 0, 0.06);
+    --theme-toggle-hover: rgba(0, 0, 0, 0.12);
+    --theme-toggle-color: #444;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0f1117;
+    --bg-secondary: #161922;
+    --bg-card: #1c1f2e;
+    --bg-navbar: rgba(22, 25, 38, 0.95);
+    --bg-navbar-mobile: rgba(22, 25, 38, 0.95);
+    --bg-footer: rgba(22, 25, 38, 0.95);
+    --bg-dropdown: rgba(28, 31, 46, 0.98);
+    --bg-input: #1c1f2e;
+    --bg-input-focus: #22253a;
+    --bg-popup: rgba(28, 31, 46, 0.96);
+    --bg-hero-text: rgba(22, 25, 38, 0.9);
+    --bg-faq-item: rgba(28, 31, 46, 0.8);
+    --bg-faq-question: #1c1f2e;
+    --bg-social-icon: #1c1f2e;
+    --bg-login-btn: #1c1f2e;
+    --bg-close-btn: #2a2d3e;
+    --bg-close-btn-hover: #33364a;
+    --bg-register-secondary: #2a2d3e;
+    --bg-register-secondary-hover: #33364a;
+    --bg-google-login: #1c1f2e;
+    --bg-google-login-hover: #22253a;
+    --bg-github-login: #0d1117;
+    --bg-github-login-hover: #161b22;
+    --bg-dropdown-hover: #22253a;
+    --bg-hero-link: #2a2d3e;
+    --bg-hero-link-hover: #33364a;
+    --bg-hero-badge: #1c1f2e;
+    --bg-divider-span: #1c1f2e;
+    --bg-gradient-start: #0f1117;
+    --bg-gradient-end: #161922;
+    --bg-about-hero-start: #0f1117;
+    --bg-about-hero-end: #161922;
+    --bg-login-page-start: #0f1117;
+    --bg-login-page-end: #161922;
+    --bg-faq-hero-start: #0f1117;
+    --bg-faq-hero-end: #161922;
+    --bg-structure-section: #161922;
+    --bg-timeline-section: #0f1117;
+    --bg-timeline-line: #2a2d3e;
+    --text-primary: #e4e6ef;
+    --text-secondary: #b0b4c8;
+    --text-muted: #8e92a8;
+    --text-light: #7a7f98;
+    --text-lighter: #6b7090;
+    --text-input-icon: #6b7090;
+    --text-logo: #e4e6ef;
+    --text-nav-link: #b0b4c8;
+    --text-review-name: #d47a7a;
+    --text-footer-col-title: #e4e6ef;
+    --text-footer-link: #8e92a8;
+    --text-social-icon: #b0b4c8;
+    --text-user-name: #e4e6ef;
+    --text-profile-arrow: #8e92a8;
+    --text-dropdown-link: #e4e6ef;
+    --text-login-btn: #e4e6ef;
+    --border-card: rgba(255, 255, 255, 0.06);
+    --border-input: #2a2d3e;
+    --border-footer: rgba(255, 255, 255, 0.05);
+    --border-footer-bottom: rgba(255, 255, 255, 0.06);
+    --border-newsletter: rgba(255, 255, 255, 0.1);
+    --border-hero-badge: #2a2d3e;
+    --border-register-secondary: #33364a;
+    --border-close-btn: #33364a;
+    --border-google-login: #2a2d3e;
+    --shadow-card: rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: rgba(0, 0, 0, 0.5);
+    --shadow-navbar: rgba(0, 0, 0, 0.4);
+    --shadow-hero: rgba(0, 0, 0, 0.5);
+    --scrollbar-track: transparent;
+    --shimmer: rgba(255, 255, 255, 0.05);
+    --shimmer-card: rgba(255, 255, 255, 0.03);
+    --overlay-bg: rgba(0, 0, 0, 0.8);
+    --theme-toggle-bg: rgba(255, 255, 255, 0.08);
+    --theme-toggle-hover: rgba(255, 255, 255, 0.15);
+    --theme-toggle-color: #e4e6ef;
+}
+
+.theme-toggle {
+    width: 38px;
+    height: 38px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: var(--theme-toggle-bg);
+    color: var(--theme-toggle-color);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--theme-toggle-hover);
+    transform: translateY(-2px);
+}
+
+.theme-toggle .fa-sun {
+    display: none;
+}
+
+.theme-toggle .fa-moon {
+    display: inline-block;
+}
+
+[data-theme="dark"] .theme-toggle .fa-sun {
+    display: inline-block;
+}
+
+[data-theme="dark"] .theme-toggle .fa-moon {
+    display: none;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.navbar-container {
+    background: var(--bg-navbar);
+    box-shadow: 0 10px 30px var(--shadow-navbar);
+}
+
+.logo-text {
+    color: var(--text-logo);
+}
+
+#navbar li a {
+    color: var(--text-nav-link);
+}
+
+.dropdown-menu {
+    background: var(--bg-dropdown);
+    box-shadow: 0 15px 30px var(--shadow-card-hover);
+}
+
+.dropdown-menu li a {
+    color: var(--text-nav-link);
+}
+
+.dropdown-menu li a:hover {
+    background: var(--bg-dropdown-hover);
+}
+
+.login-btn {
+    background: var(--bg-login-btn);
+    color: var(--text-login-btn);
+    box-shadow: 0 3px 10px var(--shadow-card);
+}
+
+.user-name {
+    color: var(--text-user-name);
+}
+
+.profile-arrow {
+    color: var(--text-profile-arrow);
+}
+
+.profile-dropdown {
+    background: var(--bg-card);
+    box-shadow: 0 10px 25px var(--shadow-card-hover);
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+    color: var(--text-dropdown-link);
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+    background: var(--bg-dropdown-hover);
+}
+
+.user-photo {
+    border-color: var(--border-card);
+}
+
+.hero-text {
+    background: var(--bg-hero-text);
+    box-shadow: 0 20px 60px var(--shadow-hero);
+    border-color: var(--border-card);
+}
+
+.hero-text h2 {
+    color: var(--text-primary);
+}
+
+.hero-text h3 {
+    color: var(--text-secondary);
+}
+
+.hero-text p {
+    color: var(--text-muted);
+}
+
+.hero-points li {
+    color: var(--text-muted);
+}
+
+.features-heading h2 {
+    color: var(--text-primary);
+}
+
+.features-heading p {
+    color: var(--text-muted);
+}
+
+section.reveal:nth-of-type(even) {
+    background: var(--bg-primary);
+}
+
+section.reveal:nth-of-type(odd) {
+    background: var(--bg-secondary);
+}
+
+.feature-box {
+    background: var(--bg-card);
+    box-shadow: 0 8px 25px var(--shadow-card);
+}
+
+.feature-box:hover {
+    box-shadow: 0 18px 45px var(--shadow-card-hover);
+}
+
+.feature-box::before {
+    background: linear-gradient(120deg, transparent, var(--shimmer), transparent);
+}
+
+.feature-box h3 {
+    color: var(--text-primary);
+}
+
+.feature-box p {
+    color: var(--text-muted);
+}
+
+#page2 {
+    background: var(--bg-primary);
+}
+
+#alpha h2 {
+    color: var(--text-primary);
+}
+
+#alpha p {
+    color: var(--text-muted);
+}
+
+#container .cards {
+    background: var(--bg-card);
+    box-shadow: 0 10px 25px var(--shadow-card);
+}
+
+#container .cards:hover {
+    box-shadow: 0 20px 40px var(--shadow-card-hover);
+}
+
+#container .cards::after {
+    background: linear-gradient(120deg, transparent, var(--shimmer-card), transparent);
+}
+
+#container .cards h3 {
+    color: var(--text-primary);
+}
+
+#container .cards p {
+    color: var(--text-muted);
+}
+
+#contact {
+    background: var(--bg-secondary);
+}
+
+#contact h2 {
+    color: var(--text-primary);
+}
+
+.review {
+    background: var(--bg-card);
+    box-shadow: 0 8px 20px var(--shadow-card);
+}
+
+.review:hover {
+    box-shadow: 0 18px 40px var(--shadow-card-hover);
+}
+
+.review h3 {
+    color: var(--text-review-name);
+}
+
+.review p {
+    color: var(--text-muted);
+}
+
+.faq-section {
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+}
+
+.faq-item {
+    background: var(--bg-faq-item);
+    border-color: var(--border-card);
+    box-shadow: 0 10px 30px var(--shadow-card);
+}
+
+.faq-question {
+    background: transparent;
+    color: var(--text-primary);
+}
+
+.faq-answer p {
+    color: var(--text-muted);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.footer-wrapper {
+    background: var(--bg-footer);
+    color: var(--text-secondary);
+    border-top-color: var(--border-footer);
+}
+
+.footer-logo {
+    color: var(--text-logo);
+}
+
+.footer-desc {
+    color: var(--text-muted);
+}
+
+.social-icons a {
+    background: var(--bg-social-icon);
+    color: var(--text-social-icon);
+    box-shadow: 0 3px 8px var(--shadow-card);
+}
+
+.footer-col h4 {
+    color: var(--text-footer-col-title);
+}
+
+.footer-col ul li a {
+    color: var(--text-footer-link);
+}
+
+.contact-info li {
+    color: var(--text-muted);
+}
+
+.newsletter-form input {
+    background: var(--bg-input);
+    border-color: var(--border-newsletter);
+    color: var(--text-primary);
+}
+
+.newsletter-form input::placeholder {
+    color: var(--text-lighter);
+}
+
+.footer-bottom {
+    border-top-color: var(--border-footer-bottom);
+    color: var(--text-light);
+}
+
+.auth-popup-overlay {
+    background: var(--overlay-bg);
+}
+
+.auth-popup {
+    background: var(--bg-popup);
+    box-shadow: 0 25px 80px var(--shadow-card-hover), 0 0 0 1px var(--border-card);
+}
+
+.auth-popup h3 {
+    color: var(--text-primary);
+}
+
+.auth-popup p {
+    color: var(--text-secondary);
+}
+
+.popup-register-btn {
+    background: var(--bg-register-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-register-secondary);
+}
+
+.popup-register-btn:hover {
+    background: var(--bg-register-secondary-hover);
+}
+
+.popup-close-btn {
+    background: var(--bg-close-btn);
+    color: var(--text-secondary);
+    border-color: var(--border-close-btn);
+}
+
+.popup-close-btn:hover {
+    background: var(--bg-close-btn-hover);
+    color: var(--text-primary);
+}
+
+.login-page {
+    background: linear-gradient(135deg, var(--bg-login-page-start), var(--bg-login-page-end));
+}
+
+.login-container {
+    background: var(--bg-card);
+    box-shadow: 0 20px 40px var(--shadow-card), 0 5px 15px var(--shadow-card);
+}
+
+.login-container h2 {
+    color: var(--text-primary);
+}
+
+.login-subtitle {
+    color: var(--text-lighter);
+}
+
+.input-group i {
+    color: var(--text-input-icon);
+}
+
+.input-group input {
+    background: var(--bg-input);
+    border-color: var(--border-input);
+    color: var(--text-primary);
+}
+
+.input-group input::placeholder {
+    color: var(--text-lighter);
+}
+
+.input-group input:focus {
+    background: var(--bg-input-focus);
+}
+
+.login-options {
+    color: var(--text-muted);
+}
+
+.register-link {
+    color: var(--text-muted);
+}
+
+.auth-divider {
+    color: var(--text-input-icon);
+}
+
+.auth-divider span {
+    background: var(--bg-divider-span);
+}
+
+.auth-divider::before {
+    background: var(--border-input);
+}
+
+.google-login {
+    background: var(--bg-google-login);
+    border-color: var(--border-google-login);
+    color: var(--text-primary);
+}
+
+.google-login:hover {
+    background: var(--bg-google-login-hover);
+}
+
+.github-login {
+    background: var(--bg-github-login);
+    border-color: var(--border-google-login);
+}
+
+.github-login:hover {
+    background: var(--bg-github-login-hover);
+}
+
+.about-hero {
+    background: linear-gradient(135deg, var(--bg-about-hero-start), var(--bg-about-hero-end));
+}
+
+.about-hero h1 {
+    color: var(--text-primary);
+}
+
+.about-hero p {
+    color: var(--text-muted);
+}
+
+.hero-badge {
+    background: var(--bg-hero-badge);
+    border-color: var(--border-hero-badge);
+}
+
+.hero-link {
+    background: var(--bg-hero-link);
+    color: var(--text-primary);
+}
+
+.hero-link:hover {
+    background: var(--bg-hero-link-hover);
+}
+
+.about-section.light {
+    background: var(--bg-secondary);
+}
+
+.about-lead {
+    color: var(--text-secondary);
+}
+
+.about-combined {
+    background: var(--bg-card);
+    box-shadow: 0 12px 35px var(--shadow-card);
+}
+
+.about-combined:hover {
+    box-shadow: 0 20px 50px var(--shadow-card-hover);
+}
+
+.about-info p {
+    color: var(--text-muted);
+}
+
+.stat-box p {
+    color: var(--text-light);
+}
+
+.about-card {
+    background: var(--bg-card);
+    box-shadow: 0 8px 25px var(--shadow-card);
+}
+
+.about-structure-section {
+    background: var(--bg-structure-section);
+}
+
+.structure-subtitle {
+    color: var(--text-muted);
+}
+
+.structure-card {
+    background: var(--bg-card);
+    box-shadow: 0 8px 25px var(--shadow-card);
+}
+
+.structure-card:hover {
+    box-shadow: 0 18px 40px var(--shadow-card-hover);
+}
+
+.structure-card h3 {
+    color: var(--text-primary);
+}
+
+.structure-card p {
+    color: var(--text-muted);
+}
+
+.timeline-section {
+    background: var(--bg-timeline-section);
+}
+
+.timeline::before {
+    background: var(--bg-timeline-line);
+}
+
+.timeline-content {
+    background: var(--bg-card);
+    box-shadow: 0 8px 25px var(--shadow-card);
+}
+
+.timeline-content h3 {
+    color: var(--text-primary);
+}
+
+.timeline-content p {
+    color: var(--text-muted);
+}
+
+.audience-card {
+    background: var(--bg-card);
+    box-shadow: 0 10px 30px var(--shadow-card);
+}
+
+.audience-card:hover {
+    box-shadow: 0 20px 50px var(--shadow-card-hover);
+}
+
+.audience-card h3 {
+    color: var(--text-primary);
+}
+
+.audience-card p {
+    color: var(--text-muted);
+}
+
+.faq-hero {
+    background: linear-gradient(135deg, var(--bg-faq-hero-start), var(--bg-faq-hero-end));
+}
+
+.faq-hero h1 {
+    color: var(--text-primary);
+}
+
+.faq-hero p {
+    color: var(--text-muted);
+}
+
+.faq-ask-card {
+    background: var(--bg-card);
+    box-shadow: 0 10px 30px var(--shadow-card);
+}
+
+.faq-ask-card h3 {
+    color: var(--text-primary);
+}
+
+.faq-ask-card p {
+    color: var(--text-light);
+}
+
+.faq-ask-card textarea {
+    background: var(--bg-input);
+    border-color: var(--border-input);
+    color: var(--text-primary);
+}
+
+.center-heading {
+    color: var(--text-primary);
+}
+
+.about-section {
+    background: var(--bg-primary);
+}
+
+.about-grid-section {
+    background: var(--bg-primary);
+}
+
+@media (max-width: 768px) {
+    #navbar {
+        background: var(--bg-navbar-mobile);
+    }
+}
