@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us & Feedback | PTE HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- CSS stylesheets -->
+    <link rel="stylesheet" href="../styles/css/style.css">
+    <link rel="stylesheet" href="../styles/css/navbar.css">
+    <link rel="stylesheet" href="../styles/css/footer.css">
+    <link rel="stylesheet" href="../styles/css/auth-popup.css">
+    <link rel="stylesheet" href="../styles/css/contact.css">
+
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Header (Navbar Placeholder) -->
+    <header id="header">
+        <div id="navbar-placeholder"></div>
+    </header>
+
+    <main>
+        <!-- Contact Hero Section -->
+        <section class="contact-hero">
+            <div class="hero-inner">
+                <span class="hero-badge">
+                    <i class="fas fa-envelope-open-text"></i> Get In Touch
+                </span>
+                <h1>Contact Our Support Team</h1>
+                <p>
+                    Have questions about the PTE Academic test, practice materials, or scores? We are here to help you succeed.
+                </p>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <section class="contact-section">
+            <div class="contact-container">
+                
+                <!-- Contact Info Grid (Left Side) -->
+                <div class="contact-info-panel">
+                    <h2>Reach Us Directly</h2>
+                    <p class="panel-intro">Use the information below to connect with us, or send us a message through the contact portal.</p>
+                    
+                    <div class="info-cards">
+                        <!-- Card 1: Email -->
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3>Email Support</h3>
+                                <p><a href="mailto:support@ptehub.com">support@ptehub.com</a></p>
+                                <p class="card-hint">Response within 24 hours</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Phone -->
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3>Call Center</h3>
+                                <p><a href="tel:+9183025XXXXX">+91 83025XXXXX</a></p>
+                                <p class="card-hint">Mon-Fri, 9:00 AM - 6:00 PM</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Address -->
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3>Headquarters</h3>
+                                <p>PTE HUB Plaza, Sector 11, Tech City</p>
+                                <p class="card-hint">Rajasthan, India</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Links -->
+                    <div class="contact-socials">
+                        <h3>Connect With Us</h3>
+                        <div class="social-links">
+                            <a href="https://github.com/mohityadav8" target="_blank" aria-label="GitHub" class="social-btn github">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/mohit-yadav-6b2319305/" target="_blank" aria-label="LinkedIn" class="social-btn linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="social-btn twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form Card (Right Side) -->
+                <div class="contact-form-panel">
+                    <h2>Send a Message</h2>
+                    <p class="panel-intro">Please fill out the form below and our team will get back to you shortly.</p>
+
+                    <form id="contact-form" novalidate>
+                        <!-- Name Field -->
+                        <div class="form-group">
+                            <label for="name">Full Name <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name" autocomplete="name">
+                            </div>
+                            <div class="error-message" id="name-error">Please enter your name.</div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email">
+                            </div>
+                            <div class="error-message" id="email-error">Please enter a valid email address.</div>
+                        </div>
+
+                        <!-- Subject Field -->
+                        <div class="form-group">
+                            <label for="subject">Subject <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-tag input-icon"></i>
+                                <input type="text" id="subject" name="subject" placeholder="What is this regarding?">
+                            </div>
+                            <div class="error-message" id="subject-error">Please enter a subject.</div>
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="form-group">
+                            <label for="message">Message <span class="required">*</span></label>
+                            <div class="input-wrapper align-start">
+                                <i class="fas fa-comment-alt input-icon text-area-icon"></i>
+                                <textarea id="message" name="message" rows="5" placeholder="Type your message here..."></textarea>
+                            </div>
+                            <div class="error-message" id="message-error">Please enter your message.</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-btn" class="submit-btn">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Modal Overlay -->
+    <div id="successModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <h2 id="modal-title">Message Sent!</h2>
+            <p class="modal-desc">Thank you for reaching out. We have successfully received your feedback/inquiry and stored it for review.</p>
+            
+            <div class="submitted-info">
+                <h3>Submission Summary:</h3>
+                <div class="summary-grid">
+                    <span class="summary-label">Name:</span>
+                    <span class="summary-value" id="modal-name"></span>
+
+                    <span class="summary-label">Email:</span>
+                    <span class="summary-value" id="modal-email"></span>
+
+                    <span class="summary-label">Subject:</span>
+                    <span class="summary-value" id="modal-subject"></span>
+
+                    <span class="summary-label">Message:</span>
+                    <span class="summary-value" id="modal-message"></span>
+                </div>
+            </div>
+
+            <button id="modal-close-btn" class="modal-btn">
+                <span>Dismiss</span>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footers and popups -->
+    <div id="footer-placeholder"></div>
+    <div id="auth-popup-placeholder"></div>
+
+    <!-- JavaScript files -->
+    <script src="../scripts/js/contact.js"></script>
+    <script src="../scripts/js/navbar.js"></script>
+    <script src="../scripts/js/footer.js"></script>
+    <script src="../scripts/js/script.js"></script>
+    <script src="../scripts/js/auth-popup.js"></script>
+
+    <!-- Scroll To Top Button -->
+    <button id="scrollTopBtn" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+</body>
+
+</html>
