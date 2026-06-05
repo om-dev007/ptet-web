@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTE Preparation | PTE HUB</title>
+
+    <link rel="stylesheet" href="../styles/css/navbar.css">
+    <link rel="stylesheet" href="../styles/css/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(rgba(10, 15, 30, .72),
+                    rgba(10, 15, 30, .72)),
+                url("https://images.unsplash.com/photo-1434030216411-0b793f4b4173");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero div {
+            max-width: 850px;
+        }
+
+        .hero h1 {
+            color: #fff;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, .9);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        /* ================= COMMON ================= */
+
+        .features-section,
+        .section {
+            padding: 45px 8%;
+        }
+
+        .features-heading,
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .features-heading h2,
+        .section-title h2 {
+            font-size: 2.7rem;
+            color: #8d2123;
+            margin-bottom: 10px;
+        }
+
+        .features-heading p,
+        .section-title p {
+            color: #6b7280;
+            font-size: 1.05rem;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-box {
+            background: #fff;
+            padding: 32px;
+            border-radius: 22px;
+            transition: .35s ease;
+        }
+
+        .feature-box h3 {
+            color: #111827;
+            margin-bottom: 10px;
+            font-size: 1.35rem;
+        }
+
+        .feature-box p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        .feature-box ul {
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .feature-box li {
+            margin-bottom: 8px;
+            color: #4b5563;
+        }
+
+        /* ================= PRACTICE TESTS ================= */
+
+        #practice-tests .feature-box {
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+        }
+
+        #practice-tests .feature-box:hover {
+            transform: translateY(-10px);
+        }
+
+        #practice-tests .feature-box i {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg,
+                    #8d2123,
+                    #d84a4d);
+
+            color: white;
+            font-size: 2rem;
+        }
+
+        /* ================= STUDY MATERIALS ================= */
+
+        #study-materials .feature-box {
+            border-left: 6px solid #8d2123;
+            border-radius: 0 20px 20px 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
+        }
+
+        #study-materials .feature-box:hover {
+            transform: translateX(10px);
+        }
+
+        /* ================= TIPS ================= */
+
+        #tips-strategies .feature-box {
+            background: linear-gradient(135deg,
+                    #fff 0%,
+                    #fff 55%,
+                    #f7dede 85%,
+                    #8d2123 200%);
+
+            border-radius: 20px;
+            color: #8d2123;
+        }
+
+        #tips-strategies .feature-box h3 {
+            color: #8d2123;
+        }
+
+        #tips-strategies .feature-box p {
+            color: #8d2123;
+        }
+
+        /* ================= MOCK TESTS ================= */
+
+        #mock-tests .feature-box {
+            position: relative;
+            border-left: 5px solid #8d2123;
+            border-radius: 0 20px 20px 0;
+            padding-left: 35px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .05);
+        }
+
+        #mock-tests .feature-box::before {
+            content: "";
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            background: #8d2123;
+            border-radius: 50%;
+
+            left: -12px;
+            top: 35px;
+        }
+
+        /* ================= SAMPLE QUESTION ================= */
+
+        .feature-box[style] {
+            background: #fffef8;
+            border: 2px dashed #8d2123;
+            box-shadow: none;
+            max-width: 900px;
+        }
+
+        .feature-box[style] h3,
+        .feature-box[style] h4 {
+            color: #8d2123;
+        }
+
+        .feature-box[style] p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-card {
+            background:
+                linear-gradient(135deg,
+                    rgba(141, 33, 35, .95),
+                    rgba(204, 70, 74, .95));
+
+            color: white;
+            text-align: center;
+
+            padding: 45px 20px;
+            border-radius: 25px;
+
+            position: relative;
+            overflow: hidden;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            background: rgba(255, 255, 255, .08);
+            border-radius: 50%;
+
+            top: -30px;
+            right: -30px;
+        }
+
+        .stat-card h2 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            opacity: .9;
+        }
+
+        /* ================= FAQ ================= */
+
+        .gray {
+            background: #eef2f7;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, .05);
+        }
+
+        .faq-question {
+            width: 100%;
+            border: none;
+
+            background: white;
+            color: #111827;
+
+            text-align: left;
+            padding: 22px;
+
+            font-size: 1rem;
+            font-weight: 600;
+
+            cursor: pointer;
+            position: relative;
+        }
+
+        .faq-question::after {
+            content: "+";
+            position: absolute;
+            right: 25px;
+            color: #8d2123;
+            font-size: 1.4rem;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 22px 22px;
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* ================= CTA ================= */
+
+        .about-cta {
+            background:
+                linear-gradient(135deg,
+                    #8d2123,
+                    #b72d31);
+
+            color: white;
+            text-align: center;
+            padding: 100px 8%;
+        }
+
+        .about-cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        .about-cta p {
+            max-width: 700px;
+            margin: auto;
+            margin-bottom: 30px;
+            opacity: .9;
+        }
+
+        .mock-btn {
+            display: inline-block;
+            padding: 12px 24px;
+
+            background: white;
+            color: #8d2123;
+
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+
+            transition: .3s;
+        }
+
+        .mock-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:992px) {
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .features-heading h2,
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .hero {
+                min-height: 60vh;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features-section,
+            .section {
+                padding: 70px 6%;
+            }
+
+            .feature-box {
+                padding: 25px;
+            }
+
+            .about-cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+        <div>
+            <h1>Prepare for PTE Success</h1>
+            <p>
+                Practice smarter with study resources, mock tests,
+                preparation strategies and section-wise exercises.
+            </p>
+        </div>
+    </section>
+
+    <!-- PRACTICE TESTS -->
+
+    <section id="practice-tests" class="features-section">
+
+        <div class="features-heading">
+            <h2>Practice Tests</h2>
+            <p>Practice every section of the PTE Academic exam.</p>
+        </div>
+
+        <div class="features-container">
+
+            <div class="feature-box">
+                <i class="fas fa-microphone"></i>
+                <h3>Speaking</h3>
+                <p>
+                    Read Aloud, Repeat Sentence, Describe Image,
+                    Retell Lecture and Answer Short Question.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <i class="fas fa-pen"></i>
+                <h3>Writing</h3>
+                <p>
+                    Summarize Written Text and Essay Writing
+                    practice with sample responses.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <i class="fas fa-book-open"></i>
+                <h3>Reading</h3>
+                <p>
+                    Fill in the Blanks, Reorder Paragraphs
+                    and Multiple Choice questions.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <i class="fas fa-headphones"></i>
+                <h3>Listening</h3>
+                <p>
+                    Summarize Spoken Text, Highlight Incorrect Words
+                    and Listening exercises.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- STUDY MATERIAL -->
+
+    <section id="study-materials" class="features-section">
+
+        <div class="features-heading">
+            <h2>Study Materials</h2>
+            <p>Essential resources to strengthen your preparation.</p>
+        </div>
+
+        <div class="features-container">
+
+            <div class="feature-box">
+                <h3>Grammar Guide</h3>
+                <p>
+                    Improve sentence structure, tenses,
+                    punctuation and accuracy.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Vocabulary Lists</h3>
+                <p>
+                    Frequently used academic words and
+                    high-scoring vocabulary.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Essay Templates</h3>
+                <p>
+                    Proven essay structures for
+                    opinion and discussion tasks.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Speaking Templates</h3>
+                <p>
+                    Frameworks for Describe Image,
+                    Retell Lecture and other tasks.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TIPS -->
+
+    <section id="tips-strategies" class="features-section">
+
+        <div class="features-heading">
+            <h2>Tips & Strategies</h2>
+        </div>
+
+        <div class="features-container">
+
+            <div class="feature-box">
+                <h3>Time Management</h3>
+                <p>
+                    Allocate time wisely and avoid
+                    spending too long on a single question.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Speaking Strategy</h3>
+                <p>
+                    Focus on fluency and pronunciation
+                    rather than speaking too quickly.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Writing Strategy</h3>
+                <p>
+                    Follow a clear introduction,
+                    body and conclusion structure.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Listening Strategy</h3>
+                <p>
+                    Take notes efficiently and identify
+                    keywords while listening.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MOCK TESTS -->
+
+    <section id="mock-tests" class="features-section">
+
+        <div class="features-heading">
+            <h2>Mock Test Pattern</h2>
+            <p>
+                Understand the structure of a full-length
+                PTE Academic mock test.
+            </p>
+        </div>
+
+        <div class="features-container">
+
+            <div class="feature-box">
+                <h3>Speaking & Writing</h3>
+                <p>
+                    Duration: 54–67 minutes
+                </p>
+
+                <ul>
+                    <li>Read Aloud</li>
+                    <li>Repeat Sentence</li>
+                    <li>Describe Image</li>
+                    <li>Essay Writing</li>
+                </ul>
+            </div>
+
+            <div class="feature-box">
+                <h3>Reading</h3>
+
+                <ul>
+                    <li>Multiple Choice</li>
+                    <li>Reorder Paragraphs</li>
+                    <li>Fill in the Blanks</li>
+                </ul>
+            </div>
+
+            <div class="feature-box">
+                <h3>Listening</h3>
+
+                <ul>
+                    <li>Summarize Spoken Text</li>
+                    <li>Highlight Incorrect Words</li>
+                    <li>Write From Dictation</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- STATS -->
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Preparation Statistics</h2>
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h2>500+</h2>
+                <p>Practice Questions</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>50+</h2>
+                <p>Study Resources</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>10K+</h2>
+                <p>Practice Sessions</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>95%</h2>
+                <p>Student Satisfaction</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ -->
+
+    <section class="section gray">
+        <div class="section-title">
+            <h2>Preparation FAQs</h2>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">How long should I prepare for PTE?</button>
+            <div class="faq-answer">
+                Most students prepare for 4-8 weeks depending on their English proficiency level.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Are mock tests important?</button>
+            <div class="faq-answer">
+                Yes, mock tests help you understand timing and exam patterns.
+            </div>
+        </div>
+
+    </section>
+    <section class="features-section">
+
+        <div class="features-heading">
+            <h2>Sample Question</h2>
+        </div>
+
+        <div class="feature-box" style="max-width:900px;margin:auto;">
+
+            <h3>Read Aloud Example</h3>
+
+            <p>
+                Renewable energy sources are becoming increasingly
+                important as countries seek sustainable alternatives
+                to fossil fuels...
+            </p>
+
+            <br>
+
+            <h4>Tips</h4>
+
+            <ul>
+                <li>Maintain a steady pace.</li>
+                <li>Avoid long pauses.</li>
+                <li>Focus on pronunciation and fluency.</li>
+            </ul>
+
+        </div>
+
+    </section>
+    <section class="about-cta">
+        <div class="container">
+            <h2>Ready to Achieve Your Target PTE Score?</h2>
+            <p>
+                Access practice tests, study materials, expert strategies
+                and mock exams in one place.
+            </p>
+
+            <a href="/pages/register.html" class="mock-btn">
+                Start Preparing
+            </a>
+        </div>
+    </section>
+
+
+    <script>
+        document.querySelectorAll(".faq-question").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const answer = btn.nextElementSibling;
+
+                answer.style.display =
+                    answer.style.display === "block"
+                        ? "none"
+                        : "block";
+            });
+        });
+    </script>
+
+</body>
+
+</html>
