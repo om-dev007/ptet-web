@@ -76,7 +76,7 @@ button {
     display: none;
 }
 
-#address, #address1{
+#address, #book-now-btn{
     display: block;
     margin: 20px auto 0 auto; /* Centers the button horizontally */
     background: #8d2123;
@@ -87,7 +87,7 @@ button {
     cursor: pointer;
 }
 
-#address:hover, #address1:hover{
+#address:hover, #book-now-btn:hover{
     background:#6a181b;
     transform:translateY(-2px);
     box-shadow:0 8px 20px rgba(0,0,0,0.3);

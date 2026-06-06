@@ -187,7 +187,7 @@
         left:5%;
         width:90%;
         background:rgba(244,246,251,0.92);
-backdrop-filter:blur(6px);
+        backdrop-filter:blur(6px);
         border-radius:12px;
         flex-direction:column;
         padding:20px;
