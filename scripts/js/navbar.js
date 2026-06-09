@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    fetch("/components/navbar.html")
+    fetch("../components/navbar.html")
         .then(response => response.text())
         .then(data => {
         
