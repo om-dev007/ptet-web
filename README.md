@@ -68,5 +68,67 @@ Contributions make the open-source community an amazing place to learn, inspire,
 
 ---
 
+## 💬 Commit Convention
+
+This project enforces [Conventional Commits](https://www.conventionalcommits.org/) via Husky + commitlint. Every commit message **must** follow this format:
+
+```
+<type>(<scope>): <description>
+```
+
+- `scope` is optional
+- `body` and `footer` are optional
+- `description` must be lowercase, no period at end
+
+### Valid types
+
+| Type | Use for |
+| :--- | :--- |
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation only |
+| `style` | Formatting, no logic change |
+| `refactor` | Code restructure, no feature/fix |
+| `test` | Adding or fixing tests |
+| `chore` | Build process, tooling, deps |
+| `perf` | Performance improvement |
+| `ci` | CI/CD config changes |
+| `revert` | Revert a previous commit |
+
+### Good commits
+
+```bash
+feat: add hero section to homepage
+fix: correct nav link for universities page
+docs: update README with project structure
+chore: add husky commit-msg hook
+feat(auth): add login page
+fix(nav): resolve mobile menu overflow
+refactor: extract header into component
+```
+
+### Bad commits
+
+```bash
+# Missing type
+added new page
+
+# Uppercase description
+feat: Add new page
+
+# Period at end
+fix: resolve broken link.
+
+# Vague message
+fix: stuff
+
+# Wrong type
+update: change button color
+```
+
+If your commit message fails validation, the commit will be rejected with an error showing exactly what went wrong.
+
+---
+
 ## 📄 License
 This project is open-source and primarily intended for learning and educational purposes. You are free to modify and contribute to the code!
