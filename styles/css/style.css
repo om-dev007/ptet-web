@@ -1090,6 +1090,7 @@ textarea:focus-visible{
 .footer-bottom{
     width:min(100% - 32px, var(--container, 1180px));
     max-width:var(--container, 1180px);
+    margin: auto;
 }
 
 .hero-image{

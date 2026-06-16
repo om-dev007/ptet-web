@@ -105,13 +105,13 @@
 .partners-hero .hero-mascot {
     max-height: 230px;
     width: auto;
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.1));
     animation: floatMascot 4.5s ease-in-out infinite;
 }
 
 .mascot-speech-left {
     position: absolute;
-    right: 80%;
+    right: 75%;
     bottom: 60%;
     background: white;
     border: 1px solid #eee;
@@ -122,6 +122,7 @@
     color: #444;
     line-height: 1.4;
     text-align: left;
+    width: 220px;
     max-width: 220px;
     z-index: 10;
 }
@@ -138,8 +139,15 @@
 }
 
 @keyframes floatMascot {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 /* ===== GENERAL SECTIONS ===== */
@@ -313,7 +321,7 @@
 
 .pub-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     border-color: rgba(141, 33, 35, 0.1);
 }
 
@@ -437,8 +445,17 @@
 }
 
 @keyframes pulseIcon {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.08); opacity: 0.8; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 0.8;
+    }
 }
 
 /* ===== RESPONSIVE ===== */
