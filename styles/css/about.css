@@ -1,15 +1,111 @@
-/* ===== PREMIUM HERO ===== */
+/* ===== ABOUT HERO WITH BACKGROUND IMAGE ===== */
 
 .about-hero {
+    position: relative;
     padding: clamp(110px, 12vw, 140px) 20px clamp(70px, 9vw, 100px);
     text-align: center;
-
-    background:
-        linear-gradient(135deg, rgba(141, 33, 35, 0.08), transparent 36%),
-        linear-gradient(180deg, #f7f7f7, #ffffff);
-
-    position: relative;
+    background-size: cover;
+    background-position: center 30%;
     overflow: hidden;
+    background-color: transparent !important;
+}
+
+/* Light overlay */
+.about-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(98, 97, 97, 0.3);  
+    z-index: 1;
+}
+
+/* Content sits above overlay */
+.about-hero .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Badge – dark text on light background */
+.about-hero .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Heading – dark grey */
+.about-hero h1 {
+    font-size: clamp(2rem, 5vw, 2.875rem);
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #111010;  
+}
+
+/* Subtitle */
+.about-hero p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #000000;  
+}
+
+/* Primary button remains red */
+.about-hero .primary-btn {
+    background: #8d2123;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.about-hero .primary-btn:hover {
+    background: #6f1a1c;
+    transform: translateY(-2px);
+}
+
+/* Secondary link */
+.about-hero .hero-link {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(4px);
+    color: #333;
+    transition: 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.about-hero .hero-link:hover {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.about-hero .hero-actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 120px 20px 80px;
+    }
+    .about-hero h1 {
+        font-size: 32px;
+    }
 }
 
 /* subtle glow effect */
@@ -194,7 +290,7 @@
     margin-bottom: 15px;
 }
 
-/* optional subtitle (future safe) */
+/* optional subtitle */
 .about-cta p {
     color: #f1f1f1;
     margin-bottom: 25px;
