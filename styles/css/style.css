@@ -104,30 +104,29 @@ body {
 }
 
 /* Hero Section */
-#point{
+.hero-image{
     background-image:url('../../assets/images/hero.jpg');
     background-size:cover;
     background-position:center;
-
+    width: 100%;
+    position: relative;
+    overflow: hidden;
     min-height:calc(100vh - 80px); /* adjust based on navbar height */
 
     display:flex;
-    align-items:center;
-    justify-content:center;
-
+    flex: 1;
     padding:80px 40px 40px 40px;
 }
 
 .hero-wrapper{
     display:flex;
     align-items:center;
-    justify-content:flex-end;
+    justify-content:flex-start;
     max-width:1200px;
     width:100%;
-}
+        padding:80px 40px 40px 40px;
 
-.hero-image{
-    flex:1;
+    padding:80px 40px 40px 40px;
 }
 
 .hero-text{
@@ -135,7 +134,7 @@ body {
     background:rgba(255,255,255,0.85);
     backdrop-filter:blur(14px);
     padding:25px 38px 35px 38px;
-    border-radius:16px;
+    border-radius:8px;
     box-shadow:0 20px 60px rgba(0,0,0,0.22);
     border:1px solid rgba(255,255,255,0.35);
 }
@@ -234,6 +233,7 @@ section.reveal:nth-of-type(odd){
 #alpha p{
     color:#555;
 }
+
 
 /* Cards Section */
 #container{
