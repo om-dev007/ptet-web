@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | PTE HUB</title>
+
+    <link rel="stylesheet" href="../styles/css/style.css">
+    <link rel="stylesheet" href="../styles/css/navbar.css">
+    <link rel="stylesheet" href="../styles/css/footer.css">
+    <link rel="stylesheet" href="../styles/css/contact.css">
+    <link rel="stylesheet" href="../styles/css/auth-popup.css">
+    <link rel="stylesheet" href="../styles/css/theme.css">
+
+    <!-- Theme toggle script for dark/light mode -->
+    <script src="../scripts/js/theme.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header id="header">
+        <div id="navbar-placeholder"></div>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="contact-hero">
+            <div class="hero-inner">
+                <div class="hero-content">
+                    <span class="hero-badge">
+                        <i class="fas fa-headset"></i> 24/7 Support
+                    </span>
+                    <h1>Get in Touch</h1>
+                    <p>
+                        Have questions about test centers, preparation resources, or score delivery? Write us a message and our support team will respond within 24 hours.
+                    </p>
+                </div>
+                <div class="hero-mascot-container">
+                    <img src="../assets/images/mascot.png" alt="PTE Hub Mascot" class="hero-mascot">
+                    <div class="mascot-speech">
+                        <p>Need help? Send a message here, and our experts will help you out!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT INFO & FORM SECTION -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-wrapper">
+                    
+                    <!-- CONTACT INFO DETAILS -->
+                    <div class="contact-info-column">
+                        <h3>Contact Information</h3>
+                        <p class="info-desc">Feel free to contact us via email, phone, or visit our training centers directly.</p>
+                        
+                        <div class="info-details-list">
+                            <div class="info-card">
+                                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                                <div>
+                                    <h4>Email Us</h4>
+                                    <p><a href="mailto:support@ptehub.com">support@ptehub.com</a></p>
+                                    <p><a href="mailto:info@ptehub.com">info@ptehub.com</a></p>
+                                </div>
+                            </div>
+
+                            <div class="info-card">
+                                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                                <div>
+                                    <h4>Call Us</h4>
+                                    <p>+91 83025XXXXX (Helpdesk)</p>
+                                    <p>1800-PTE-HUB (Toll Free)</p>
+                                </div>
+                            </div>
+
+                            <div class="info-card">
+                                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div>
+                                    <h4>Our Headquarters</h4>
+                                    <p>PTE HUB Plaza, Sector 12,</p>
+                                    <p>Jaipur, Rajasthan, 302015, India</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ CTA -->
+                        <div class="contact-faq-cta">
+                            <i class="far fa-question-circle faq-cta-icon"></i>
+                            <div>
+                                <h4>Looking for quick answers?</h4>
+                                <p>Check out our comprehensive Frequently Asked Questions page before reaching out.</p>
+                                <a href="/pages/faq.html" class="faq-cta-link">Browse FAQ <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CONTACT FORM -->
+                    <div class="contact-form-column">
+                        <div class="contact-form-panel">
+                            <h2>Send Message</h2>
+                            <form id="contactForm">
+                                <div class="form-group">
+                                    <label for="contactName">Full Name</label>
+                                    <div class="input-wrapper">
+                                        <i class="far fa-user input-icon"></i>
+                                        <input type="text" id="contactName" placeholder="Enter your full name" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contactEmail">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <i class="far fa-envelope input-icon"></i>
+                                        <input type="email" id="contactEmail" placeholder="Enter your email address" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contactSubject">Subject</label>
+                                    <div class="input-wrapper">
+                                        <i class="far fa-comment-alt input-icon"></i>
+                                        <input type="text" id="contactSubject" placeholder="What are you writing about?" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contactMessage">Message</label>
+                                    <div class="input-wrapper align-start">
+                                        <i class="far fa-edit input-icon text-area-icon"></i>
+                                        <textarea id="contactMessage" rows="5" placeholder="Type your message here..." required></textarea>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="submit-btn">Send Message <i class="far fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <div id="auth-popup-placeholder"></div>
+
+    <script src="../scripts/js/navbar.js"></script>
+    <script src="../scripts/js/footer.js"></script>
+    <script src="../scripts/js/script.js"></script>
+    <script src="../scripts/js/auth-popup.js"></script>
+    <script src="../scripts/js/theme.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("contactForm");
+        if(form){
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                alert("Thank you! Your message has been submitted. Our support team will get back to you shortly.");
+                form.reset();
+            });
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    fetch("/components/auth-popup.html")
+    const isSubpage = window.location.pathname.includes('/pages/');
+    const popupPath = isSubpage ? '../components/auth-popup.html' : 'components/auth-popup.html';
+
+    fetch(popupPath)
         .then(res => res.text())
         .then(data => {
             const container = document.getElementById("auth-popup-placeholder");

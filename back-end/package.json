@@ -1,0 +1,33 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Back-end for PTET static website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.11.0",
+    "pg": "^8.21.0",
+    "redis": "^6.0.0",
+    "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "eslint": "^10.5.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.4"
+  },
+  "overrides": {
+    "uuid": "11.1.1"
+  }
+}

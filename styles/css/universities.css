@@ -1,0 +1,430 @@
+/* ===== UNIVERSITIES HERO ===== */
+
+.uni-hero {
+    padding: 140px 20px 80px;
+    background: linear-gradient(135deg, #f7f7f7, #ffffff);
+    position: relative;
+    overflow: hidden;
+}
+
+.uni-hero::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: rgba(141, 33, 35, 0.06);
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 1;
+}
+
+.uni-hero .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.uni-hero .hero-content {
+    flex: 1.2;
+    text-align: left;
+}
+
+.uni-hero h1 {
+    font-size: 46px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.uni-hero p {
+    font-size: 17px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* HERO SEARCH BAR */
+.hero-search-bar {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+}
+
+.hero-search-bar input {
+    width: 100%;
+    padding: 15px 20px 15px 50px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    outline: none;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+.hero-search-bar input:focus {
+    border-color: #8d2123;
+    box-shadow: 0 10px 30px rgba(141, 33, 35, 0.15);
+}
+
+.hero-search-bar .search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 18px;
+}
+
+/* MASCOT INTEGRATION */
+.hero-mascot-container {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.hero-mascot {
+    max-height: 230px;
+    width: auto;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+    animation: floatMascot 4s ease-in-out infinite;
+}
+
+.mascot-speech {
+    margin-top: 15px;
+    background: white;
+    border: 1px solid #eee;
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    font-size: 14px;
+    color: #444;
+    line-height: 1.4;
+    text-align: center;
+    position: relative;
+    max-width: 280px;
+}
+
+.mascot-speech::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+@keyframes floatMascot {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ===== FILTER TABS ===== */
+.uni-filters-section {
+    padding: 30px 20px 10px;
+    background: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.filter-tab {
+    background: #f7f7f7;
+    border: 1px solid #eef0f3;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-tab:hover {
+    background: #eaecef;
+    color: #8d2123;
+}
+
+.filter-tab.active {
+    background: #8d2123;
+    color: white;
+    border-color: #8d2123;
+    box-shadow: 0 6px 15px rgba(141, 33, 35, 0.25);
+}
+
+/* ===== UNIVERSITY GRID ===== */
+.uni-grid-section {
+    padding: 60px 20px 80px;
+    background: #fdfdfd;
+}
+
+.uni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.uni-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(230, 230, 230, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.uni-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #8d2123;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.uni-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(141, 33, 35, 0.2);
+}
+
+.uni-card:hover::before {
+    transform: scaleY(1);
+}
+
+.uni-card-header {
+    margin-bottom: 15px;
+}
+
+.country-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+/* Country badge colors */
+.country-badge.au { background: rgba(0, 48, 143, 0.08); color: #00308F; }
+.country-badge.ca { background: rgba(213, 0, 0, 0.08); color: #D50000; }
+.country-badge.uk { background: rgba(81, 40, 136, 0.08); color: #512888; }
+.country-badge.nz { background: rgba(0, 122, 255, 0.08); color: #007AFF; }
+.country-badge.us { background: rgba(141, 33, 35, 0.08); color: #8d2123; }
+
+.uni-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.uni-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.uni-details {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item .label {
+    color: #777;
+}
+
+.detail-item .value {
+    color: #333;
+    font-weight: 600;
+}
+
+.detail-item .value.score {
+    color: #8d2123;
+    font-weight: 700;
+}
+
+.uni-link {
+    font-size: 14px;
+    font-weight: 700;
+    color: #8d2123;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s ease;
+}
+
+.uni-card:hover .uni-link {
+    gap: 10px;
+}
+
+/* ===== NO RESULTS STATE ===== */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.no-results i {
+    font-size: 48px;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.no-results h3 {
+    font-size: 20px;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.no-results p {
+    color: #888;
+}
+
+/* ===== PREMIUM CTA SECTION ===== */
+.uni-cta {
+    position: relative;
+    padding: 90px 20px;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, #8d2123, #6f1a1c);
+    overflow: hidden;
+}
+
+.uni-cta::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    filter: blur(80px);
+}
+
+.uni-cta .container {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.uni-cta h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.uni-cta p {
+    color: #f1f1f1;
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.primary-btn-cta {
+    background: #fff;
+    color: #8d2123;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.primary-btn-cta:hover {
+    background: #f3f3f3;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .uni-hero .hero-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .uni-hero .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .uni-hero h1 {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 768px) {
+    .uni-hero {
+        padding: 120px 20px 60px;
+    }
+
+    .uni-hero h1 {
+        font-size: 32px;
+    }
+
+    .uni-grid {
+        grid-template-columns: 1fr;
+    }
+}

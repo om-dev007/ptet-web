@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Details | PTE HUB</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../styles/css/style.css">
+    <link rel="stylesheet" href="../styles/css/navbar.css">
+    <link rel="stylesheet" href="../styles/css/footer.css">
+    <link rel="stylesheet" href="../styles/css/auth-popup.css">
+    <link rel="stylesheet" href="../styles/css/theme.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="../scripts/js/theme.js"></script>
+
+    <style>
+        .detail-hero {
+            background: linear-gradient(135deg, #1a2a3a, #0f2027);
+            padding: 100px 20px 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .detail-hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8d2123, #c0392b, #8d2123);
+        }
+        .detail-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 8px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-card);
+            transition: 0.25s;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            background: var(--bg-secondary);
+        }
+        .uni-detail-card {
+            background: var(--bg-card);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px var(--shadow-card-hover);
+            border: 1px solid var(--border-card);
+        }
+        .detail-header {
+            background: linear-gradient(120deg, rgba(141,33,35,0.1), transparent);
+            padding: 30px 35px;
+            border-bottom: 1px solid var(--border-card);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 25px;
+        }
+        .detail-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8d2123, #b13a3c);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+        }
+        .detail-title h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .detail-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+        .detail-body {
+            padding: 35px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        .info-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        .info-card i {
+            font-size: 1.8rem;
+            color: #8d2123;
+            margin-bottom: 12px;
+        }
+        .info-card h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .info-card .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .description {
+            margin: 30px 0;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        .section-title {
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+            color: var(--text-primary);
+            border-left: 4px solid #8d2123;
+            padding-left: 15px;
+        }
+        .program-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .program-tag {
+            background: rgba(141,33,35,0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #8d2123;
+            font-weight: 500;
+        }
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #8d2123;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: 0.25s;
+        }
+        .external-link:hover {
+            background: #6f1a1c;
+            transform: translateY(-3px);
+        }
+        .not-found {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        @media (max-width: 768px) {
+            .detail-header { flex-direction: column; text-align: center; }
+            .detail-title h1 { font-size: 1.6rem; }
+            .detail-body { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <div id="navbar-placeholder"></div>
+</header>
+
+<main>
+    <div class="detail-hero">
+        <h1>University Information</h1>
+        <p>Overview of PTE requirements and admission insights</p>
+    </div>
+
+    <div class="detail-container">
+        <a href="universities.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Universities</a>
+
+        <div id="universityDetailContent">
+            <div style="text-align: center; padding: 60px;">Loading...</div>
+        </div>
+    </div>
+</main>
+
+<div id="footer-placeholder"></div>
+<div id="auth-popup-placeholder"></div>
+
+<script src="../scripts/js/navbar.js"></script>
+<script src="../scripts/js/footer.js"></script>
+<script src="../scripts/js/script.js"></script>
+<script src="../scripts/js/auth-popup.js"></script>
+
+<script>
+    // Complete university dataset
+    const universitiesFull = [
+        // Australia
+        { id: "university-of-melbourne", name: "University of Melbourne", country: "australia", location: "Melbourne, Australia", description: "Australia's second oldest university, consistently ranked among the world's top 30. Offers over 400 courses.", score: "58-65+", website: "#", acceptance: "~70%", programs: ["Engineering", "Medicine", "Law", "Business", "Arts"] },
+        { id: "australian-national-university", name: "Australian National University", country: "australia", location: "Canberra, Australia", description: "World-leading research university, ranked #1 in Australia. Known for political science and international relations.", score: "64+", website: "#", acceptance: "~35%", programs: ["Politics", "Economics", "Sciences", "Law", "Philosophy"] },
+        { id: "university-of-sydney", name: "University of Sydney", country: "australia", location: "Sydney, Australia", description: "One of Australia's prestigious Group of Eight universities. Historic campus, strong alumni network.", score: "61-68", website: "#", acceptance: "~30%", programs: ["Health Sciences", "Engineering", "Business", "Arts", "Architecture"] },
+        { id: "university-of-queensland", name: "University of Queensland", country: "australia", location: "Brisbane, Australia", description: "Member of the Group of Eight, known for life sciences and engineering excellence.", score: "64+", website: "#", acceptance: "~40%", programs: ["Biotechnology", "Engineering", "Business", "Education"] },
+        { id: "monash-university", name: "Monash University", country: "australia", location: "Melbourne, Australia", description: "Largest university in Australia, strong industry connections and global campuses.", score: "58-65", website: "#", acceptance: "~50%", programs: ["Pharmacy", "Engineering", "IT", "Business", "Law"] },
+        
+        // Canada
+        { id: "university-of-toronto", name: "University of Toronto", country: "canada", location: "Toronto, Canada", description: "Canada's top-ranked university, research-intensive with three campuses.", score: "60-76", website: "#", acceptance: "~43%", programs: ["Computer Science", "Medicine", "Business", "Engineering", "Law"] },
+        { id: "university-of-british-columbia", name: "University of British Columbia", country: "canada", location: "Vancouver, Canada", description: "Renowned for sustainability and research, beautiful coastal campus.", score: "65+", website: "#", acceptance: "~52%", programs: ["Forestry", "Environmental Science", "Commerce", "Engineering"] },
+        { id: "mcgill-university", name: "McGill University", country: "canada", location: "Montreal, Canada", description: "One of Canada's most internationally diverse universities, strong in medicine.", score: "65+", website: "#", acceptance: "~46%", programs: ["Medicine", "Law", "Music", "Engineering", "Arts"] },
+        { id: "university-of-alberta", name: "University of Alberta", country: "canada", location: "Edmonton, Canada", description: "Top 5 Canadian university, known for energy and artificial intelligence research.", score: "59-68", website: "#", acceptance: "~58%", programs: ["Petroleum Engineering", "AI", "Business", "Nursing"] },
+        { id: "university-of-waterloo", name: "University of Waterloo", country: "canada", location: "Waterloo, Canada", description: "Famous for co-op programs and computer science excellence.", score: "63+", website: "#", acceptance: "~53%", programs: ["Computer Science", "Engineering", "Mathematics", "Accounting"] },
+        
+        // UK
+        { id: "university-of-oxford", name: "University of Oxford", country: "uk", location: "Oxford, UK", description: "Oldest university in the English-speaking world, world-class reputation.", score: "66-76", website: "#", acceptance: "~17%", programs: ["Humanities", "Sciences", "Medicine", "Law", "Business"] },
+        { id: "university-of-cambridge", name: "University of Cambridge", country: "uk", location: "Cambridge, UK", description: "Global leader in research, collegiate system, historic rivalry with Oxford.", score: "76+", website: "#", acceptance: "~21%", programs: ["STEM", "Arts", "Social Sciences", "Medicine"] },
+        { id: "imperial-college-london", name: "Imperial College London", country: "uk", location: "London, UK", description: "Focused on science, engineering, medicine and business.", score: "62-69", website: "#", acceptance: "~28%", programs: ["Engineering", "Medicine", "Data Science", "Physics"] },
+        { id: "university-college-london", name: "University College London", country: "uk", location: "London, UK", description: "Multidisciplinary university, ranked among world's top 10.", score: "62-75", website: "#", acceptance: "~30%", programs: ["Architecture", "Law", "Psychology", "Education"] },
+        { id: "university-of-edinburgh", name: "University of Edinburgh", country: "uk", location: "Edinburgh, UK", description: "Historic Scottish university, strong in AI and humanities.", score: "65+", website: "#", acceptance: "~40%", programs: ["Informatics", "Veterinary Medicine", "History", "Economics"] },
+        
+        // New Zealand
+        { id: "university-of-auckland", name: "University of Auckland", country: "newzealand", location: "Auckland, New Zealand", description: "New Zealand's largest and highest-ranked university.", score: "58-65", website: "#", acceptance: "~60%", programs: ["Engineering", "Commerce", "Medical Sciences", "Law"] },
+        { id: "university-of-otago", name: "University of Otago", country: "newzealand", location: "Dunedin, New Zealand", description: "Known for health sciences and vibrant student life.", score: "58-64", website: "#", acceptance: "~65%", programs: ["Dentistry", "Physiotherapy", "Humanities", "Sciences"] },
+        { id: "victoria-university-of-wellington", name: "Victoria University of Wellington", country: "newzealand", location: "Wellington, New Zealand", description: "Strong in law, public policy and creative arts.", score: "58+", website: "#", acceptance: "~70%", programs: ["Law", "Film", "Public Administration", "Design"] },
+        { id: "university-of-canterbury", name: "University of Canterbury", country: "newzealand", location: "Christchurch, New Zealand", description: "Pioneering engineering and natural sciences research.", score: "50-64", website: "#", acceptance: "~75%", programs: ["Civil Engineering", "Astronomy", "Forestry", "Education"] },
+        { id: "massey-university", name: "Massey University", country: "newzealand", location: "Palmerston North, New Zealand", description: "Known for distance learning, agriculture and veterinary science.", score: "50-65", website: "#", acceptance: "~80%", programs: ["Veterinary Medicine", "Agriculture", "Aviation", "Design"] },
+    ];
+
+    // Helper to get university by ID
+    function getUniversityById(id) {
+        return universitiesFull.find(uni => uni.id === id);
+    }
+
+    // Render detail page
+    function renderUniversityDetail() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const uniId = urlParams.get('id');
+        const container = document.getElementById('universityDetailContent');
+        
+        if (!uniId) {
+            container.innerHTML = `<div class="not-found"><i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #8d2123;"></i><h2>No university selected</h2><p>Please go back and choose a university.</p><a href="universities.html" class="external-link" style="margin-top: 20px;">Browse Universities</a></div>`;
+            return;
+        }
+        
+        const uni = getUniversityById(uniId);
+        if (!uni) {
+            container.innerHTML = `<div class="not-found"><i class="fas fa-university" style="font-size: 3rem; opacity: 0.5;"></i><h2>University not found</h2><p>The university you're looking for doesn't exist in our database.</p><a href="universities.html" class="external-link" style="margin-top: 20px;">View All Universities</a></div>`;
+            return;
+        }
+        
+        // Country flag
+        let flag = "";
+        if (uni.country === "australia") flag = "🇦🇺";
+        else if (uni.country === "canada") flag = "🇨🇦";
+        else if (uni.country === "uk") flag = "🇬🇧";
+        else if (uni.country === "newzealand") flag = "🇳🇿";
+        
+        const programsHTML = uni.programs.map(prog => `<span class="program-tag">${prog}</span>`).join('');
+        
+        const html = `
+            <div class="uni-detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="detail-title">
+                        <h1>${uni.name} ${flag}</h1>
+                        <div class="detail-location">
+                            <i class="fas fa-map-marker-alt"></i> ${uni.location}
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-body">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>PTE Score Range</h4>
+                            <div class="value">${uni.score}</div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-percent"></i>
+                            <h4>Acceptance Rate</h4>
+                            <div class="value">${uni.acceptance}</div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-globe"></i>
+                            <h4>Country</h4>
+                            <div class="value">${uni.country.charAt(0).toUpperCase() + uni.country.slice(1)}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="description">
+                        ${uni.description}
+                    </div>
+                    
+                    <h3 class="section-title">Popular Programs</h3>
+                    <div class="program-list">
+                        ${programsHTML}
+                    </div>
+                    
+                    <a href="${uni.website}" target="_blank" rel="noopener noreferrer" class="external-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Official Website
+                    </a>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+        // Update page title
+        document.title = `${uni.name} - PTE Requirements | PTE HUB`;
+    }
+    
+    // Execute when DOM ready
+    document.addEventListener("DOMContentLoaded", renderUniversityDetail);
+</script>
+</body>
+</html>

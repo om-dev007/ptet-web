@@ -6,9 +6,11 @@
     display:flex;
     justify-content:center;
     align-items:center;
-    padding-top:20px;
+    padding:clamp(84px, 10vw, 120px) 16px 40px;
 
-    background:linear-gradient(135deg,#eef2f7,#f7f9fc);
+    background:
+        linear-gradient(135deg, rgba(141,33,35,0.08), transparent 38%),
+        linear-gradient(180deg,#eef2f7,#f7f9fc);
 }
 
 
@@ -23,7 +25,7 @@
 
     padding:45px 38px;
 
-    border-radius:20px;
+    border-radius:8px;
 
     box-shadow:
         0 20px 40px rgba(0,0,0,0.08),
@@ -33,17 +35,18 @@
 
     transition:0.3s ease;
     box-sizing:border-box;
+    border:1px solid rgba(141,33,35,0.08);
 }
 
 .login-container:hover{
-    transform:translateY(-4px);
+    transform:translateY(-2px);
 }
 
 
 /* TITLE */
 
 .login-container h2{
-    font-size:30px;
+    font-size:clamp(1.625rem, 4vw, 1.875rem);
     margin-bottom:6px;
     color:#222;
     font-weight:700;
@@ -53,6 +56,7 @@
     font-size:14px;
     color:#777;
     margin-bottom:32px;
+    line-height:1.6;
 }
 
 
@@ -77,7 +81,7 @@
     width:100%;
     padding:13px 14px 13px 42px;
 
-    border-radius:12px;
+    border-radius:8px;
     border:1px solid #ddd;
 
     font-size:14px;
@@ -111,6 +115,7 @@
     margin-bottom:22px;
 
     color:#555;
+    gap:16px;
 }
 
 .login-options a{
@@ -132,7 +137,7 @@
 
     border:none;
 
-    border-radius:12px;
+    border-radius:8px;
 
     background:linear-gradient(135deg,#2f855a,#2b7a50);
 
@@ -145,6 +150,7 @@
     transition:all 0.25s ease;
 
     box-shadow:0 8px 18px rgba(47,133,90,0.35);
+    min-height:46px;
 }
 
 .login-submit:hover{
@@ -220,7 +226,7 @@
     width:100%;
     padding:12px;
 
-    border-radius:12px;
+    border-radius:8px;
     border:1px solid #ddd;
 
     background:white;
@@ -231,6 +237,7 @@
     cursor:pointer;
 
     transition:all 0.25s ease;
+    min-height:44px;
 }
 
 .google-login i{
@@ -253,7 +260,7 @@
     width:100%;
     padding:12px;
 
-    border-radius:12px;
+    border-radius:8px;
     border:1px solid #ddd;
 
     background:#24292e;
@@ -265,6 +272,7 @@
     cursor:pointer;
 
     transition:all 0.25s ease;
+    min-height:44px;
 }
 
 .github-login i{
@@ -280,8 +288,14 @@
 @media(max-width:480px){
 
 .login-container{
-    margin:20px;
-    padding:35px 25px;
+    margin:0;
+    padding:32px 20px;
+}
+
+.login-options{
+    flex-direction:column;
+    gap:12px;
+    align-items:flex-start;
 }
 
 }

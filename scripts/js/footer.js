@@ -1,6 +1,9 @@
 // Load footer dynamically
 
-fetch("/components/footer.html")
+const isSubpage = window.location.pathname.includes('/pages/');
+const footerPath = isSubpage ? '../components/footer.html' : 'components/footer.html';
+
+fetch(footerPath)
 .then(response => response.text())
 .then(data => {
 
