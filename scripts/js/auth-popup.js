@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const container = document.getElementById("auth-popup-placeholder");
             if(container){
                 container.innerHTML = data;
+
+
             }
         });
 
