@@ -6,10 +6,7 @@ import {
     GoogleAuthProvider,
     GithubAuthProvider,
     onAuthStateChanged,
-    signOut,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    updateProfile
+    signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
@@ -94,7 +91,7 @@ if (googleBtn) {
         signInWithPopup(auth, googleProvider)
             .then(() => {
 
-                window.location.href = "/index.html";
+                window.location.href = "../index.html";
 
             })
             .catch((error) => {
@@ -117,7 +114,7 @@ if (githubBtn) {
         signInWithPopup(auth, githubProvider)
             .then(() => {
 
-                window.location.href = "/index.html";
+                window.location.href = "../index.html";
 
             })
             .catch((error) => {
@@ -126,61 +123,6 @@ if (githubBtn) {
 
     });
 
-}
-
-
-/* EMAIL LOGIN */
-
-const emailLoginForm = document.getElementById("email-login-form");
-
-if (emailLoginForm) {
-    emailLoginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("login-email").value;
-        const password = document.getElementById("login-password").value;
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                window.location.href = "/index.html";
-            })
-            .catch((error) => {
-                console.error("Login error:", error);
-                alert("Login failed: " + error.message);
-            });
-    });
-}
-
-/* EMAIL REGISTER */
-
-const emailRegisterForm = document.getElementById("email-register-form");
-
-if (emailRegisterForm) {
-    emailRegisterForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("register-name").value;
-        const email = document.getElementById("register-email").value;
-        const password = document.getElementById("register-password").value;
-        const confirm = document.getElementById("register-confirm").value;
-
-        if (password !== confirm) {
-            alert("Passwords do not match!");
-            return;
-        }
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                return updateProfile(userCredential.user, {
-                    displayName: name
-                });
-            })
-            .then(() => {
-                window.location.href = "/index.html";
-            })
-            .catch((error) => {
-                console.error("Register error:", error);
-                alert("Registration failed: " + error.message);
-            });
-    });
 }
 
 

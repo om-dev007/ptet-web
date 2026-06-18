@@ -4,6 +4,10 @@
   "description": "Back-end for PTET static website",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint src",
+    "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,6 +23,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "pg": "^8.21.0",
+    "pg-hstore": "^2.3.4",
     "redis": "^6.0.0",
     "sequelize": "^6.37.8"
   },
