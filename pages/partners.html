@@ -1,210 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Partners & Research | PTE HUB</title>
 
-    <link rel="stylesheet" href="../styles/css/style.css">
-    <link rel="stylesheet" href="../styles/css/navbar.css">
-    <link rel="stylesheet" href="../styles/css/footer.css">
-    <link rel="stylesheet" href="../styles/css/partners.css">
-    <link rel="stylesheet" href="../styles/css/auth-popup.css">
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../styles/css/style.css" />
+    <link rel="stylesheet" href="../styles/css/navbar.css" />
+    <link rel="stylesheet" href="../styles/css/footer.css" />
+    <link rel="stylesheet" href="../styles/css/auth-popup.css" />
+    <link rel="stylesheet" href="../styles/css/theme.css" />
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Theme initialisation -->
+    <script src="../scripts/js/theme.js"></script>
+
+    <style>
+        /* ===== HERO ===== */
+        .partners-hero {
+            position: relative;
+            background-image: url('/assets/images/partner-bg.avif');
+            background-size: cover;
+            background-position: center 30%;
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .partners-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.65), rgba(141,33,35,0.75));
+            z-index: 1;
+        }
+        .partners-hero .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        .partners-hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.4);
+        }
+        .partners-hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255,255,255,0.95);
+            max-width: 700px;
+            margin: 0 auto;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+        }
+        .partners-hero .hero-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .partners-hero .primary-btn,
+        .partners-hero .secondary-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .partners-hero .primary-btn {
+            background: white;
+            color: #8d2123;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        }
+        .partners-hero .primary-btn:hover {
+            transform: translateY(-3px);
+            background: #f0f0f0;
+        }
+        .partners-hero .secondary-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .partners-hero .secondary-btn:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        /* ===== SECTION OVERRIDES (use global .features-section etc.) ===== */
+        .partners-section {
+            padding: clamp(56px, 8vw, 96px) 20px;
+        }
+        .partners-section .section-heading {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .partners-section .section-heading h2 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: var(--text-primary);
+        }
+        .partners-section .section-heading p {
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 10px auto 0;
+        }
+
+        /* ===== PARTNER LOGOS ===== */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .logo-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lift);
+            border-color: var(--accent);
+        }
+        .logo-box i {
+            font-size: 2.2rem;
+            color: var(--accent);
+        }
+        .logo-box span {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        /* ===== PUBLICATIONS LIST ===== */
+        .pub-list {
+            max-width: 850px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .pub-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+        .pub-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lift);
+        }
+        .pub-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            flex: 1;
+        }
+        .pub-info i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-top: 4px;
+        }
+        .pub-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+        .pub-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+        .download-btn {
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .download-btn:hover {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 6px 15px rgba(141,33,35,0.2);
+        }
+
+        /* ===== FUTURE INITIATIVES ===== */
+        .future-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-card);
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .future-card:hover {
+            box-shadow: var(--shadow-lift);
+        }
+        .future-text {
+            flex: 1.5;
+        }
+        .future-text h2 {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .future-text p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .future-text ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .future-text ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .future-text ul li i {
+            color: var(--accent);
+        }
+        .future-icon {
+            flex: 0.5;
+            font-size: 4rem;
+            color: rgba(141,33,35,0.15);
+            text-align: center;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .pub-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .download-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .future-card {
+                flex-direction: column;
+                padding: 30px;
+            }
+            .future-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- ================= HEADER (NAVBAR) ================= -->
     <header id="header">
         <div id="navbar-placeholder"></div>
     </header>
 
     <main>
 
-        <!-- HERO -->
+        <!-- ================= HERO ================= -->
         <section class="partners-hero">
             <div class="hero-inner">
-                <div class="hero-content">
-                    <span class="hero-badge">
-                        <i class="fas fa-flask"></i> Scientific Innovation
-                    </span>
-                    <h1>Partners & Research</h1>
+                <h1>Partners &amp; Research</h1>
+                <p>
+                    PTE Academic's AI scoring models are backed by rigorous linguistic research,
+                    machine learning studies, and trusted partnerships worldwide.
+                </p>
+                <div class="hero-actions">
+                    <a href="#research" class="primary-btn">View Research</a>
+                    <a href="#partners" class="secondary-btn">Our Partners</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= RESEARCH COLLABORATIONS ================= -->
+        <section id="research" class="features-section reveal">
+            <div class="features-heading">
+                <h2>Research Collaborations</h2>
+                <p>We collaborate with global educational research bodies to advance machine learning scoring systems and cognitive language assessments.</p>
+            </div>
+            <div class="features-container">
+                <div class="feature-box">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI Scoring Validity Study</h3>
+                    <p>A multi-year investigation proving that machine-graded responses correlate to a 0.96 coefficient with senior human examiners.</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-language"></i>
+                    <h3>Acoustic Modeling across Accents</h3>
+                    <p>Deep neural networks in ASR ensure 100% scoring fairness across 120+ international regional accents.</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-scale-balanced"></i>
+                    <h3>Assessment Equity &amp; Bias Elimination</h3>
+                    <p>Analyzing candidate data across genders and demographics to validate that automated testing eliminates subjective grading bias.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ACADEMIC & INDUSTRY PARTNERS ================= -->
+        <section id="partners" class="features-section reveal" style="background:var(--bg-secondary);">
+            <div class="features-heading">
+                <h2>Our Global Network</h2>
+                <p>We work side-by-side with leading universities, research labs, and government bodies.</p>
+            </div>
+
+            <h3 style="text-align:center; margin-top:20px; color:var(--text-primary);">Academic Institutions &amp; Research Labs</h3>
+            <div class="logo-grid">
+                <div class="logo-box"><i class="fas fa-university"></i><span>Stanford Lang Lab</span></div>
+                <div class="logo-box"><i class="fas fa-university"></i><span>Melbourne Language Inst</span></div>
+                <div class="logo-box"><i class="fas fa-university"></i><span>Oxford Ling Dept</span></div>
+                <div class="logo-box"><i class="fas fa-university"></i><span>Toronto AI Centre</span></div>
+            </div>
+
+            <h3 style="text-align:center; margin-top:50px; color:var(--text-primary);">Industry &amp; Government Recognition</h3>
+            <div class="logo-grid">
+                <div class="logo-box"><i class="fas fa-passport"></i><span>Aussie Home Affairs</span></div>
+                <div class="logo-box"><i class="fas fa-passport"></i><span>IRCC Canada</span></div>
+                <div class="logo-box"><i class="fas fa-passport"></i><span>UK Home Office</span></div>
+                <div class="logo-box"><i class="fas fa-user-md"></i><span>Global Nursing Council</span></div>
+            </div>
+        </section>
+
+        <!-- ================= PUBLICATIONS & RESOURCES ================= -->
+        <section id="publications" class="features-section reveal">
+            <div class="features-heading">
+                <h2>Publications &amp; Resources</h2>
+                <p>Download official white papers, research reports, and technical manuals.</p>
+            </div>
+            <div class="pub-list">
+                <div class="pub-item">
+                    <div class="pub-info">
+                        <i class="far fa-file-pdf"></i>
+                        <div>
+                            <h4>PTE Academic Technical Manual v4.2</h4>
+                            <p>Comprehensive manual outlining scoring algorithms, standard error of measurement (SEM), and test security frameworks.</p>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="alert('Downloading Document...')"><i class="fas fa-download"></i> PDF (4.2 MB)</button>
+                </div>
+                <div class="pub-item">
+                    <div class="pub-info">
+                        <i class="far fa-file-pdf"></i>
+                        <div>
+                            <h4>AI Scoring Validation and Reliability White Paper</h4>
+                            <p>Validation tests proving the alignment of automated assessment with human evaluation results.</p>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="alert('Downloading Document...')"><i class="fas fa-download"></i> PDF (2.8 MB)</button>
+                </div>
+                <div class="pub-item">
+                    <div class="pub-info">
+                        <i class="far fa-file-pdf"></i>
+                        <div>
+                            <h4>PTE Score Concordance with IELTS and TOEFL</h4>
+                            <p>Official reference concordance charts mapping PTE Academic overall scores to corresponding IELTS and TOEFL levels.</p>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="alert('Downloading Document...')"><i class="fas fa-download"></i> PDF (1.1 MB)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FUTURE INITIATIVES ================= -->
+        <section style="padding: clamp(56px, 8vw, 96px) 20px; background:var(--bg-secondary);">
+            <div class="future-card">
+                <div class="future-text">
+                    <h2>Future Initiatives</h2>
                     <p>
-                        PTE Academic's AI scoring models and assessments are backed by rigorous linguistic research, machine learning studies, and trusted partnerships worldwide.
+                        We are actively exploring next-generation testing methodologies, including adaptive cognitive testing
+                        and LLM-assisted grammar diagnostics, to deliver even faster, more precise, and highly personalised
+                        learning feedback.
                     </p>
-                    <div class="hero-actions">
-                        <a href="#research" class="primary-btn">View Research</a>
-                        <a href="#partners" class="secondary-btn">Our Partners</a>
-                    </div>
+                    <ul>
+                        <li><i class="fas fa-arrow-right"></i> Next-Gen LLM scoring models</li>
+                        <li><i class="fas fa-arrow-right"></i> Dynamic test questions custom-tailored to skill gaps</li>
+                        <li><i class="fas fa-arrow-right"></i> Free predictive scoring reports for low-income regions</li>
+                    </ul>
                 </div>
-                <div class="hero-mascot-container">
-                    <div class="mascot-speech-left">
-                        <p>Our AI-driven testing is scientifically validated to be 100% fair and unbiased!</p>
-                    </div>
-                    <img src="../assets/images/mascot.png" alt="PTE Hub Mascot" class="hero-mascot">
+                <div class="future-icon">
+                    <i class="fas fa-microchip"></i>
                 </div>
             </div>
         </section>
 
-        <!-- RESEARCH COLLABORATIONS -->
-        <section id="research" class="partners-section">
+        <!-- ================= CTA ================= -->
+        <section class="about-cta" style="margin-top:0;">
             <div class="container">
-                <h2 class="center-heading">Research Collaborations</h2>
-                <p class="section-subtitle">We collaborate with global educational research bodies to advance machine learning scoring systems and cognitive language assessments.</p>
-                
-                <div class="research-grid">
-                    <div class="research-card">
-                        <div class="research-card-icon"><i class="fas fa-brain"></i></div>
-                        <h3>AI Scoring Validity Study</h3>
-                        <p>A multi-year investigation proving that machine-graded spoken and written responses correlate to a 0.96 coefficient with senior human examiners.</p>
-                        <span class="research-meta">Published: Journal of Educational Measurement (2025)</span>
-                    </div>
-
-                    <div class="research-card">
-                        <div class="research-card-icon"><i class="fas fa-language"></i></div>
-                        <h3>Acoustic Modeling across Accents</h3>
-                        <p>Researching deep neural networks in automatic speech recognition to ensure 100% scoring fairness across 120+ international regional accents.</p>
-                        <span class="research-meta">Published: International Speech Communication Association (2025)</span>
-                    </div>
-
-                    <div class="research-card">
-                        <div class="research-card-icon"><i class="fas fa-scale-balanced"></i></div>
-                        <h3>Assessment Equity & Bias Elimination</h3>
-                        <p>Analyzing candidate data across genders and demographic origins to validate that computerized tests eliminate subjective grading bias.</p>
-                        <span class="research-meta">Published: Language Testing Quarterly (2026)</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ACADEMIC & INDUSTRY PARTNERS -->
-        <section id="partners" class="partners-section light">
-            <div class="container">
-                <h2 class="center-heading">Our Global Network</h2>
-                
-                <div class="network-tabs">
-                    <div class="network-tab-content">
-                        <h3>Academic Institutions & Research Labs</h3>
-                        <p class="network-desc">We work side-by-side with leading university language departments to align our curriculum and validate test frameworks.</p>
-                        
-                        <div class="partner-logos-grid">
-                            <div class="logo-box">
-                                <i class="fas fa-university"></i>
-                                <span>Stanford Lang Lab</span>
-                            </div>
-                            <div class="logo-box">
-                                <i class="fas fa-university"></i>
-                                <span>Melbourne Language Inst</span>
-                            </div>
-                            <div class="logo-box">
-                                <i class="fas fa-university"></i>
-                                <span>Oxford Ling Dept</span>
-                            </div>
-                            <div class="logo-box">
-                                <i class="fas fa-university"></i>
-                                <span>Toronto AI Centre</span>
-                            </div>
-                        </div>
-
-                        <h3 class="margin-top-section">Industry & Government Recognition</h3>
-                        <p class="network-desc">Our assessments are recognized for immigration, border protection, and professional licensing in key destinations.</p>
-                        
-                        <div class="partner-logos-grid">
-                            <div class="logo-box">
-                                <i class="fas fa-passport"></i>
-                                <span>Aussie Home Affairs</span>
-                            </div>
-                            <div class="logo-box">
-                                <i class="fas fa-passport"></i>
-                                <span>IRCC Canada</span>
-                            </div>
-                            <div class="logo-box">
-                                <i class="fas fa-passport"></i>
-                                <span>UK Home Office</span>
-                            </div>
-                            <div class="logo-box">
-                                <i class="fas fa-user-md"></i>
-                                <span>Global Nursing Council</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PUBLICATIONS & RESOURCES -->
-        <section id="publications" class="partners-section">
-            <div class="container">
-                <h2 class="center-heading">Publications & Resources</h2>
-                <p class="section-subtitle">Download official white papers, research reports, and technical manuals detailing our exam structure and validation standards.</p>
-                
-                <div class="publications-list">
-                    <div class="pub-item">
-                        <div class="pub-info">
-                            <i class="far fa-file-pdf pub-icon"></i>
-                            <div>
-                                <h4>PTE Academic Technical Manual v4.2</h4>
-                                <p>Comprehensive manual outlining scoring algorithms, standard error of measurement (SEM), and test security frameworks.</p>
-                            </div>
-                        </div>
-                        <button class="download-btn" onclick="alert('Downloading Document...')"><i class="fas fa-download"></i> Download PDF (4.2 MB)</button>
-                    </div>
-
-                    <div class="pub-item">
-                        <div class="pub-info">
-                            <i class="far fa-file-pdf pub-icon"></i>
-                            <div>
-                                <h4>AI Scoring Validation and Reliability White Paper</h4>
-                                <p>A summary of validation tests proving the alignment of automated assessment with human evaluation results.</p>
-                            </div>
-                        </div>
-                        <button class="download-btn" onclick="alert('Downloading Document...')"><i class="fas fa-download"></i> Download PDF (2.8 MB)</button>
-                    </div>
-
-                    <div class="pub-item">
-                        <div class="pub-info">
-                            <i class="far fa-file-pdf pub-icon"></i>
-                            <div>
-                                <h4>PTE Score Concordance with IELTS and TOEFL</h4>
-                                <p>Official reference concordance charts mapping PTE Academic overall scores to corresponding IELTS and TOEFL levels.</p>
-                            </div>
-                        </div>
-                        <button class="download-btn" onclick="alert('Downloading Document...')"><i class="fas fa-download"></i> Download PDF (1.1 MB)</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FUTURE INITIATIVES -->
-        <section class="future-initiatives-section">
-            <div class="container">
-                <div class="future-wrapper">
-                    <div class="future-text">
-                        <h2>Future Initiatives</h2>
-                        <p>We are actively exploring next-generation testing methodologies, including adaptive cognitive testing and LLM-assisted grammar diagnostics, to deliver even faster, more precise, and highly personalized learning feedback.</p>
-                        <ul class="future-points">
-                            <li><i class="fas fa-arrow-right"></i> Next-Gen LLM scoring models</li>
-                            <li><i class="fas fa-arrow-right"></i> Dynamic test questions custom-tailored to skill gaps</li>
-                            <li><i class="fas fa-arrow-right"></i> Free predictive scoring reports for low-income regions</li>
-                        </ul>
-                    </div>
-                    <div class="future-deco">
-                        <i class="fas fa-microchip future-icon"></i>
-                    </div>
-                </div>
+                <h2>Join Our Research Community</h2>
+                <p>Collaborate with us to shape the future of AI-driven language assessment.</p>
+                <button class="primary-btn" onclick="alert('Contact us at research@ptehub.com')">Get Involved</button>
             </div>
         </section>
 
     </main>
 
+    <!-- ================= FOOTER & POPUP PLACEHOLDERS ================= -->
     <div id="footer-placeholder"></div>
     <div id="auth-popup-placeholder"></div>
 
+    <!-- ================= SCRIPTS ================= -->
     <script src="../scripts/js/navbar.js"></script>
     <script src="../scripts/js/footer.js"></script>
     <script src="../scripts/js/script.js"></script>
     <script src="../scripts/js/auth-popup.js"></script>
+    <script src="../scripts/js/theme.js"></script>
 
 </body>
 </html>
