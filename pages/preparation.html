@@ -2,279 +2,231 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PTE Preparation | PTE HUB</title>
 
-    <!-- Global component styles (navbar, footer, auth-popup) -->
-    <link rel="stylesheet" href="../styles/css/navbar.css">
-    <link rel="stylesheet" href="../styles/css/footer.css">
-    <link rel="stylesheet" href="../styles/css/auth-popup.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap"
-        rel="stylesheet">
+    <!-- Global Stylesheets -->
+    <link rel="stylesheet" href="../styles/css/style.css" />
+    <link rel="stylesheet" href="../styles/css/navbar.css" />
+    <link rel="stylesheet" href="../styles/css/footer.css" />
+    <link rel="stylesheet" href="../styles/css/auth-popup.css" />
+    <link rel="stylesheet" href="../styles/css/theme.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Theme initialisation -->
+    <script src="../scripts/js/theme.js"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Titillium Web', sans-serif;
-        }
+        /* ===== PREPARATION PAGE CUSTOM STYLES ===== */
+        /* All colours use theme variables, so dark mode works automatically */
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: #f8fafc;
-            color: #1f2937;
-            overflow-x: hidden;
-        }
-
-        /* ================= HERO ================= */
-
-        .hero {
+        .prep-hero {
             min-height: 75vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 40px 20px;
-
             background:
-                linear-gradient(rgba(10, 15, 30, .72),
-                    rgba(10, 15, 30, .72)),
+                linear-gradient(rgba(10, 15, 30, 0.72),
+                    rgba(10, 15, 30, 0.72)),
                 url("https://images.unsplash.com/photo-1434030216411-0b793f4b4173");
-
             background-size: cover;
             background-position: center;
+            position: relative;
         }
 
-        .hero div {
+        .prep-hero div {
             max-width: 850px;
         }
 
-        .hero h1 {
+        .prep-hero h1 {
             color: #fff;
-            font-size: 4rem;
+            font-size: clamp(2.4rem, 6vw, 4rem);
             font-weight: 700;
             margin-bottom: 20px;
             line-height: 1.1;
         }
 
-        .hero p {
+        .prep-hero p {
             color: rgba(255, 255, 255, .9);
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             max-width: 700px;
             margin: auto;
         }
 
-        /* ================= COMMON ================= */
-
-        .features-section,
-        .section {
-            padding: 45px 8%;
+        /* Common sections */
+        .prep-section {
+            padding: 70px 8%;
         }
 
-        .features-heading,
-        .section-title {
+        .prep-section .section-heading {
             text-align: center;
             margin-bottom: 60px;
         }
 
-        .features-heading h2,
-        .section-title h2 {
-            font-size: 2.7rem;
-            color: #8d2123;
+        .prep-section .section-heading h2 {
+            font-size: clamp(2rem, 4vw, 2.7rem);
+            color: var(--accent, #8d2123);
             margin-bottom: 10px;
         }
 
-        .features-heading p,
-        .section-title p {
-            color: #6b7280;
+        .prep-section .section-heading p {
+            color: var(--text-muted, #6b7280);
             font-size: 1.05rem;
         }
 
-        .features-container {
+        .prep-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
 
-        .feature-box {
-            background: #fff;
+        .prep-card {
+            background: var(--bg-card, #fff);
             padding: 32px;
             border-radius: 22px;
-            transition: .35s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            box-shadow: var(--shadow-soft, 0 10px 30px rgba(0, 0, 0, 0.08));
+            border: 1px solid var(--border-card, transparent);
         }
 
-        .feature-box h3 {
-            color: #111827;
+        .prep-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lift, 0 20px 40px rgba(0, 0, 0, 0.12));
+        }
+
+        .prep-card h3 {
+            color: var(--text-primary, #111827);
             margin-bottom: 10px;
             font-size: 1.35rem;
         }
 
-        .feature-box p {
-            color: #6b7280;
+        .prep-card p {
+            color: var(--text-muted, #6b7280);
             line-height: 1.7;
         }
 
-        .feature-box ul {
+        .prep-card ul {
             padding-left: 20px;
             margin-top: 15px;
         }
 
-        .feature-box li {
+        .prep-card li {
             margin-bottom: 8px;
-            color: #4b5563;
+            color: var(--text-secondary, #4b5563);
         }
 
-        /* ================= PRACTICE TESTS ================= */
-
-        #practice-tests .feature-box {
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-        }
-
-        #practice-tests .feature-box:hover {
-            transform: translateY(-10px);
-        }
-
-        #practice-tests .feature-box i {
+        /* Practice tests – icon circles */
+        .prep-card .card-icon {
             width: 80px;
             height: 80px;
             margin: 0 auto 20px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             border-radius: 50%;
-
-            background: linear-gradient(135deg,
-                    #8d2123,
-                    #d84a4d);
-
+            background: linear-gradient(135deg, var(--accent, #8d2123), #d84a4d);
             color: white;
             font-size: 2rem;
         }
 
-        /* ================= STUDY MATERIALS ================= */
-
-        #study-materials .feature-box {
-            border-left: 6px solid #8d2123;
+        /* Study materials – left border accent */
+        .prep-card.border-left {
+            border-left: 6px solid var(--accent, #8d2123);
             border-radius: 0 20px 20px 0;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
         }
 
-        #study-materials .feature-box:hover {
-            transform: translateX(10px);
-        }
-
-        /* ================= TIPS ================= */
-
-        #tips-strategies .feature-box {
+        /* Tips & Strategies – gradient background (light theme) */
+        .prep-card.gradient-bg {
             background: linear-gradient(135deg,
-                    #fff 0%,
-                    #fff 55%,
-                    #f7dede 85%,
-                    #8d2123 200%);
-
-            border-radius: 20px;
-            color: #8d2123;
+                    var(--bg-card, #fff) 0%,
+                    var(--bg-card, #fff) 55%,
+                    rgba(141, 33, 35, 0.08) 85%,
+                    var(--accent, #8d2123) 200%);
+            color: var(--accent, #8d2123);
         }
 
-        #tips-strategies .feature-box h3 {
-            color: #8d2123;
+        .prep-card.gradient-bg h3,
+        .prep-card.gradient-bg p {
+            color: var(--accent, #8d2123);
         }
 
-        #tips-strategies .feature-box p {
-            color: #8d2123;
-        }
-
-        /* ================= MOCK TESTS ================= */
-
-        #mock-tests .feature-box {
+        /* Mock tests – left border with dot */
+        .prep-card.mock-card {
             position: relative;
-            border-left: 5px solid #8d2123;
+            border-left: 5px solid var(--accent, #8d2123);
             border-radius: 0 20px 20px 0;
             padding-left: 35px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .05);
         }
 
-        #mock-tests .feature-box::before {
+        .prep-card.mock-card::before {
             content: "";
             position: absolute;
-
             width: 18px;
             height: 18px;
-
-            background: #8d2123;
+            background: var(--accent, #8d2123);
             border-radius: 50%;
-
             left: -12px;
             top: 35px;
         }
 
-        /* ================= SAMPLE QUESTION ================= */
-
-        .feature-box[style] {
-            background: #fffef8;
-            border: 2px dashed #8d2123;
-            box-shadow: none;
+        /* Sample question card */
+        .prep-sample {
+            background: var(--bg-card, #fffef8);
+            border: 2px dashed var(--accent, #8d2123);
+            border-radius: 20px;
+            padding: 35px;
             max-width: 900px;
+            margin: 0 auto;
+            box-shadow: none;
         }
 
-        .feature-box[style] h3,
-        .feature-box[style] h4 {
-            color: #8d2123;
+        .prep-sample h3,
+        .prep-sample h4 {
+            color: var(--accent, #8d2123);
         }
 
-        .feature-box[style] p {
+        .prep-sample p {
             font-size: 1.05rem;
             line-height: 1.9;
+            color: var(--text-secondary, #4b5563);
         }
 
-        /* ================= STATS ================= */
-
-        .stats {
+        /* Stats cards */
+        .prep-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 25px;
         }
 
         .stat-card {
-            background:
-                linear-gradient(135deg,
-                    rgba(141, 33, 35, .95),
-                    rgba(204, 70, 74, .95));
-
+            background: linear-gradient(135deg,
+                    var(--accent, #8d2123),
+                    #d84a4d);
             color: white;
             text-align: center;
-
             padding: 45px 20px;
             border-radius: 25px;
-
             position: relative;
             overflow: hidden;
-
-            backdrop-filter: blur(12px);
         }
 
         .stat-card::after {
             content: "";
             position: absolute;
-
             width: 120px;
             height: 120px;
-
-            background: rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
-
             top: -30px;
             right: -30px;
         }
@@ -288,137 +240,164 @@
             opacity: .9;
         }
 
-        /* ================= FAQ ================= */
-
-        .gray {
-            background: #eef2f7;
-        }
-
-        .faq-item {
-            background: white;
+        /* FAQ items */
+        .prep-faq-item {
+            background: var(--bg-card, #fff);
             border-radius: 18px;
             margin-bottom: 18px;
             overflow: hidden;
-
-            box-shadow:
-                0 8px 25px rgba(0, 0, 0, .05);
+            box-shadow: var(--shadow-soft, 0 8px 25px rgba(0, 0, 0, 0.05));
+            border: 1px solid var(--border-card, transparent);
         }
 
-        .faq-question {
+        .prep-faq-question {
             width: 100%;
             border: none;
-
-            background: white;
-            color: #111827;
-
+            background: var(--bg-card, #fff);
+            color: var(--text-primary, #111827);
             text-align: left;
             padding: 22px;
-
             font-size: 1rem;
             font-weight: 600;
-
             cursor: pointer;
             position: relative;
+            transition: background 0.2s;
         }
 
-        .faq-question::after {
+        .prep-faq-question::after {
             content: "+";
             position: absolute;
             right: 25px;
-            color: #8d2123;
+            color: var(--accent, #8d2123);
             font-size: 1.4rem;
         }
 
-        .faq-answer {
+        .prep-faq-answer {
             display: none;
             padding: 0 22px 22px;
-            color: #6b7280;
+            color: var(--text-muted, #6b7280);
             line-height: 1.7;
         }
 
-        /* ================= CTA ================= */
+        .prep-faq-item.active .prep-faq-answer {
+            display: block;
+        }
 
-        .about-cta {
-            background:
-                linear-gradient(135deg,
-                    #8d2123,
-                    #b72d31);
+        .prep-faq-item.active .prep-faq-question::after {
+            content: "−";
+        }
 
+        /* CTA section */
+        .prep-cta {
+            background: linear-gradient(135deg, var(--accent, #8d2123), #b72d31);
             color: white;
             text-align: center;
             padding: 100px 8%;
         }
 
-        .about-cta h2 {
-            font-size: 2.8rem;
+        .prep-cta h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
             margin-bottom: 15px;
         }
 
-        .about-cta p {
+        .prep-cta p {
             max-width: 700px;
             margin: auto;
             margin-bottom: 30px;
             opacity: .9;
         }
 
-        .mock-btn {
+        .prep-cta .mock-btn {
             display: inline-block;
             padding: 12px 24px;
-
             background: white;
-            color: #8d2123;
-
+            color: var(--accent, #8d2123);
             border-radius: 10px;
             text-decoration: none;
             font-weight: 700;
-
-            transition: .3s;
+            transition: transform 0.3s;
         }
 
-        .mock-btn:hover {
+        .prep-cta .mock-btn:hover {
             transform: translateY(-3px);
         }
 
-        /* ================= RESPONSIVE ================= */
-
-        @media(max-width:992px) {
-
-            .hero h1 {
-                font-size: 3rem;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .prep-section {
+                padding: 60px 6%;
             }
-
-            .features-heading h2,
-            .section-title h2 {
-                font-size: 2.2rem;
+            .prep-card {
+                padding: 25px;
+            }
+            .prep-hero {
+                min-height: 60vh;
             }
         }
 
-        @media(max-width:768px) {
+        /* ================= DARK THEME OVERRIDES ================= */
+        [data-theme="dark"] body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
 
-            .hero {
-                min-height: 60vh;
-            }
+        [data-theme="dark"] .features-heading h2,
+        [data-theme="dark"] .section-title h2 {
+            color: var(--text-primary);
+        }
 
-            .hero h1 {
-                font-size: 2.4rem;
-            }
+        [data-theme="dark"] .features-heading p,
+        [data-theme="dark"] .section-title p {
+            color: var(--text-secondary);
+        }
 
-            .hero p {
-                font-size: 1rem;
-            }
+        [data-theme="dark"] .feature-box {
+            background: var(--bg-card);
+        }
 
-            .features-section,
-            .section {
-                padding: 70px 6%;
-            }
+        [data-theme="dark"] .feature-box h3 {
+            color: var(--text-primary);
+        }
 
-            .feature-box {
-                padding: 25px;
-            }
+        [data-theme="dark"] .feature-box p,
+        [data-theme="dark"] .feature-box li {
+            color: var(--text-secondary);
+        }
 
-            .about-cta h2 {
-                font-size: 2rem;
-            }
+        [data-theme="dark"] #tips-strategies .feature-box {
+            background: var(--bg-card);
+        }
+
+        [data-theme="dark"] #tips-strategies .feature-box h3,
+        [data-theme="dark"] #tips-strategies .feature-box p {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .feature-box[style] {
+            background: var(--bg-card) !important;
+            border-color: var(--border-card) !important;
+        }
+
+        [data-theme="dark"] .feature-box[style] h3,
+        [data-theme="dark"] .feature-box[style] h4 {
+            color: var(--text-primary) !important;
+        }
+
+        [data-theme="dark"] .gray {
+            background: var(--bg-secondary);
+        }
+
+        [data-theme="dark"] .faq-item {
+            background: var(--bg-card);
+        }
+
+        [data-theme="dark"] .faq-question {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .faq-answer {
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -430,8 +409,8 @@
         <div id="navbar-placeholder"></div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
+    <!-- ================= HERO ================= -->
+    <section class="prep-hero">
         <div>
             <h1>Prepare for PTE Success</h1>
             <p>
@@ -441,166 +420,110 @@
         </div>
     </section>
 
-    <!-- PRACTICE TESTS -->
-    <section id="practice-tests" class="features-section">
-
-        <div class="features-heading">
+    <!-- ================= PRACTICE TESTS ================= -->
+    <section id="practice-tests" class="prep-section">
+        <div class="section-heading">
             <h2>Practice Tests</h2>
             <p>Practice every section of the PTE Academic exam.</p>
         </div>
 
-        <div class="features-container">
-
-            <div class="feature-box">
-                <i class="fas fa-microphone"></i>
+        <div class="prep-grid">
+            <div class="prep-card">
+                <div class="card-icon"><i class="fas fa-microphone"></i></div>
                 <h3>Speaking</h3>
-                <p>
-                    Read Aloud, Repeat Sentence, Describe Image,
-                    Retell Lecture and Answer Short Question.
-                </p>
+                <p>Read Aloud, Repeat Sentence, Describe Image, Retell Lecture and Answer Short Question.</p>
             </div>
 
-            <div class="feature-box">
-                <i class="fas fa-pen"></i>
+            <div class="prep-card">
+                <div class="card-icon"><i class="fas fa-pen"></i></div>
                 <h3>Writing</h3>
-                <p>
-                    Summarize Written Text and Essay Writing
-                    practice with sample responses.
-                </p>
+                <p>Summarize Written Text and Essay Writing practice with sample responses.</p>
             </div>
 
-            <div class="feature-box">
-                <i class="fas fa-book-open"></i>
+            <div class="prep-card">
+                <div class="card-icon"><i class="fas fa-book-open"></i></div>
                 <h3>Reading</h3>
-                <p>
-                    Fill in the Blanks, Reorder Paragraphs
-                    and Multiple Choice questions.
-                </p>
+                <p>Fill in the Blanks, Reorder Paragraphs and Multiple Choice questions.</p>
             </div>
 
-            <div class="feature-box">
-                <i class="fas fa-headphones"></i>
+            <div class="prep-card">
+                <div class="card-icon"><i class="fas fa-headphones"></i></div>
                 <h3>Listening</h3>
-                <p>
-                    Summarize Spoken Text, Highlight Incorrect Words
-                    and Listening exercises.
-                </p>
+                <p>Summarize Spoken Text, Highlight Incorrect Words and Listening exercises.</p>
             </div>
-
         </div>
-
     </section>
 
-    <!-- STUDY MATERIAL -->
-    <section id="study-materials" class="features-section">
-
-        <div class="features-heading">
+    <!-- ================= STUDY MATERIALS ================= -->
+    <section id="study-materials" class="prep-section" style="background:var(--bg-secondary, #f8fafc);">
+        <div class="section-heading">
             <h2>Study Materials</h2>
             <p>Essential resources to strengthen your preparation.</p>
         </div>
 
-        <div class="features-container">
-
-            <div class="feature-box">
+        <div class="prep-grid">
+            <div class="prep-card border-left">
                 <h3>Grammar Guide</h3>
-                <p>
-                    Improve sentence structure, tenses,
-                    punctuation and accuracy.
-                </p>
+                <p>Improve sentence structure, tenses, punctuation and accuracy.</p>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card border-left">
                 <h3>Vocabulary Lists</h3>
-                <p>
-                    Frequently used academic words and
-                    high-scoring vocabulary.
-                </p>
+                <p>Frequently used academic words and high-scoring vocabulary.</p>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card border-left">
                 <h3>Essay Templates</h3>
-                <p>
-                    Proven essay structures for
-                    opinion and discussion tasks.
-                </p>
+                <p>Proven essay structures for opinion and discussion tasks.</p>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card border-left">
                 <h3>Speaking Templates</h3>
-                <p>
-                    Frameworks for Describe Image,
-                    Retell Lecture and other tasks.
-                </p>
+                <p>Frameworks for Describe Image, Retell Lecture and other tasks.</p>
             </div>
-
         </div>
-
     </section>
 
-    <!-- TIPS -->
-    <section id="tips-strategies" class="features-section">
-
-        <div class="features-heading">
-            <h2>Tips & Strategies</h2>
+    <!-- ================= TIPS & STRATEGIES ================= -->
+    <section id="tips-strategies" class="prep-section">
+        <div class="section-heading">
+            <h2>Tips &amp; Strategies</h2>
         </div>
 
-        <div class="features-container">
-
-            <div class="feature-box">
+        <div class="prep-grid">
+            <div class="prep-card gradient-bg">
                 <h3>Time Management</h3>
-                <p>
-                    Allocate time wisely and avoid
-                    spending too long on a single question.
-                </p>
+                <p>Allocate time wisely and avoid spending too long on a single question.</p>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card gradient-bg">
                 <h3>Speaking Strategy</h3>
-                <p>
-                    Focus on fluency and pronunciation
-                    rather than speaking too quickly.
-                </p>
+                <p>Focus on fluency and pronunciation rather than speaking too quickly.</p>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card gradient-bg">
                 <h3>Writing Strategy</h3>
-                <p>
-                    Follow a clear introduction,
-                    body and conclusion structure.
-                </p>
+                <p>Follow a clear introduction, body and conclusion structure.</p>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card gradient-bg">
                 <h3>Listening Strategy</h3>
-                <p>
-                    Take notes efficiently and identify
-                    keywords while listening.
-                </p>
+                <p>Take notes efficiently and identify keywords while listening.</p>
             </div>
-
         </div>
-
     </section>
 
-    <!-- MOCK TESTS -->
-    <section id="mock-tests" class="features-section">
-
-        <div class="features-heading">
+    <!-- ================= MOCK TEST PATTERN ================= -->
+    <section id="mock-tests" class="prep-section" style="background:var(--bg-secondary, #f8fafc);">
+        <div class="section-heading">
             <h2>Mock Test Pattern</h2>
-            <p>
-                Understand the structure of a full-length
-                PTE Academic mock test.
-            </p>
+            <p>Understand the structure of a full-length PTE Academic mock test.</p>
         </div>
 
-        <div class="features-container">
-
-            <div class="feature-box">
-                <h3>Speaking & Writing</h3>
-                <p>
-                    Duration: 54–67 minutes
-                </p>
-
+        <div class="prep-grid">
+            <div class="prep-card mock-card">
+                <h3>Speaking &amp; Writing</h3>
+                <p>Duration: 54–67 minutes</p>
                 <ul>
                     <li>Read Aloud</li>
                     <li>Repeat Sentence</li>
@@ -609,9 +532,8 @@
                 </ul>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card mock-card">
                 <h3>Reading</h3>
-
                 <ul>
                     <li>Multiple Choice</li>
                     <li>Reorder Paragraphs</li>
@@ -619,113 +541,93 @@
                 </ul>
             </div>
 
-            <div class="feature-box">
+            <div class="prep-card mock-card">
                 <h3>Listening</h3>
-
                 <ul>
                     <li>Summarize Spoken Text</li>
                     <li>Highlight Incorrect Words</li>
                     <li>Write From Dictation</li>
                 </ul>
             </div>
-
         </div>
-
     </section>
 
-    <!-- STATS -->
-    <section class="section">
-        <div class="section-title">
+    <!-- ================= STATISTICS ================= -->
+    <section class="prep-section">
+        <div class="section-heading">
             <h2>Preparation Statistics</h2>
         </div>
 
-        <div class="stats">
-
+        <div class="prep-stats">
             <div class="stat-card">
                 <h2>500+</h2>
                 <p>Practice Questions</p>
             </div>
-
             <div class="stat-card">
                 <h2>50+</h2>
                 <p>Study Resources</p>
             </div>
-
             <div class="stat-card">
                 <h2>10K+</h2>
                 <p>Practice Sessions</p>
             </div>
-
             <div class="stat-card">
                 <h2>95%</h2>
                 <p>Student Satisfaction</p>
             </div>
-
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="section gray">
-        <div class="section-title">
+    <!-- ================= FAQ ================= -->
+    <section class="prep-section" style="background:var(--bg-secondary, #eef2f7);">
+        <div class="section-heading">
             <h2>Preparation FAQs</h2>
         </div>
 
-        <div class="faq-item">
-            <button class="faq-question">How long should I prepare for PTE?</button>
-            <div class="faq-answer">
-                Most students prepare for 4-8 weeks depending on their English proficiency level.
+        <div style="max-width:800px;margin:0 auto;">
+            <div class="prep-faq-item">
+                <button class="prep-faq-question">How long should I prepare for PTE?</button>
+                <div class="prep-faq-answer">Most students prepare for 4–8 weeks depending on their English proficiency level.</div>
+            </div>
+
+            <div class="prep-faq-item">
+                <button class="prep-faq-question">Are mock tests important?</button>
+                <div class="prep-faq-answer">Yes, mock tests help you understand timing and exam patterns.</div>
             </div>
         </div>
-
-        <div class="faq-item">
-            <button class="faq-question">Are mock tests important?</button>
-            <div class="faq-answer">
-                Yes, mock tests help you understand timing and exam patterns.
-            </div>
-        </div>
-
     </section>
 
-    <!-- SAMPLE QUESTION -->
-    <section class="features-section">
-
-        <div class="features-heading">
+    <!-- ================= SAMPLE QUESTION ================= -->
+    <section class="prep-section">
+        <div class="section-heading">
             <h2>Sample Question</h2>
         </div>
 
-        <div class="feature-box" style="max-width:900px;margin:auto;">
-
+        <div class="prep-sample">
             <h3>Read Aloud Example</h3>
-
             <p>
                 Renewable energy sources are becoming increasingly
                 important as countries seek sustainable alternatives
                 to fossil fuels...
             </p>
-
-            <br>
-
+            <br />
             <h4>Tips</h4>
-
             <ul>
                 <li>Maintain a steady pace.</li>
                 <li>Avoid long pauses.</li>
                 <li>Focus on pronunciation and fluency.</li>
             </ul>
-
         </div>
-
     </section>
 
-    <!-- CTA -->
-    <section class="about-cta">
-        <div class="container">
+    <!-- ================= CTA ================= -->
+    <section class="prep-cta">
+        <div>
             <h2>Ready to Achieve Your Target PTE Score?</h2>
             <p>
                 Access practice tests, study materials, expert strategies
                 and mock exams in one place.
             </p>
-
             <a href="/pages/register.html" class="mock-btn">
                 Start Preparing
             </a>
@@ -741,13 +643,21 @@
     <script src="../scripts/js/footer.js"></script>
     <script src="../scripts/js/script.js"></script>
     <script src="../scripts/js/auth-popup.js"></script>
+    <script src="../scripts/js/theme.js"></script>
 
-    <!-- Existing FAQ toggle script -->
+    <!-- FAQ toggle (replicates original behaviour) -->
     <script>
-        document.querySelectorAll(".faq-question").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const answer = btn.nextElementSibling;
-                answer.style.display = answer.style.display === "block" ? "none" : "block";
+        document.querySelectorAll('.prep-faq-question').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const item = this.closest('.prep-faq-item');
+                const isActive = item.classList.contains('active');
+
+                // Close all others (accordion behaviour)
+                document.querySelectorAll('.prep-faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!isActive) {
+                    item.classList.add('active');
+                }
             });
         });
     </script>
