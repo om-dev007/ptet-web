@@ -4,34 +4,34 @@ const isSubpage = window.location.pathname.includes('/pages/');
 const footerPath = isSubpage ? '../components/footer.html' : 'components/footer.html';
 
 fetch(footerPath)
-.then(response => response.text())
-.then(data => {
+  .then(response => response.text())
+  .then(data => {
 
-  document.getElementById("footer-placeholder").innerHTML = data;
+    document.getElementById("footer-placeholder").innerHTML = data;
 
-  // Newsletter form functionality
+    // Newsletter form functionality
 
-  const form = document.getElementById("newsletter-form");
+    const form = document.getElementById("newsletter-form");
 
-  if(form){
+    if (form) {
 
-    form.addEventListener("submit", function(e){
+      form.addEventListener("submit", function (e) {
 
-      e.preventDefault();
+        e.preventDefault();
 
-      const email = document.getElementById("newsletter-email").value;
+        const email = document.getElementById("newsletter-email").value;
 
-      if(email.trim() === ""){
-        alert("Please enter a valid email.");
-        return;
-      }
+        if (email.trim() === "") {
+          alert("Please enter a valid email.");
+          return;
+        }
 
-      alert("Thank you for subscribing!");
+        alert("Thank you for subscribing!");
 
-      form.reset();
+        form.reset();
 
-    });
+      });
 
-  }
+    }
 
-});
+  });

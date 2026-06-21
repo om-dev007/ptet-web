@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    fetch("../components/navbar.html")
+    const isSubpage = window.location.pathname.includes('/pages/');
+    const navbarPath = isSubpage ? '../components/navbar.html' : 'components/navbar.html';
+
+    fetch(navbarPath)
         .then(response => response.text())
         .then(data => {
         
@@ -9,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!placeholder) return;
         
             placeholder.innerHTML = data;
+
+
 
         const hamburger = document.getElementById("hamburger");
         const navbar = document.getElementById("navbar");
