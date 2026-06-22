@@ -257,21 +257,17 @@ section.reveal:nth-of-type(odd){
 #container .cards:hover::after{
     opacity:1;
 }
-
-#container .cards{
-    width:100%;
-    background:#ffffff;
-
-    border-radius:12px;
-    overflow:visible;
-    position:relative;
-
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-
-    transition:all 0.4s ease;
-
-    text-align:center;
-    padding-bottom:25px;
+#container .cards {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    /* ← FIX: image card ke andar rahegi */
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    text-align: center;
+    padding-bottom: 25px;
 }
 
 
