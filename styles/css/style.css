@@ -10,21 +10,15 @@ body {
 /* Header */
 #header {
     position: absolute;
-    /* overlay on hero */
     top: 0;
     left: 0;
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 15px 40px;
-
     z-index: 999;
-
     background: transparent;
-    /* IMPORTANT */
 }
 
 #header img {
@@ -93,11 +87,6 @@ body {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-#address:hover,
-#address1:hover {
-    background-color: #6a181b;
-}
-
 /* Hamburger Icon */
 .hamburger {
     display: none;
@@ -117,8 +106,6 @@ body {
     position: relative;
     overflow: hidden;
     min-height: calc(100vh - 80px);
-    /* adjust based on navbar height */
-
     display: flex;
     flex: 1;
     padding: 80px 40px 40px 40px;
@@ -130,8 +117,6 @@ body {
     justify-content: flex-start;
     max-width: 1200px;
     width: 100%;
-    padding: 80px 40px 40px 40px;
-
     padding: 80px 40px 40px 40px;
 }
 
@@ -211,16 +196,6 @@ section.reveal:nth-of-type(odd) {
     background: #f7f7f7;
 }
 
-.features-heading h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.features-heading p {
-    color: #555;
-    margin-bottom: 40px;
-}
-
 #page2 {
     background: #ffffff;
     padding: 80px 20px;
@@ -239,7 +214,6 @@ section.reveal:nth-of-type(odd) {
 #alpha p {
     color: #555;
 }
-
 
 /* Cards Section */
 #container {
@@ -263,6 +237,7 @@ section.reveal:nth-of-type(odd) {
 #container .cards:hover::after {
     opacity: 1;
 }
+
 #container .cards {
     width: 100%;
     background: #ffffff;
@@ -275,13 +250,6 @@ section.reveal:nth-of-type(odd) {
     padding-bottom: 25px;
 }
 
-
-
-#address,
-#address1 {
-    letter-spacing: 0.5px;
-}
-
 #container .cards:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -290,12 +258,9 @@ section.reveal:nth-of-type(odd) {
 #container .cards img {
     width: 100%;
     height: 220px;
-
     object-fit: cover;
-
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
-
     transition: transform 0.4s ease;
 }
 
@@ -357,11 +322,9 @@ section.reveal:nth-of-type(odd) {
 #reviews {
     max-width: 1200px;
     margin: 50px auto 10px auto;
-
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 32px;
-
     align-items: stretch;
 }
 
@@ -373,7 +336,6 @@ section.reveal:nth-of-type(odd) {
     margin: 20px;
 }
 
-/* subtle top accent that appears on hover */
 .review::before {
     content: "";
     position: absolute;
@@ -385,6 +347,7 @@ section.reveal:nth-of-type(odd) {
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
+    border-radius: 14px 14px 0 0;
 }
 
 @media (max-width: 900px) {
@@ -409,6 +372,7 @@ section.reveal:nth-of-type(odd) {
         scrollbar-width: none;
         /* Firefox */
     }
+}
 
     .review:hover {
         transform: translateY(-8px);

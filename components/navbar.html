@@ -1,11 +1,14 @@
 <header class="navbar-wrapper">
-
     <div class="navbar-container">
-
         <!-- Logo -->
         <a href="/index.html" class="logo-text">
             PTE HUB
         </a>
+
+        <!-- ✅ HAMBURGER ADDED HERE -->
+        <div id="hamburger" class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
 
         <!-- Navigation -->
         <ul id="navbar">
@@ -14,7 +17,7 @@
 
             <!-- About -->
             <li class="dropdown">
-                <a href="#">About <i class="fas fa-chevron-down"></i></a>
+                <a href="#" class="dropdown-toggle">About <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="../pages/about.html">About PTE</a></li>
                     <li><a href="../pages/partners.html">Partners & Research</a></li>
@@ -24,9 +27,9 @@
                 </ul>
             </li>
 
- <!-- PTE Test  -->
+            <!-- PTE Test -->
             <li class="dropdown">
-                <a href="#">PTE Test <i class="fas fa-chevron-down"></i></a>
+                <a href="#" class="dropdown-toggle">PTE Test <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="../pages/pte-test.html#what-is-pte">
@@ -53,7 +56,7 @@
 
             <!-- Preparation -->
             <li class="dropdown">
-                <a href="#">Preparation <i class="fas fa-chevron-down"></i></a>
+                <a href="#" class="dropdown-toggle">Preparation <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="../pages/preparation.html#practice-tests">Practice Tests</a></li>
                     <li><a href="../pages/preparation.html#study-materials">Study Materials</a></li>
@@ -64,7 +67,7 @@
 
             <!-- Destinations -->
             <li class="dropdown">
-                <a href="#">Destinations <i class="fas fa-chevron-down"></i></a>
+                <a href="#" class="dropdown-toggle">Destinations <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="../pages/australia.html">Australia</a></li>
                     <li><a href="../pages/canada.html">Canada</a></li>
@@ -72,7 +75,6 @@
                     <li><a href="../pages/new-zealand.html">New Zealand</a></li>
                 </ul>
             </li>
-
         </ul>
 
         <!-- Right Actions -->
@@ -81,6 +83,7 @@
                 <i class="fas fa-moon"></i>
                 <i class="fas fa-sun"></i>
             </button>
+            
             <!-- Login/Register -->
             <div id="auth-buttons">
                 <a href="../pages/login.html">
@@ -94,29 +97,20 @@
 
             <!-- User Profile -->
             <div id="user-profile" class="user-profile" style="display:none;">
-
                 <img id="user-photo" class="user-photo" src="/assets/images/profile.png" alt="User profile photo">
-
                 <span id="user-name" class="user-name">User</span>
-
                 <i class="fas fa-chevron-down profile-arrow"></i>
-
                 <div class="profile-dropdown">
                     <a href="/pages/profile.html">
                         <i class="fas fa-user"></i>
                         Profile
                     </a>
-
                     <button id="logout-btn" class="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         Logout
                     </button>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </header>
