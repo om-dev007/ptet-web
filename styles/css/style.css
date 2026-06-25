@@ -1039,23 +1039,17 @@ section {
     filter: blur(90px);
 }
 
-.review-text::after {
-    content: "❞";
-    color: #8d2123;
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 4px;
-}
-
-.review-card-footer {
-    margin-top: 20px;
-    padding-top: 14px;
-    border-top: 1px solid #eee;
-}
-
-.review-date {
-    font-size: 13px;
-    color: #888;
+/* soft glow */
+.faq-section::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: rgba(141, 33, 35, 0.08);
+    border-radius: 50%;
+    filter: blur(90px);
 }
 
 /* ===== REVIEWS ANIMATION ===== */
