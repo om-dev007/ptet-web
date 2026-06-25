@@ -162,7 +162,7 @@ exports.googleAuth = async (req, res, next) => {
     });
   } catch (err) {
     if (err.code && err.code.startsWith('auth/')) {
-       return res.status(401).json({ error: 'Invalid or expired Firebase token' });
+      return res.status(401).json({ error: 'Invalid or expired Firebase token' });
     }
     next(err);
   }
@@ -225,7 +225,7 @@ exports.githubAuth = async (req, res, next) => {
     });
   } catch (err) {
     if (err.code && err.code.startsWith('auth/')) {
-       return res.status(401).json({ error: 'Invalid or expired Firebase token' });
+      return res.status(401).json({ error: 'Invalid or expired Firebase token' });
     }
     next(err);
   }
@@ -234,7 +234,7 @@ exports.githubAuth = async (req, res, next) => {
 exports.refresh = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    
+
     if (!refreshToken) {
       return res.status(401).json({ error: 'No refresh token provided' });
     }
@@ -278,7 +278,7 @@ exports.logout = async (req, res, next) => {
       try {
         const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret');
         const expiresIn = decoded.exp - Math.floor(Date.now() / 1000);
-        
+
         if (expiresIn > 0) {
           await redis.set(`bl_token:${refreshToken}`, 'blocked', 'EX', expiresIn);
         }
@@ -294,6 +294,48 @@ exports.logout = async (req, res, next) => {
     });
 
     res.status(200).json({ message: 'Logged out successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getMe = async (req, res, next) => {
+  try {
+    const user = req.user;
+    res.status(200).json({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        photo_url: user.photo_url
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateMe = async (req, res, next) => {
+  try {
+    const { name, photo_url } = req.body;
+    const user = req.user;
+
+    if (name) user.name = name;
+    if (photo_url !== undefined) user.photo_url = photo_url;
+
+    await user.save();
+
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        photo_url: user.photo_url
+      }
+    });
   } catch (err) {
     next(err);
   }
