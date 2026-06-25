@@ -158,7 +158,15 @@
     box-shadow:0 12px 24px rgba(47,133,90,0.45);
 }
 
-
+.google-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.google-login:hover {
+    background: #f8f9fa;
+    border-color: #c1c7cd;
+}
 /* REGISTER LINK */
 
 .register-link{
@@ -240,9 +248,6 @@
     min-height:44px;
 }
 
-.google-login i{
-    color:#db4437;
-}
 
 .google-login:hover{
     background:#f5f5f5;
