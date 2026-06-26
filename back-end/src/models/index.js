@@ -3,7 +3,9 @@ const { sequelize } = require('../config/db');
 const User = require('./User')(sequelize);
 const UserProfile = require('./UserProfile')(sequelize);
 const StudyMaterial = require('./StudyMaterial')(sequelize);
-const SavedMaterial = require('./SavedMaterial')(sequelize); 
+const SavedMaterial = require('./SavedMaterial')(sequelize);
+const Tip = require('./Tip')(sequelize);
+
 
 // Define associations if necessary
 // User.hasOne(UserProfile, { foreignKey: 'user_id' });
@@ -35,5 +37,6 @@ module.exports = {
   User,
   UserProfile,
   StudyMaterial,
-  SavedMaterial, // EXPORT
+  SavedMaterial,
+  Tip,
 };

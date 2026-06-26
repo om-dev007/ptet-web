@@ -21,10 +21,12 @@ const authRoutes = require('./routes/authRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const adminMaterialRoutes = require('./routes/admin/materialRoutes');
 const savedMaterialRoutes = require('./routes/savedMaterialRoutes');
+const tipRoutes = require('./routes/tipRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/users/:id/saved', savedMaterialRoutes);
+app.use('/api/tips', tipRoutes);
 
 // Admin material routes – protected by authentication and admin role
 app.use('/api/admin/materials', authenticate, authorize('admin'), adminMaterialRoutes);
