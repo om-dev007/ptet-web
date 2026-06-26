@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/errorHandler');
 const { authenticate, authorize } = require('./middleware/authMiddleware'); // already exists
 
+
 const app = express();
 
 // Middleware
@@ -19,9 +20,11 @@ app.use(morgan('dev'));
 const authRoutes = require('./routes/authRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const adminMaterialRoutes = require('./routes/admin/materialRoutes');
+const savedMaterialRoutes = require('./routes/savedMaterialRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/materials', materialRoutes);
+app.use('/api/users/:id/saved', savedMaterialRoutes);
 
 // Admin material routes – protected by authentication and admin role
 app.use('/api/admin/materials', authenticate, authorize('admin'), adminMaterialRoutes);
