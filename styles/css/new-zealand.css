@@ -513,6 +513,7 @@ section[id] {
 
 .intake-item {
     display: flex;
+    flex-direction: column;
     gap: 20px;
     background: var(--bg-card);
     padding: 25px;
@@ -520,6 +521,7 @@ section[id] {
     border-left: 5px solid var(--accent);
     box-shadow: var(--shadow-soft);
     transition: all 0.3s ease;
+    align-items: center;
 }
 
 .intake-item:hover {
@@ -530,25 +532,32 @@ section[id] {
 .intake-month {
     background: var(--accent);
     color: white;
-    min-width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-width: auto;
+    width: auto;
+    height: auto;
+    padding: 16px 20px;
     border-radius: 8px;
     font-weight: 700;
     font-size: 18px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .intake-details h3 {
     font-size: 20px;
+    text-align: center;
     color: var(--text-primary);
     margin-bottom: 8px;
     font-weight: 700;
 }
 
 .intake-details p {
+    text-align: center;
     font-size: 14px;
     color: var(--text-muted);
     line-height: 1.6;
