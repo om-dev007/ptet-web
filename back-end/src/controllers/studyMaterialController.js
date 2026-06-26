@@ -1,6 +1,7 @@
 const { StudyMaterial } = require('../models');
 const { Op } = require('sequelize');
 const response = require('../utils/response');
+const { getWeakSkills } = require('../services/weakAreaService');
 
 /**
  * GET /api/materials
@@ -127,6 +128,62 @@ exports.deleteMaterial = async (req, res, next) => {
 
     await material.destroy();
     return response.success(res, null, 'Material deleted successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * GET /api/materials/recommended/:userId
+ * Return top 5 materials based on user's weak skills.
+ */
+exports.getRecommendedMaterials = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    // Authorization: user can only access their own recommendations
+    if (req.user.id !== userId && req.user.role !== 'admin') {
+      return response.error(res, 'Unauthorized to access this user\'s recommendations', 403);
+    }
+
+    // 1. Get up to 3 weakest skills
+    let weakSkills = await getWeakSkills(userId);
+
+    // 2. If no weak skills (e.g., no tests taken), fallback to recent materials
+    if (!weakSkills.length) {
+      const fallback = await StudyMaterial.findAll({
+        limit: 5,
+        order: [['created_at', 'DESC']],
+      });
+      return response.success(res, fallback, 'No weak areas found, showing recent materials');
+    }
+
+    // 3. Fetch materials that match the weak skills
+    let materials = await StudyMaterial.findAll({
+      where: {
+        skill: weakSkills,
+      },
+      limit: 5,
+      // Prioritise free materials if the user does not have a premium subscription
+      order: [
+        ['is_premium', 'ASC'], // free first
+        // optionally add random ordering: sequelize.literal('RANDOM()')
+      ],
+    });
+
+    // 4. If fewer than 5 materials, fill with other materials (any skill)
+    if (materials.length < 5) {
+      const extra = await StudyMaterial.findAll({
+        where: {
+          skill: { [Op.notIn]: weakSkills },
+        },
+        limit: 5 - materials.length,
+        order: [['is_premium', 'ASC']],
+      });
+      materials = [...materials, ...extra];
+    }
+
+    return response.success(res, materials, 'Recommended materials based on your weak areas');
   } catch (err) {
     next(err);
   }
