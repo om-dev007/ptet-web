@@ -29,10 +29,119 @@
       rel="stylesheet"
     />
     <script src="scripts/js/theme.js"></script>
+    
     <!-- Bold Logo -->
     <style>
       .logo-text {
         font-weight: 800;
+      }
+
+      /* ===== REVIEWS FIXED CSS ===== */
+      #reviews {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .review {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 30px 25px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+      }
+
+      .review:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+      }
+
+      .review-quote {
+        color: #ee5a24;
+        font-size: 28px;
+        margin-bottom: 12px;
+        opacity: 0.6;
+      }
+
+      .review h3 {
+        font-size: 20px;
+        color: #1a1a2e;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .review-stars {
+        color: #f9a825;
+        font-size: 18px;
+        margin-bottom: 14px;
+        letter-spacing: 2px;
+      }
+
+      .review p {
+        color: #495057;
+        font-size: 15px;
+        line-height: 1.6;
+        font-style: italic;
+      }
+
+      .reviews-head {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .reviews-head h2 {
+        font-size: 42px;
+        color: #1a1a2e;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      .reviews-head h2::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+        margin: 12px auto 0;
+        border-radius: 4px;
+      }
+
+      .reviews-head p {
+        color: #6c757d;
+        font-size: 18px;
+        margin-top: 12px;
+      }
+
+      @media (max-width: 768px) {
+        .reviews-head h2 {
+          font-size: 30px;
+        }
+        .reviews-head p {
+          font-size: 16px;
+        }
+        #reviews {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .review {
+          padding: 22px 18px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        #contact {
+          padding: 30px 12px;
+        }
+        .review h3 {
+          font-size: 18px;
+        }
+        .review p {
+          font-size: 14px;
+        }
       }
     </style>
   </head>
@@ -213,14 +322,14 @@
           <div class="cards">
             <img
               src="assets/images/australia_nz.png"
-              alt="Autralia and New Zealand"
+              alt="Australia and New Zealand"
             />
             <h3>PTE Academic</h3>
             <p>
               For global university study and visa applications to Australia and
               New Zealand.
             </p>
-            <button id="book-now-btn">Book Now</button>
+            <button class="book-now-btn">Book Now</button>
           </div>
 
           <div class="cards">
@@ -233,7 +342,7 @@
               A general English test recognized by the Canadian government for
               immigration.
             </p>
-            <button id="book-now-btn">Book Now</button>
+            <button class="book-now-btn">Book Now</button>
           </div>
 
           <div class="cards">
@@ -243,7 +352,7 @@
               English tests for UK visa applications including PTE Home and PTE
               Academic UKVI.
             </p>
-            <button id="book-now-btn">Book Now</button>
+            <button class="book-now-btn">Book Now</button>
           </div>
         </div>
       </section>
@@ -289,243 +398,120 @@
         </div>
       </section>
 
-      <!-- Reviews -->
+      <!-- ===== REVIEWS SECTION - FIXED ===== -->
       <section id="contact">
         <div class="reviews-head">
           <h2>Reviews</h2>
           <p>See what our students are saying about PTE HUB</p>
         </div>
 
-        <div class="reviews-scroll-wrapper">
-          <div id="reviews">
-            <div class="reviews-slide">
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>John Doe</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"PTE was seamless and stress-free! I got my results in just
-                    two days. Absolutely brilliant experience."</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Jane Smith</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"Highly recommended for anyone looking for quick and
-                    reliable test results. Scored well on first attempt!"</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Ali Khan</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star-half-alt"></i>
-                </div>
-                <p>
-                  <i
-                    >"The preparation materials were so helpful. I felt
-                    confident on test day!"</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Emily Davis</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"Getting my UK visa was a breeze with PTE. Thanks for the
-                    support!"</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Rajesh Kumar</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"Great experience! The test environment was very
-                    comfortable and results came fast."</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Priya Mehta</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"PTE HUB's mock tests made all the difference. Scored 79+
-                    across all sections on my first try!"</i
-                  >
-                </p>
-              </div>
+        <div id="reviews">
+          <!-- Review 1 -->
+          <div class="review">
+            <div class="review-quote">
+              <i class="fas fa-quote-left"></i>
             </div>
-
-        </section>
-
-        <!-- Test Types -->
-        <section id="page2">
-
-            <div id="alpha">
-                <h2>We Are a World-Leading Provider of English Language Tests</h2>
-                <p>PTE tests are recognized worldwide by universities, colleges, governments, and professional bodies.</p>
+            <h3>John Doe</h3>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
             </div>
+            <p>
+              <i>"PTE was seamless and stress-free! I got my results in just two days. Absolutely brilliant experience."</i>
+            </p>
+          </div>
 
-            <div id="container">
-
-                <div class="cards">
-                    <img src="assets/images/australia_nz.png" alt="Autralia and New Zealand">
-                    <h3>PTE Academic</h3>
-                    <p>For global university study and visa applications to Australia and New Zealand.</p>
-                    <button class="book-now-btn">Book Now</button>
-                </div>
-
-                <div class="cards">
-                    <img src="assets/images/pte_core_english.png" alt="PTE Core General English Test">
-                    <h3>PTE Core</h3>
-                    <p>A general English test recognized by the Canadian government for immigration.</p>
-                    <button class="book-now-btn">Book Now</button>
-                </div>
-
-                <div class="cards">
-                    <img src="assets/images/uk.jpg" alt="UK Visa Tests">
-                    <h3>UK Visa Tests</h3>
-                    <p>English tests for UK visa applications including PTE Home and PTE Academic UKVI.</p>
-                    <button class="book-now-btn">Book Now</button>
-                </div>
-                <h3>Jane Smith</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"Highly recommended for anyone looking for quick and
-                    reliable test results. Scored well on first attempt!"</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Ali Khan</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star-half-alt"></i>
-                </div>
-                <p>
-                  <i
-                    >"The preparation materials were so helpful. I felt
-                    confident on test day!"</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Emily Davis</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"Getting my UK visa was a breeze with PTE. Thanks for the
-                    support!"</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Rajesh Kumar</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"Great experience! The test environment was very
-                    comfortable and results came fast."</i
-                  >
-                </p>
-              </div>
-
-              <div class="review">
-                <div class="review-quote">
-                  <i class="fas fa-quote-left"></i>
-                </div>
-                <h3>Priya Mehta</h3>
-                <div class="review-stars">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                  ><i class="fas fa-star"></i>
-                </div>
-                <p>
-                  <i
-                    >"PTE HUB's mock tests made all the difference. Scored 79+
-                    across all sections on my first try!"</i
-                  >
-                </p>
-              </div>
+          <!-- Review 2 -->
+          <div class="review">
+            <div class="review-quote">
+              <i class="fas fa-quote-left"></i>
             </div>
+            <h3>Jane Smith</h3>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>
+              <i>"Highly recommended for anyone looking for quick and reliable test results. Scored well on first attempt!"</i>
+            </p>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="review">
+            <div class="review-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <h3>Ali Khan</h3>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <p>
+              <i>"The preparation materials were so helpful. I felt confident on test day!"</i>
+            </p>
+          </div>
+
+          <!-- Review 4 -->
+          <div class="review">
+            <div class="review-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <h3>Emily Davis</h3>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>
+              <i>"Getting my UK visa was a breeze with PTE. Thanks for the support!"</i>
+            </p>
+          </div>
+
+          <!-- Review 5 -->
+          <div class="review">
+            <div class="review-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <h3>Rajesh Kumar</h3>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>
+              <i>"Great experience! The test environment was very comfortable and results came fast."</i>
+            </p>
+          </div>
+
+          <!-- Review 6 -->
+          <div class="review">
+            <div class="review-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <h3>Priya Mehta</h3>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>
+              <i>"PTE HUB's mock tests made all the difference. Scored 79+ across all sections on my first try!"</i>
+            </p>
           </div>
         </div>
       </section>
