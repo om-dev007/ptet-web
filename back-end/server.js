@@ -4,12 +4,14 @@ const { connectDB } = require('./src/config/db');
 
 const PORT = process.env.PORT || 5000;
 
-// Register models before connecting to DB so they get synced
 require('./src/models');
 
-// Connect to database before starting server
+const { streakJob } = require('./src/jobs/streakJob');
+
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+    streakJob.start();
+    console.log('Cron jobs started');
   });
 });
