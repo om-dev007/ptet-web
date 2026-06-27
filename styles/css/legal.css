@@ -165,10 +165,10 @@
 .legal-section h2 {
     font-size: clamp(1.25rem, 2.5vw, 1.6rem);
     font-weight: 700;
-    color: var(--text-primary, #1a1a1a);
+    color: #000000;
     margin: 0 0 16px;
     padding-bottom: 10px;
-    border-bottom: 2px solid rgba(141, 33, 35, 0.12);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -190,7 +190,7 @@
 .legal-section h3 {
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-primary, #1a1a1a);
+    color: #000000;
     margin: 24px 0 8px;
 }
 
