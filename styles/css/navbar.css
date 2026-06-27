@@ -352,9 +352,22 @@
 }
 
 .user-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #1a1a1a;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #8b1e1e;
+  color: #fff !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.user-photo {
+  display: none;
 }
 
 .profile-arrow {
@@ -761,3 +774,11 @@
         height: 28px;
     }
 }
+
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
