@@ -1,127 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Login | PTE HUB</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../styles/css/style.css">
-    <link rel="stylesheet" href="../styles/css/navbar.css">
-    <link rel="stylesheet" href="../styles/css/footer.css">
-    <link rel="stylesheet" href="../styles/css/login.css">
-    <link rel="stylesheet" href="../styles/css/theme.css">
+    <link rel="stylesheet" href="../styles/css/style.css" />
+    <link rel="stylesheet" href="../styles/css/navbar.css" />
+    <link rel="stylesheet" href="../styles/css/footer.css" />
+    <link rel="stylesheet" href="../styles/css/login.css" />
+    <link rel="stylesheet" href="../styles/css/theme.css" />
     <script src="../scripts/js/theme.js"></script>
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-</head>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
     <header id="header">
-        <div id="navbar-placeholder"></div>
+      <div id="navbar-placeholder"></div>
     </header>
 
     <!-- Login Section -->
 
     <section class="login-page">
+      <div class="login-container">
+        <h2>Welcome Back</h2>
+        <p class="login-subtitle">Login to continue your PTE journey</p>
 
-        <div class="login-container">
+        <form class="login-form" id="loginForm">
+          <!-- Email -->
 
-            <h2>Welcome Back</h2>
-            <p class="login-subtitle">
-                Login to continue your PTE journey
-            </p>
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="Email Address"
+              required
+            />
+          </div>
 
-            <form class="login-form" id="loginForm">
+          <!-- Password -->
+          <div class="input-group password-group">
+            <i class="fas fa-lock"></i>
 
-                <!-- Email -->
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="Password"
+              required
+            />
 
-                <div class="input-group">
-                    <i class="fas fa-envelope"></i>
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        placeholder="Email Address"
-                        required
-                    >
-                </div>
+            <i class="fas fa-eye toggle-password"></i>
+          </div>
 
+          <!-- Options -->
 
-                <!-- Password -->
+          <div class="login-options">
+            <label>
+              <input type="checkbox" />
+              Remember Me
+            </label>
 
-                <div class="input-group">
-                    <i class="fas fa-lock"></i>
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        placeholder="Password"
-                        required
-                    >
-                </div>
+            <a href="#">Forgot Password?</a>
+          </div>
 
+          <!-- Login Button -->
 
-                <!-- Options -->
+          <button type="submit" class="login-submit">Login</button>
 
-                <div class="login-options">
+          <!-- Divider -->
 
-                    <label>
-                        <input type="checkbox">
-                        Remember Me
-                    </label>
+          <div class="auth-divider">
+            <span>or continue with</span>
+          </div>
 
-                    <a href="#">Forgot Password?</a>
+          <!-- Social Login -->
 
-                </div>
+          <div class="social-login">
+            <button class="google-login">
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google"
+                class="google-icon"
+              />
+              Continue with Google
+            </button>
 
+            <button class="github-login">
+              <i class="fab fa-github"></i>
+              Continue with GitHub
+            </button>
+          </div>
 
-                <!-- Login Button -->
+          <!-- Register Redirect -->
 
-                <button 
-                    type="submit" 
-                    class="login-submit"
-                >
-                    Login
-                </button>
-
-
-                <!-- Divider -->
-
-                <div class="auth-divider">
-                    <span>or continue with</span>
-                </div>
-
-
-                <!-- Social Login -->
-
-                <div class="social-login">
-
-                    <button class="google-login">
-                        <i class="fab fa-google"></i>
-                        Continue with Google
-                    </button>
-
-                    <button class="github-login">
-                        <i class="fab fa-github"></i>
-                        Continue with GitHub
-                    </button>
-
-                </div>
-
-
-                <!-- Register Redirect -->
-
-                <p class="register-link">
-                    Don't have an account?
-                    <a href="register.html">Register</a>
-                </p>
-
-            </form>
-
-        </div>
-
+          <p class="register-link">
+            Don't have an account?
+            <a href="register.html">Register</a>
+          </p>
+        </form>
+      </div>
     </section>
 
     <div id="footer-placeholder"></div>
@@ -129,8 +113,5 @@
     <script src="../scripts/js/auth.js"></script>
     <script src="../scripts/js/navbar.js"></script>
     <script src="../scripts/js/footer.js"></script>
-
-</body>
-
+  </body>
 </html>
-
