@@ -4,9 +4,8 @@ const User = require('./User')(sequelize);
 const UserProfile = require('./UserProfile')(sequelize);
 const StudyMaterial = require('./StudyMaterial')(sequelize);
 
-// Define associations if necessary
-// User.hasOne(UserProfile, { foreignKey: 'user_id' });
-// UserProfile.belongsTo(User, { foreignKey: 'user_id' });
+User.hasOne(UserProfile, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+UserProfile.belongsTo(User, { foreignKey: 'user_id' });
 
 module.exports = {
   sequelize,
