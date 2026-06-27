@@ -153,13 +153,15 @@
 }
 
 /* ==========================================================================
-   LEFT PANEL - CONTACT INFO
+   CONTACT INFO CARDS - PREMIUM REDESIGN
    ========================================================================== */
-.contact-info-panel h2 {
-    font-size: 28px;
-    font-weight: 700;
+
+.contact-info-column h3 {
+    font-size: 26px;
+    font-weight: 800;
     color: var(--text-primary);
     margin: 0 0 10px 0;
+    letter-spacing: -0.3px;
 }
 
 .info-details-list {
@@ -170,66 +172,110 @@
 }
 
 .info-card {
-    background: var(--bg-contact-info-card);
-    border-radius: 12px;
-    padding: 24px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 28px 22px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
-    box-shadow: var(--shadow-soft);
+    gap: 14px;
     border: 1px solid var(--border-card);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* top accent line */
+.info-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #b82e2e);
+    border-radius: 16px 16px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* shimmer effect */
+.info-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(141, 33, 35, 0.05), transparent);
+    transition: left 0.55s ease;
+    pointer-events: none;
+}
+
+.info-card:hover::after {
+    left: 100%;
 }
 
 .info-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lift);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    border-color: var(--accent);
 }
 
-.card-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--accent-soft);
-    border-radius: 10px;
+.info-card:hover::before {
+    opacity: 1;
+}
+
+.info-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(141, 33, 35, 0.08);
+    border: 1.5px solid rgba(141, 33, 35, 0.15);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--accent);
     font-size: 20px;
     flex-shrink: 0;
+    transition: all 0.3s ease;
 }
 
-.card-content h3 {
-    font-size: 16px;
+.info-card:hover .info-icon {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 6px 16px rgba(141, 33, 35, 0.3);
+    transform: scale(1.08);
+}
+
+.info-card h4 {
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0 0 6px 0;
+    letter-spacing: 0.2px;
 }
 
-.card-content p {
-    font-size: 15px;
-    color: var(--text-secondary);
+.info-card p {
+    font-size: 14px;
+    color: var(--text-muted);
     margin: 0 0 4px 0;
-    word-break: break-all;
+    line-height: 1.5;
 }
 
-.card-content p a {
-    color: inherit;
+.info-card p a {
+    color: var(--text-muted);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
     transition: color 0.2s ease;
 }
 
-.card-content p a:hover {
+.info-card p a:hover {
     color: var(--accent);
 }
 
-.card-hint {
-    font-size: 13px !important;
-    color: var(--text-light) !important;
-    margin: 0 !important;
-}
 
 /* Socials Section */
 .contact-socials h3 {
@@ -918,14 +964,14 @@
 [data-theme="dark"] .contact-info-column h3,
 [data-theme="dark"] .contact-form-panel h2 { color: var(--text-primary); }
 [data-theme="dark"] .info-desc { color: var(--text-secondary); }
-[data-theme="dark"] .info-card {
+ [data-theme="dark"] .info-card {
     background: var(--bg-card);
     border: 1px solid var(--border-card);
 }
 [data-theme="dark"] .info-card h4, [data-theme="dark"] .card-content h3 { color: var(--text-primary); }
 [data-theme="dark"] .info-card p,
 [data-theme="dark"] .info-card a { color: var(--text-secondary); }
-[data-theme="dark"] .info-card a:hover { color: var(--text-primary); }
+[data-theme="dark"] .info-card a:hover { color: var(--text-primary); } 
 [data-theme="dark"] .contact-faq-cta {
     background: var(--bg-card);
     border: 1px solid var(--border-card);
