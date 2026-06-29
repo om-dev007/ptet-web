@@ -7,9 +7,8 @@ const SavedMaterial = require('./SavedMaterial')(sequelize);
 const Tip = require('./Tip')(sequelize);
 
 
-// Define associations if necessary
-// User.hasOne(UserProfile, { foreignKey: 'user_id' });
-// UserProfile.belongsTo(User, { foreignKey: 'user_id' });
+User.hasOne(UserProfile, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+UserProfile.belongsTo(User, { foreignKey: 'user_id' });
 
 // SavedMaterial belongs to User and StudyMaterial
 SavedMaterial.belongsTo(User, { foreignKey: 'user_id' });
