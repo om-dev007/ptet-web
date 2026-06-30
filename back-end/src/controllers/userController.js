@@ -94,3 +94,28 @@ exports.getDashboardData = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.getUserActivity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized to access this activity' });
+    }
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const activities = [
+      { id: '1', action: 'completed_mock_test', score: 65, date: new Date().toISOString() },
+      { id: '2', action: 'practiced_speaking', duration_minutes: 15, date: new Date(Date.now() - 86400000).toISOString() }
+    ];
+
+    res.status(200).json({ activities });
+  } catch (err) {
+    next(err);
+  }
+};
