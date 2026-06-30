@@ -980,6 +980,11 @@ section[id] {
     transform: rotate(180deg);
 }
 
+.faq-item.active .faq-question span {
+    transform: rotate(45deg);
+    display: inline-block;
+}
+
 .faq-item.active .faq-answer {
     max-height: 500px;
 }
