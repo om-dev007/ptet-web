@@ -25,6 +25,9 @@
       <div id="navbar-placeholder"></div>
     </header>
 
+    <!-- Toast Container for Notifications -->
+    <div id="toast-container"></div>
+
     <!-- Register Section -->
     <section class="login-page">
       <div class="login-container">
@@ -52,32 +55,37 @@
           <!-- Password -->
           <div class="input-group password-group">
             <i class="fas fa-lock"></i>
-
             <input
               type="password"
               id="regPassword"
-              placeholder="Password"
+              placeholder="Password (min 8 chars, 1 uppercase, 1 number, 1 special)"
               required
             />
-
             <i class="fas fa-eye toggle-password"></i>
           </div>
+
+          <!-- Password Strength Indicator -->
+          <div id="passwordStrength" style="margin-top: 8px; min-height: 40px;"></div>
 
           <!-- Confirm Password -->
           <div class="input-group password-group">
             <i class="fas fa-lock"></i>
-
             <input
               type="password"
               id="regConfirm"
               placeholder="Confirm Password"
               required
             />
-
             <i class="fas fa-eye toggle-password"></i>
           </div>
-          <!-- Register Button -->
-          <button type="submit" class="login-submit">Create Account</button>
+
+          <!-- Register Button with Loading State -->
+          <button type="submit" class="login-submit" id="registerBtn">
+            <span id="registerBtnText">Create Account</span>
+            <span id="registerBtnLoader" style="display: none;">
+              <i class="fas fa-spinner fa-spin"></i> Creating account...
+            </span>
+          </button>
 
           <!-- Login Redirect -->
           <p class="register-link">
@@ -87,6 +95,7 @@
         </form>
       </div>
     </section>
+
     <div id="footer-placeholder"></div>
 
     <script src="../scripts/js/auth.js"></script>
