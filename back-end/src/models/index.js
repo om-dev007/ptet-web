@@ -5,6 +5,9 @@ const UserProfile = require('./UserProfile')(sequelize);
 const StudyMaterial = require('./StudyMaterial')(sequelize);
 const SavedMaterial = require('./SavedMaterial')(sequelize);
 const Tip = require('./Tip')(sequelize);
+const Question = require('./Question')(sequelize);
+const MockTest = require('./MockTest')(sequelize);
+const MockTestQuestion = require('./MockTestQuestion')(sequelize);
 
 
 User.hasOne(UserProfile, { foreignKey: 'user_id', onDelete: 'CASCADE' });
@@ -31,6 +34,22 @@ StudyMaterial.belongsToMany(User, {
   otherKey: 'user_id',
 });
 
+MockTest.belongsTo(User, { foreignKey: 'created_by' });
+User.hasMany(MockTest, { foreignKey: 'created_by' });
+
+MockTest.belongsToMany(Question, {
+  through: MockTestQuestion,
+  foreignKey: 'test_id',
+  otherKey: 'question_id',
+  as: 'questions',
+});
+Question.belongsToMany(MockTest, {
+  through: MockTestQuestion,
+  foreignKey: 'question_id',
+  otherKey: 'test_id',
+  as: 'mockTests',
+});
+
 module.exports = {
   sequelize,
   User,
@@ -38,4 +57,7 @@ module.exports = {
   StudyMaterial,
   SavedMaterial,
   Tip,
+  Question,
+  MockTest,
+  MockTestQuestion,
 };
