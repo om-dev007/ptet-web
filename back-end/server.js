@@ -7,6 +7,8 @@ require('dotenv').config();
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
+const logger = require("./src/utils/serverLogger");
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -16,13 +18,11 @@ validateEnv();
 
 // ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise);
-  console.error('Reason:', reason);
+  logger.error({ promise, reason }, 'Unhandled Rejection');
 });
 
 process.on('uncaughtException', (error) => {
-  console.error('Uncaught Exception:', error);
-  console.error('Stack:', error.stack);
+  logger.error({ err: error }, 'Uncaught Exception');
   process.exit(1);
 });
 
@@ -48,38 +48,38 @@ const startServer = async () => {
     await connectDB();
     
     const server = app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`Health check: http://localhost:${PORT}/health`);
-      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      logger.info(`Server running on port ${PORT}`);
+      logger.info(`Health check: http://localhost:${PORT}/health`);
+      logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
     });
 
     return server;
   } catch (err) {
-    console.error(`Failed to start server: ${err.message}`);
+    logger.error(`Failed to start server: ${err.message}`);
     process.exit(1);
   }
 };
 
 // ==================== GRACEFUL SHUTDOWN ====================
 const gracefulShutdown = (server, signal) => {
-  console.log(`Received ${signal}. Starting graceful shutdown...`);
+  logger.info(`Received ${signal}. Starting graceful shutdown...`);
 
   const shutdownTimeout = setTimeout(() => {
-    console.error('Shutdown timeout. Forcefully exiting...');
+    logger.error('Shutdown timeout. Forcefully exiting...');
     process.exit(1);
   }, 10000);
 
   server.close(async () => {
     clearTimeout(shutdownTimeout);
-    console.log('Closing MongoDB connection...');
+    logger.info('Closing MongoDB connection...');
     
     try {
       await mongoose.connection.close();
-      console.log('MongoDB connection closed.');
-      console.log('Server shut down gracefully.');
+      logger.info('MongoDB connection closed.');
+      logger.info('Server shut down gracefully.');
       process.exit(0);
     } catch (err) {
-      console.error(`Error during shutdown: ${err.message}`);
+      logger.error(`Error during shutdown: ${err.message}`);
       process.exit(1);
     }
   });
@@ -101,7 +101,7 @@ const initializeServer = async () => {
 
 // ==================== START APPLICATION ====================
 initializeServer().catch((err) => {
-  console.error(`Application startup failed: ${err.message}`);
+  logger.error(`Application startup failed: ${err.message}`);
   process.exit(1);
 });
 
