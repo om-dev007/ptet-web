@@ -79,6 +79,12 @@ exports.getDashboardData = async (req, res, next) => {
     const userProfile = await UserProfile.findOne({ where: { user_id: id } });
     const streak = userProfile ? userProfile.streak_days : 0;
 
+    const dashboardData = {
+      streak,
+      tests_taken: 12,
+      average_score: 68,
+      weak_skills: ['Reading Comprehension', 'Speaking Part 2'],
+      recent_activity: [
     // TODO: Fetch from actual models (TestResults, Attempts, etc.) once they are implemented
     const dashboardData = {
       streak,
@@ -97,6 +103,13 @@ exports.getDashboardData = async (req, res, next) => {
   }
 };
 
+
+exports.getUserActivity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized to access this activity' });
 exports.getUserActivity = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -113,6 +126,16 @@ exports.getUserActivity = async (req, res, next) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    const activities = [
+      { id: '1', action: 'completed_mock_test', score: 65, date: new Date().toISOString() },
+      { id: '2', action: 'practiced_speaking', duration_minutes: 15, date: new Date(Date.now() - 86400000).toISOString() }
+    ];
+
+    res.status(200).json({ activities });
+  } catch (err) {
+    next(err);
+  }
+};
 
     const totalActivities = 45; 
     const actions = ['test_completed', 'test_started', 'study_material_viewed'];

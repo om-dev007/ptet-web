@@ -22,6 +22,13 @@ const userRoutes = require('./routes/userRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+const materialRoutes = require('./routes/materialRoutes');
+const adminMaterialRoutes = require('./routes/admin/materialRoutes');
+const savedMaterialRoutes = require('./routes/savedMaterialRoutes');
+const tipRoutes = require('./routes/tipRoutes');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
