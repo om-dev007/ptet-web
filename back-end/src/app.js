@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/errorHandler');
+
 const {validateEnv}  =  require("./config/envValidator");
 validateEnv();
 const app = express();

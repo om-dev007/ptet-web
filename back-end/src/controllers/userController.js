@@ -66,6 +66,7 @@ exports.getDashboardData = async (req, res, next) => {
   try {
     const { id } = req.params;
 
+    // Check authorization
     if (req.user.id !== id && req.user.role !== 'admin') {
       return res.status(403).json({ error: 'Not authorized to access this dashboard' });
     }
@@ -84,6 +85,13 @@ exports.getDashboardData = async (req, res, next) => {
       average_score: 68,
       weak_skills: ['Reading Comprehension', 'Speaking Part 2'],
       recent_activity: [
+    // TODO: Fetch from actual models (TestResults, Attempts, etc.) once they are implemented
+    const dashboardData = {
+      streak,
+      tests_taken: 12, // Mocked
+      average_score: 68, // Mocked
+      weak_skills: ['Reading Comprehension', 'Speaking Part 2'], // Mocked
+      recent_activity: [ // Mocked
         { id: '1', action: 'completed_mock_test', score: 65, date: new Date().toISOString() },
         { id: '2', action: 'practiced_speaking', duration_minutes: 15, date: new Date(Date.now() - 86400000).toISOString() }
       ]
@@ -102,6 +110,15 @@ exports.getUserActivity = async (req, res, next) => {
 
     if (req.user.id !== id && req.user.role !== 'admin') {
       return res.status(403).json({ error: 'Not authorized to access this activity' });
+exports.getUserActivity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized to access this activity log' });
     }
 
     const user = await User.findByPk(id);
@@ -115,6 +132,44 @@ exports.getUserActivity = async (req, res, next) => {
     ];
 
     res.status(200).json({ activities });
+  } catch (err) {
+    next(err);
+  }
+};
+
+    const totalActivities = 45; 
+    const actions = ['test_completed', 'test_started', 'study_material_viewed'];
+    
+    const activities = [];
+    const startIndex = (page - 1) * limit;
+    
+    const end = Math.min(startIndex + limit, totalActivities);
+    for (let i = startIndex; i < end; i++) {
+      const action = actions[i % actions.length];
+      const activity = {
+        id: `act_${totalActivities - i}`,
+        action: action,
+        date: new Date(Date.now() - i * 3600000 * 5).toISOString(), 
+      };
+      
+      if (action === 'test_completed') {
+        activity.score = Math.floor(Math.random() * 40) + 50;
+      } else if (action === 'test_started') {
+        activity.test_id = `test_${i}`;
+      }
+      
+      activities.push(activity);
+    }
+
+    res.status(200).json({
+      data: activities,
+      pagination: {
+        page,
+        limit,
+        totalItems: totalActivities,
+        totalPages: Math.ceil(totalActivities / limit)
+      }
+    });
   } catch (err) {
     next(err);
   }
