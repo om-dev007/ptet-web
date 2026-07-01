@@ -7,12 +7,15 @@ require('dotenv').config();
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
+const setupGracefulShutdown = require("./src/utils/gracefulshutdown");
 
 const PORT = process.env.PORT || 5000;
 
 // ==================== ENVIRONMENT VALIDATION ====================
 const validateEnv = require("./src/config/validateEnv");
 validateEnv();
+
+
 
 // ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
 process.on('unhandledRejection', (reason, promise) => {
@@ -60,43 +63,12 @@ const startServer = async () => {
   }
 };
 
-// ==================== GRACEFUL SHUTDOWN ====================
-const gracefulShutdown = (server, signal) => {
-  console.log(`Received ${signal}. Starting graceful shutdown...`);
-
-  const shutdownTimeout = setTimeout(() => {
-    console.error('Shutdown timeout. Forcefully exiting...');
-    process.exit(1);
-  }, 10000);
-
-  server.close(async () => {
-    clearTimeout(shutdownTimeout);
-    console.log('Closing MongoDB connection...');
-    
-    try {
-      await mongoose.connection.close();
-      console.log('MongoDB connection closed.');
-      console.log('Server shut down gracefully.');
-      process.exit(0);
-    } catch (err) {
-      console.error(`Error during shutdown: ${err.message}`);
-      process.exit(1);
-    }
-  });
-};
-
-// ==================== INITIALIZE SERVER ====================
-let serverInstance = null;
+// ==================== INITIALIZE & START APPLICATION ====================
 
 const initializeServer = async () => {
   const server = await startServer();
-  serverInstance = server;
+setupGracefulShutdown(server);
 
-  ['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach((signal) => {
-    process.on(signal, () => {
-      gracefulShutdown(serverInstance, signal);
-    });
-  });
 };
 
 // ==================== START APPLICATION ====================
