@@ -21,6 +21,14 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      difficulty: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       total_questions: {
         type: DataTypes.INTEGER,
         allowNull: false,
