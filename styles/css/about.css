@@ -863,6 +863,16 @@
     transition: 0.3s;
 }
 
+.audience-link-student {
+    display: inline-block;
+    margin-top: 0px;
+    font-size: 14px;
+    color: #8d2123;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
 .audience-link:hover {
     text-decoration: underline;
 }
