@@ -4,11 +4,11 @@
  */
 
 require('dotenv').config();
+const os = require('os');
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
-const registerProcessHandlers = require("./src/utils/processHandlers");
-
+const packageJson = require('./package.json');
 const PORT = process.env.PORT || 5000;
 
 require('./src/models');
@@ -24,21 +24,84 @@ connectDB().then(() => {
 const validateEnv = require("./src/config/validateEnv");
 validateEnv();
 
-registerProcessHandlers();
+
+
+const serverStartTime = Date.now();
+// ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise);
+  console.error('Reason:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  console.error('Stack:', error.stack);
+  process.exit(1);
+});
 
 // ==================== REGISTER MODELS ====================
 // Register models before connecting to DB so they get synced
 require('./src/models');
 
 // ==================== HEALTH CHECK ENDPOINT ====================
-app.get('/health', (req, res) => {
-  return res.status(200).json({
-    status: 'OK',
-    uptime: process.uptime(),
+app.get('/health', async (req, res) => {
+  const memoryUsage = process.memoryUsage();
+
+  // MongoDB Status Check
+  const dbState = mongoose.connection.readyState;
+  const dbStatus = {
+    state: ['disconnected', 'connected', 'connecting', 'disconnecting'][dbState] || 'unknown',
+    connected: dbState === 1,
+  };
+
+  // Determine overall app status
+  let appStatus = 'healthy';
+  let dbLatency = null;
+
+  // Lightweight DB Ping to calculate latency
+  if (dbStatus.connected) {
+    const startPing = Date.now();
+    try {
+      await mongoose.connection.db.admin().ping();
+      dbLatency = Date.now() - startPing;
+    } catch (err) {
+      appStatus = 'degraded';
+      dbLatency = 'error';
+    }
+  } else {
+    appStatus = 'unhealthy';
+  }
+
+  return res.status(appStatus === 'unhealthy' ? 503 : 200).json({
+    status: appStatus === 'healthy' ? 'OK' : appStatus === 'degraded' ? 'DEGRADED' : 'UNHEALTHY',
     timestamp: new Date().toISOString(),
-    memory: process.memoryUsage(),
-    environment: process.env.NODE_ENV || 'development',
-    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    application: {
+      name: packageJson.name || 'Express App',
+      version: packageJson.version || '1.0.0',
+      environment: process.env.NODE_ENV || 'development',
+      startTime: new Date(serverStartTime).toISOString(),
+      uptime: process.uptime(),
+      processId: process.pid,
+      nodeVersion: process.version,
+    },
+    system: {
+      memory: {
+        rss: (memoryUsage.rss / 1024 / 1024).toFixed(2) + ' MB',
+        heapTotal: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2) + ' MB',
+        heapUsed: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2) + ' MB',
+        external: (memoryUsage.external / 1024 / 1024).toFixed(2) + ' MB',
+      },
+      platform: os.platform(),
+      arch: os.arch(),
+    },
+    dependencies: {
+      database: {
+        type: 'MongoDB',
+        status: dbStatus.state,
+        connected: dbStatus.connected,
+        latency: dbLatency !== null && typeof dbLatency === 'number' ? `${dbLatency}ms` : 'N/A',
+      },
+    },
   });
 });
 
