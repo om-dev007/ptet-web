@@ -1,5 +1,8 @@
+// back-end/src/models/index.js
+
 const { sequelize } = require('../config/db');
 
+// Import models
 const User = require('./User')(sequelize);
 const UserProfile = require('./UserProfile')(sequelize);
 const StudyMaterial = require('./StudyMaterial')(sequelize);
@@ -10,20 +13,42 @@ const MockTest = require('./MockTest')(sequelize);
 const MockTestQuestion = require('./MockTestQuestion')(sequelize);
 const TestAttempt = require('./TestAttempt')(sequelize);
 const UserAnswer = require('./UserAnswer')(sequelize);
+const ActivityLog = require('./ActivityLog')(sequelize); // New model for activity tracking
 
+// ==================== USER ASSOCIATIONS ====================
+// User - UserProfile (One-to-One)
+User.hasOne(UserProfile, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE',
+  as: 'profile',
+});
+UserProfile.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
 
-User.hasOne(UserProfile, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-UserProfile.belongsTo(User, { foreignKey: 'user_id' });
-
+// ==================== SAVED MATERIAL ASSOCIATIONS ====================
 // SavedMaterial belongs to User and StudyMaterial
-SavedMaterial.belongsTo(User, { foreignKey: 'user_id' });
-SavedMaterial.belongsTo(StudyMaterial, { foreignKey: 'material_id' });
+SavedMaterial.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
+SavedMaterial.belongsTo(StudyMaterial, {
+  foreignKey: 'material_id',
+  as: 'material',
+});
 
-// User has many SavedMaterials (for direct querying)
-User.hasMany(SavedMaterial, { foreignKey: 'user_id' });
-StudyMaterial.hasMany(SavedMaterial, { foreignKey: 'material_id' });
+// User has many SavedMaterials
+User.hasMany(SavedMaterial, {
+  foreignKey: 'user_id',
+  as: 'savedMaterials',
+});
+StudyMaterial.hasMany(SavedMaterial, {
+  foreignKey: 'material_id',
+  as: 'savedByUsers',
+});
 
-// Optional: Many-to-many through relationship for convenience
+// User - StudyMaterial Many-to-Many through SavedMaterial
 User.belongsToMany(StudyMaterial, {
   through: SavedMaterial,
   foreignKey: 'user_id',
@@ -34,23 +59,62 @@ StudyMaterial.belongsToMany(User, {
   through: SavedMaterial,
   foreignKey: 'material_id',
   otherKey: 'user_id',
+  as: 'bookmarkedUsers',
 });
 
-MockTest.belongsTo(User, { foreignKey: 'created_by' });
-User.hasMany(MockTest, { foreignKey: 'created_by' });
+// ==================== MOCK TEST ASSOCIATIONS ====================
+// MockTest - User (Creator)
+MockTest.belongsTo(User, {
+  foreignKey: 'created_by',
+  as: 'creator',
+});
+User.hasMany(MockTest, {
+  foreignKey: 'created_by',
+  as: 'createdMockTests',
+});
 
-TestAttempt.belongsTo(User, { foreignKey: 'user_id' });
-User.hasMany(TestAttempt, { foreignKey: 'user_id' });
+// TestAttempt - User
+TestAttempt.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
+User.hasMany(TestAttempt, {
+  foreignKey: 'user_id',
+  as: 'testAttempts',
+});
 
-TestAttempt.belongsTo(MockTest, { foreignKey: 'test_id' });
-MockTest.hasMany(TestAttempt, { foreignKey: 'test_id' });
+// TestAttempt - MockTest
+TestAttempt.belongsTo(MockTest, {
+  foreignKey: 'test_id',
+  as: 'mockTest',
+});
+MockTest.hasMany(TestAttempt, {
+  foreignKey: 'test_id',
+  as: 'attempts',
+});
 
-UserAnswer.belongsTo(TestAttempt, { foreignKey: 'attempt_id' });
-TestAttempt.hasMany(UserAnswer, { foreignKey: 'attempt_id' });
+// ==================== USER ANSWER ASSOCIATIONS ====================
+// UserAnswer - TestAttempt
+UserAnswer.belongsTo(TestAttempt, {
+  foreignKey: 'attempt_id',
+  as: 'attempt',
+});
+TestAttempt.hasMany(UserAnswer, {
+  foreignKey: 'attempt_id',
+  as: 'answers',
+});
 
-UserAnswer.belongsTo(Question, { foreignKey: 'question_id' });
-Question.hasMany(UserAnswer, { foreignKey: 'question_id' });
+// UserAnswer - Question
+UserAnswer.belongsTo(Question, {
+  foreignKey: 'question_id',
+  as: 'question',
+});
+Question.hasMany(UserAnswer, {
+  foreignKey: 'question_id',
+  as: 'answers',
+});
 
+// ==================== MOCK TEST - QUESTIONS (Many-to-Many) ====================
 MockTest.belongsToMany(Question, {
   through: MockTestQuestion,
   foreignKey: 'test_id',
@@ -64,6 +128,37 @@ Question.belongsToMany(MockTest, {
   as: 'mockTests',
 });
 
+// ==================== ACTIVITY LOG ASSOCIATIONS ====================
+ActivityLog.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
+User.hasMany(ActivityLog, {
+  foreignKey: 'user_id',
+  as: 'activities',
+});
+
+// ==================== TIP ASSOCIATIONS ====================
+Tip.belongsTo(User, {
+  foreignKey: 'created_by',
+  as: 'creator',
+});
+User.hasMany(Tip, {
+  foreignKey: 'created_by',
+  as: 'createdTips',
+});
+
+// ==================== STUDY MATERIAL ASSOCIATIONS ====================
+StudyMaterial.belongsTo(User, {
+  foreignKey: 'created_by',
+  as: 'creator',
+});
+User.hasMany(StudyMaterial, {
+  foreignKey: 'created_by',
+  as: 'createdMaterials',
+});
+
+// ==================== EXPORTS ====================
 module.exports = {
   sequelize,
   User,
@@ -76,4 +171,5 @@ module.exports = {
   MockTestQuestion,
   TestAttempt,
   UserAnswer,
+  ActivityLog,
 };
