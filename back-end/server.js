@@ -9,7 +9,8 @@ const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
 const logger = require("./src/utils/serverLogger");
-
+const packageJson = require('./package.json'); // 🟢 Fixed: Added missing import
+const setupGracefulShutdown = require('./src/utils/gracefulShutdown'); // 🟢 Fixed: Added import for #243
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,18 +18,12 @@ require('./src/models');
 
 const { streakJob } = require('./src/jobs/streakJob');
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    streakJob.start();
-    console.log('Cron jobs started');
 // ==================== ENVIRONMENT VALIDATION ====================
 const validateEnv = require("./src/config/validateEnv");
 validateEnv();
 
-
-
 const serverStartTime = Date.now();
+
 // ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
 process.on('unhandledRejection', (reason, promise) => {
   logger.error({ promise, reason }, 'Unhandled Rejection');
@@ -39,26 +34,19 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-// ==================== REGISTER MODELS ====================
-// Register models before connecting to DB so they get synced
-require('./src/models');
-
 // ==================== HEALTH CHECK ENDPOINT ====================
 app.get('/health', async (req, res) => {
   const memoryUsage = process.memoryUsage();
 
-  // MongoDB Status Check
   const dbState = mongoose.connection.readyState;
   const dbStatus = {
     state: ['disconnected', 'connected', 'connecting', 'disconnecting'][dbState] || 'unknown',
     connected: dbState === 1,
   };
 
-  // Determine overall app status
   let appStatus = 'healthy';
   let dbLatency = null;
 
-  // Lightweight DB Ping to calculate latency
   if (dbStatus.connected) {
     const startPing = Date.now();
     try {
@@ -109,11 +97,13 @@ app.get('/health', async (req, res) => {
 const startServer = async () => {
   try {
     await connectDB();
-    
+
     const server = app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
       logger.info(`Health check: http://localhost:${PORT}/health`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      streakJob.start(); // Cron job starts here
+      logger.info('Cron jobs started');
     });
 
     return server;
@@ -123,38 +113,12 @@ const startServer = async () => {
   }
 };
 
-// ==================== GRACEFUL SHUTDOWN ====================
-const gracefulShutdown = (server, signal) => {
-  logger.info(`Received ${signal}. Starting graceful shutdown...`);
-
-  const shutdownTimeout = setTimeout(() => {
-    logger.error('Shutdown timeout. Forcefully exiting...');
-    process.exit(1);
-  }, 10000);
-
-  server.close(async () => {
-    clearTimeout(shutdownTimeout);
-    logger.info('Closing MongoDB connection...');
-    
-    try {
-      await mongoose.connection.close();
-      logger.info('MongoDB connection closed.');
-      logger.info('Server shut down gracefully.');
-      process.exit(0);
-    } catch (err) {
-      logger.error(`Error during shutdown: ${err.message}`);
-      process.exit(1);
-    }
-  });
-};
 
 // ==================== INITIALIZE SERVER ====================
-let serverInstance = null;
-
+// 🟢 Fixed: Removed unused 'serverInstance' variable and added the imported helper
 const initializeServer = async () => {
   const server = await startServer();
-setupGracefulShutdown(server);
-
+  setupGracefulShutdown(server); // ✅ Duplicate code removed
 };
 
 // ==================== START APPLICATION ====================
