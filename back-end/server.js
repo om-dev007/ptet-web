@@ -113,36 +113,12 @@ const startServer = async () => {
   }
 };
 
-// ==================== GRACEFUL SHUTDOWN ====================
-const gracefulShutdown = (server, signal) => {
-  logger.info(`Received ${signal}. Starting graceful shutdown...`);
-
-  const shutdownTimeout = setTimeout(() => {
-    logger.error('Shutdown timeout. Forcefully exiting...');
-    process.exit(1);
-  }, 10000);
-
-  server.close(async () => {
-    clearTimeout(shutdownTimeout);
-    logger.info('Closing MongoDB connection...');
-
-    try {
-      await mongoose.connection.close();
-      logger.info('MongoDB connection closed.');
-      logger.info('Server shut down gracefully.');
-      process.exit(0);
-    } catch (err) {
-      logger.error(`Error during shutdown: ${err.message}`);
-      process.exit(1);
-    }
-  });
-};
 
 // ==================== INITIALIZE SERVER ====================
 // 🟢 Fixed: Removed unused 'serverInstance' variable and added the imported helper
 const initializeServer = async () => {
   const server = await startServer();
-  setupGracefulShutdown(server); // ✅ Issue #243 Solved
+  setupGracefulShutdown(server); // ✅ Duplicate code removed
 };
 
 // ==================== START APPLICATION ====================
