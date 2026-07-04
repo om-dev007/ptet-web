@@ -1,5 +1,6 @@
 const { UserAnswer, Question, TestAttempt } = require('../models');
 const { transcribeAudioUrl } = require('../services/speechToTextService');
+const { evaluateSpeakingAnswer } = require('../services/aiScoringService');
 
 const submitAnswer = async (req, res, next) => {
   try {
@@ -21,11 +22,27 @@ const submitAnswer = async (req, res, next) => {
     }
 
     let finalAnswer = typeof answer === 'object' && answer !== null ? { ...answer } : { text: answer };
+    let userScore = null;
+    let userFeedback = null;
 
     if (question.type === 'speaking' && finalAnswer.audioUrl) {
       try {
         const transcript = await transcribeAudioUrl(finalAnswer.audioUrl);
         finalAnswer.transcript = transcript;
+
+        try {
+          const scoringResult = await evaluateSpeakingAnswer(
+            transcript,
+            question.content,
+            question.scoring_rubric
+          );
+          userScore = scoringResult.overallScore;
+          userFeedback = scoringResult;
+        } catch (scoringError) {
+          console.error('Error during AI scoring:', scoringError);
+          userFeedback = { error: 'Failed to generate AI feedback' };
+        }
+
       } catch (error) {
         console.error('Error during transcription:', error);
         finalAnswer.transcriptError = error.message;
@@ -41,6 +58,8 @@ const submitAnswer = async (req, res, next) => {
 
     if (userAnswer) {
       userAnswer.answer = finalAnswer;
+      userAnswer.score = userScore !== null ? userScore : userAnswer.score;
+      userAnswer.feedback = userFeedback !== null ? userFeedback : userAnswer.feedback;
       userAnswer.time_taken_seconds = time_taken_seconds || userAnswer.time_taken_seconds;
       await userAnswer.save();
     } else {
@@ -48,6 +67,8 @@ const submitAnswer = async (req, res, next) => {
         attempt_id: attemptId,
         question_id: question_id,
         answer: finalAnswer,
+        score: userScore,
+        feedback: userFeedback,
         time_taken_seconds: time_taken_seconds || 0,
       });
     }
@@ -62,6 +83,36 @@ const submitAnswer = async (req, res, next) => {
   }
 };
 
+const getAnswerFeedback = async (req, res, next) => {
+  try {
+    const { attemptId, answerId } = req.params;
+
+    const userAnswer = await UserAnswer.findOne({
+      where: {
+        id: answerId,
+        attempt_id: attemptId
+      }
+    });
+
+    if (!userAnswer) {
+      return res.status(404).json({ success: false, message: 'Answer not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        id: userAnswer.id,
+        score: userAnswer.score,
+        feedback: userAnswer.feedback,
+        answer: userAnswer.answer
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   submitAnswer,
+  getAnswerFeedback,
 };
