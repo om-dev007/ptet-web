@@ -25,6 +25,8 @@ const adminMaterialRoutes = require('./routes/admin/materialRoutes');
 const savedMaterialRoutes = require('./routes/savedMaterialRoutes');
 const tipRoutes = require('./routes/tipRoutes');
 const mockTestRoutes = require('./routes/mockTestRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const testAttemptRoutes = require('./routes/testAttemptRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/materials', materialRoutes);
@@ -32,6 +34,8 @@ app.use('/api/admin/materials', adminMaterialRoutes);
 app.use('/api/saved-materials', savedMaterialRoutes);
 app.use('/api/tips', tipRoutes);
 app.use('/api/tests', mockTestRoutes);
+app.use('/api/uploads', uploadRoutes);
+app.use('/api/test-attempts', testAttemptRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
