@@ -1,149 +1,73 @@
+import { AuthManager } from '../../context/AuthContext.js';
+
 document.addEventListener("DOMContentLoaded", function () {
-  const isSubpage = window.location.pathname.includes("/pages/");
-  const navbarPath = isSubpage
-    ? "../components/navbar.html"
-    : "components/navbar.html";
+    fetch("../components/navbar.html")
+        .then(response => response.text())
+        .then(data => {
+            const placeholder = document.getElementById("navbar-placeholder");
+            if (!placeholder) return;
+            placeholder.innerHTML = data;
 
-  fetch(navbarPath)
-    .then((response) => response.text())
-    .then((data) => {
-      const placeholder = document.getElementById("navbar-placeholder");
-      if (!placeholder) return;
-      placeholder.innerHTML = data;
-
-      // ============================
-      // ✅ FIX 1: HAMBURGER MENU
-      // ============================
-      const hamburger = document.getElementById("hamburger");
-      const navbar = document.getElementById("navbar");
-
-      if (hamburger && navbar) {
-        hamburger.addEventListener("click", function (e) {
-          e.stopPropagation();
-          navbar.classList.toggle("active");
-
-          // Toggle icon: bars ↔ times
-          const icon = hamburger.querySelector("i");
-          if (navbar.classList.contains("active")) {
-            icon.classList.replace("fa-bars", "fa-times");
-          } else {
-            icon.classList.replace("fa-times", "fa-bars");
-          }
-        });
-      }
-
-      // ============================
-      // ✅ FIX 2: CLOSE MENU ON LINK CLICK
-      // ============================
-      if (navbar) {
-        const navLinks = navbar.querySelectorAll("a:not(.dropdown-toggle)");
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function () {
-            if (window.innerWidth <= 768) {
-              navbar.classList.remove("active");
-              // Reset hamburger icon
-              if (hamburger) {
-                const icon = hamburger.querySelector("i");
-                if (icon && icon.classList.contains("fa-times")) {
-                  icon.classList.replace("fa-times", "fa-bars");
-                }
-              }
+            // Existing toggle logic
+            const hamburger = document.getElementById("hamburger");
+            const navbar = document.getElementById("navbar");
+            if (hamburger) {
+                hamburger.addEventListener("click", () => navbar.classList.toggle("active"));
             }
-          });
-        });
-      }
 
-      // ============================
-      // ✅ FIX 3: MOBILE DROPDOWN (Click-based Accordion)
-      // ============================
-      if (window.innerWidth <= 768) {
-        const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
-        dropdownToggles.forEach((toggle) => {
-          toggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            const parent = this.closest(".dropdown");
-            const menu = parent.querySelector(".dropdown-menu");
+            /* -------------------------------
+               INTEGRATE AUTH MANAGER
+            -------------------------------- */
+            
+            const authButtons = document.getElementById("auth-buttons");
+            const userProfile = document.getElementById("user-profile");
+            const nameElement = document.getElementById("user-name");
+            const photoElement = document.getElementById("user-photo");
 
-            // Close other open dropdowns
-            document.querySelectorAll(".dropdown.active").forEach((d) => {
-              if (d !== parent) {
-                d.classList.remove("active");
-              }
+            function updateNavbarUI(user) {
+                if (user && authButtons && userProfile) {
+                    authButtons.style.display = "none";
+                    userProfile.style.display = "flex";
+                    if (nameElement) nameElement.textContent = user.name;
+                    if (photoElement) photoElement.src = user.photo || "";
+                } else if (authButtons && userProfile) {
+                    authButtons.style.display = "flex";
+                    userProfile.style.display = "none";
+                }
+            }
+
+            // Subscribe to AuthManager changes
+            AuthManager.subscribe(updateNavbarUI);
+
+            // Initial UI state
+            updateNavbarUI(AuthManager.user);
+
+            /* -------------------------------
+               PROFILE DROPDOWN & LOGOUT
+            -------------------------------- */
+
+            if (userProfile) {
+                userProfile.addEventListener("click", function (e) {
+                    userProfile.classList.toggle("active");
+                    e.stopPropagation();
+                });
+            }
+
+            document.addEventListener("click", () => {
+                if (userProfile) userProfile.classList.remove("active");
             });
 
-            parent.classList.toggle("active");
-
-            // Toggle chevron rotation
-            const chevron = this.querySelector(".fa-chevron-down");
-            if (chevron) {
-              chevron.style.transform = parent.classList.contains("active")
-                ? "rotate(180deg)"
-                : "rotate(0deg)";
+            const logoutBtn = document.getElementById("logout-btn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", function () {
+                    // Just call the logout method from AuthManager
+                    AuthManager.logout();
+                    if (typeof firebaseLogout === "function") {
+                        firebaseLogout();
+                    } else {
+                        window.location.href = "/index.html";
+                    }
+                });
             }
-          });
         });
-      }
-
-      // ============================
-      // CHECK LOGIN STATE
-      // ============================
-      const loggedIn = localStorage.getItem("pte_user_logged_in");
-      const authButtons = document.getElementById("auth-buttons");
-      const userProfile = document.getElementById("user-profile");
-
-      if (loggedIn && authButtons && userProfile) {
-        authButtons.style.display = "none";
-        userProfile.style.display = "flex";
-
-        const userName = localStorage.getItem("pte_user_name");
-        const userPhoto = localStorage.getItem("pte_user_photo");
-
-        const photoElement = document.getElementById("user-photo");
-        const nameElement = document.getElementById("user-name");
-
-        if (userName && nameElement) {
-          nameElement.textContent = userName.trim().charAt(0).toUpperCase();
-        }
-
-        if (photoElement) {
-          photoElement.style.display = "none";
-        }
-      }
-
-      // ============================
-      // PROFILE DROPDOWN
-      // ============================
-      if (userProfile) {
-        userProfile.addEventListener("click", function (e) {
-          this.classList.toggle("active");
-          e.stopPropagation();
-        });
-      }
-
-      document.addEventListener("click", function () {
-        if (userProfile) {
-          userProfile.classList.remove("active");
-        }
-      });
-
-      // ============================
-      // LOGOUT FUNCTION
-      // ============================
-      const logoutBtn = document.getElementById("logout-btn");
-
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", function () {
-          if (typeof firebaseLogout === "function") {
-            firebaseLogout();
-          } else {
-            localStorage.removeItem("pte_user_logged_in");
-            localStorage.removeItem("pte_user_name");
-            localStorage.removeItem("pte_user_email");
-            localStorage.removeItem("pte_user_photo");
-
-            window.location.href = "/index.html";
-          }
-        });
-      }
-    }); // closes .then(data => { ... })
-}); // closes DOMContentLoaded
+});
