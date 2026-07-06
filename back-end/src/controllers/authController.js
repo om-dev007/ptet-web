@@ -10,10 +10,6 @@ exports.register = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
-    if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Please provide email, password, and name' });
-    }
-
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists with this email' });
@@ -50,10 +46,6 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Please provide email and password' });
-    }
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -107,9 +99,6 @@ exports.login = async (req, res, next) => {
 exports.googleAuth = async (req, res, next) => {
   try {
     const { token } = req.body;
-    if (!token) {
-      return res.status(400).json({ error: 'Please provide Firebase ID token' });
-    }
 
     const decodedToken = await admin.auth().verifyIdToken(token);
     const { email, name, picture } = decodedToken;
