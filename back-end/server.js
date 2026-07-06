@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const logger = require("./src/utils/serverLogger");
 const packageJson = require('./package.json'); // 🟢 Fixed: Added missing import
 const setupGracefulShutdown = require('./src/utils/gracefulShutdown'); // 🟢 Fixed: Added import for #243
-
+const { formatMemory } = require('./src/utils/memoryFormatter');
 const PORT = process.env.PORT || 5000;
 
 require('./src/models');
@@ -73,12 +73,12 @@ app.get('/health', async (req, res) => {
       nodeVersion: process.version,
     },
     system: {
-      memory: {
-        rss: (memoryUsage.rss / 1024 / 1024).toFixed(2) + ' MB',
-        heapTotal: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2) + ' MB',
-        heapUsed: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2) + ' MB',
-        external: (memoryUsage.external / 1024 / 1024).toFixed(2) + ' MB',
-      },
+        memory: {
+          rss: formatMemory(memoryUsage.rss),
+          heapTotal: formatMemory(memoryUsage.heapTotal),
+          heapUsed: formatMemory(memoryUsage.heapUsed),
+          external: formatMemory(memoryUsage.external),
+        },
       platform: os.platform(),
       arch: os.arch(),
     },
