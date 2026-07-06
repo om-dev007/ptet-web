@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 require('./src/models');
 
 const { streakJob } = require('./src/jobs/streakJob');
-
+const { logServerStartup } = require('./src/utils/serverStartupLogger')
 // ==================== ENVIRONMENT VALIDATION ====================
 const validateEnv = require("./src/config/validateEnv");
 validateEnv();
@@ -98,11 +98,9 @@ const startServer = async () => {
     await connectDB();
 
     const server = app.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT}`);
-      logger.info(`Health check: http://localhost:${PORT}/health`);
-      logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      const env = process.env.NODE_ENV || 'development';
+      logServerStartup(PORT, env, 'started');
       streakJob.start(); // Cron job starts here
-      logger.info('Cron jobs started');
     });
 
     return server;
