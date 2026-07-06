@@ -105,3 +105,117 @@ exports.createMockTest = async (req, res, next) => {
     next(err);
   }
 };
+exports.updateMockTest = async (req, res, next) => {
+
+  try {
+
+    const {
+
+      questionIds,
+      ...updateData
+
+    } = req.body;
+
+    const test = await MockTest.findByPk(req.params.id);
+
+    if (!test) {
+
+      return res.status(404).json({
+
+        success: false,
+        error: "Mock Test not found"
+
+      });
+
+    }
+
+    await test.update(updateData);
+
+    if (questionIds) {
+
+      await MockTestQuestion.destroy({
+
+        where: {
+
+          test_id: test.id
+
+        }
+
+      });
+
+      for (let i = 0; i < questionIds.length; i++) {
+
+        await MockTestQuestion.create({
+
+          test_id: test.id,
+          question_id: questionIds[i],
+          order_index: i + 1
+
+        });
+
+      }
+
+      test.total_questions = questionIds.length;
+
+      await test.save();
+
+    }
+
+    res.json({
+
+      success: true,
+      message: "Mock Test updated successfully",
+      data: test
+
+    });
+
+  } catch (err) {
+
+    next(err);
+
+  }
+
+};
+exports.deleteMockTest = async (req, res, next) => {
+
+  try {
+
+    const test = await MockTest.findByPk(req.params.id);
+
+    if (!test) {
+
+      return res.status(404).json({
+
+        success: false,
+        error: "Mock Test not found"
+
+      });
+
+    }
+
+    await MockTestQuestion.destroy({
+
+      where: {
+
+        test_id: test.id
+
+      }
+
+    });
+
+    await test.destroy();
+
+    res.json({
+
+      success: true,
+      message: "Mock Test deleted successfully"
+
+    });
+
+  } catch (err) {
+
+    next(err);
+
+  }
+
+};
