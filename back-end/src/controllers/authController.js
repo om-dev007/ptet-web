@@ -10,9 +10,21 @@ exports.register = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
+    // If you already added request validation middleware, these presence checks
+    // can be removed. Keeping them here only if validation is not yet centralized.
+    if (!email || !password || !name) {
+      return res.status(400).json({ error: 'Please provide email, password, and name' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const existingUser = await User.findOne({ where: { email: normalizedEmail } });
+
+    // Do not reveal whether the email is already registered
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists with this email' });
+      return res.status(200).json({
+        message: 'If an account can be created, you will receive further instructions.',
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -21,7 +33,7 @@ exports.register = async (req, res, next) => {
     const verification_token = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
-      email,
+      email: normalizedEmail,
       name,
       password_hash,
       provider: 'email',
@@ -29,8 +41,8 @@ exports.register = async (req, res, next) => {
       verification_token
     });
 
-    res.status(200).json({
-      message: 'User registered successfully. Please check your email for verification.',
+    return res.status(200).json({
+      message: 'If an account can be created, you will receive further instructions.',
       user: {
         id: user.id,
         email: user.email,
