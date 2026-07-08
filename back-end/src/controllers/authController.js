@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
+const { generateAccessToken, generateRefreshToken } = require('../utils/tokenUtils');
 
 exports.register = async (req, res, next) => {
   try {
@@ -74,17 +75,8 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
-      { expiresIn: '7d' }
-    );
+   const accessToken = generateAccessToken(user);
+   const refreshToken = generateRefreshToken(user);
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -136,17 +128,9 @@ exports.googleAuth = async (req, res, next) => {
       // Just update provider if needed or let it be. Let's not restrict.
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
-      { expiresIn: '7d' }
-    );
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+   
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -199,17 +183,8 @@ exports.githubAuth = async (req, res, next) => {
       });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
-      { expiresIn: '7d' }
-    );
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -262,11 +237,7 @@ exports.refresh = async (req, res, next) => {
       return res.status(401).json({ error: 'User not found' });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
-      { expiresIn: '15m' }
-    );
+    const accessToken = generateAccessToken(user);
 
     res.status(200).json({
       accessToken
