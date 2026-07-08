@@ -352,6 +352,24 @@ section.reveal:nth-of-type(odd) {
         min-height: auto;
         max-width: 100%;
     }
+        #container .cards {
+            background: var(--bg-card);
+            box-shadow: 0 10px 25px var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            padding-bottom: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+    
+        
+        #container .cards button {
+            margin-top: auto;
+            margin-bottom: 10px;
+            /* Extra breath below button */
+            align-self: center;
+        }
     
     #container .cards h3 {
         font-size: 20px;
