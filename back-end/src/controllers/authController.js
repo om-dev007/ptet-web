@@ -22,7 +22,9 @@ exports.register = async (req, res, next) => {
 
     const existingUser = await User.findOne({ where: { email:trimmedEmail } });
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists with this email' });
+      return res.status(200).json({
+        message: 'If an account can be created, you will receive further instructions.',
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -39,8 +41,8 @@ exports.register = async (req, res, next) => {
       verification_token
     });
 
-    res.status(200).json({
-      message: 'User registered successfully. Please check your email for verification.',
+    return res.status(200).json({
+      message: 'If an account can be created, you will receive further instructions.',
       user: {
         id: user.id,
         email: user.email,
@@ -56,10 +58,6 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Please provide email and password' });
-    }
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -77,22 +75,17 @@ exports.login = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
+      JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken',refreshToken , cookieOptions);
 
     res.status(200).json({
       message: 'Login successful',
@@ -113,9 +106,6 @@ exports.login = async (req, res, next) => {
 exports.googleAuth = async (req, res, next) => {
   try {
     const { token } = req.body;
-    if (!token) {
-      return res.status(400).json({ error: 'Please provide Firebase ID token' });
-    }
 
     const decodedToken = await admin.auth().verifyIdToken(token);
     const { email, name, picture } = decodedToken;
@@ -130,22 +120,17 @@ exports.googleAuth = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
+      JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'Google login successful',
@@ -187,22 +172,17 @@ exports.githubAuth = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
+      JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'GitHub login successful',
@@ -238,7 +218,7 @@ exports.refresh = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret');
+      decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
     } catch (err) {
       return res.status(403).json({ error: 'Invalid or expired refresh token' });
     }
@@ -250,7 +230,7 @@ exports.refresh = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
@@ -268,22 +248,18 @@ exports.logout = async (req, res, next) => {
 
     if (refreshToken) {
       try {
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret');
+        const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
         const expiresIn = decoded.exp - Math.floor(Date.now() / 1000);
 
         if (expiresIn > 0) {
           await redis.set(`bl_token:${refreshToken}`, 'blocked', 'EX', expiresIn);
         }
       } catch (err) {
-        // Token might already be expired or invalid, just proceed to clear cookie
+        // Token may already be expired or invalid; continue clearing cookie
       }
     }
-
-    res.clearCookie('refreshToken', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    });
+    
+    res.clearCookie('refreshToken', cookieOptions);
 
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (err) {
