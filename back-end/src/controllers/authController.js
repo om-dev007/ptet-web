@@ -9,23 +9,29 @@ exports.register = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
-    if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Please provide email, password, and name' });
+    const trimmedEmail = email?.trim() || '';
+    const trimmedPassword = password?.trim() || '';
+    const trimmedName = name?.trim() || '';
+
+    if (!trimmedEmail || !trimmedPassword || !trimmedName) {
+      return res.status(400).json({
+        error: 'Email, password, and name are required fields and cannot be empty.'
+      });
     }
 
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email:trimmedEmail } });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists with this email' });
     }
 
     const salt = await bcrypt.genSalt(10);
-    const password_hash = await bcrypt.hash(password, salt);
+    const password_hash = await bcrypt.hash(trimmedPassword, salt);
 
     const verification_token = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
-      email,
-      name,
+      email: trimmedEmail,
+      name: trimmedName,
       password_hash,
       provider: 'email',
       role: 'user',
