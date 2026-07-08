@@ -1,60 +1,73 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        // ✅ FIX: Slash (/) hata kar relative path kar diya hai
-        const response = await fetch("components/navbar.html");
+import { AuthManager } from '../../context/AuthContext.js';
 
-        if (!response.ok) throw new Error("Failed to load navbar");
-        const data = await response.text();
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("../components/navbar.html")
+        .then(response => response.text())
+        .then(data => {
+            const placeholder = document.getElementById("navbar-placeholder");
+            if (!placeholder) return;
+            placeholder.innerHTML = data;
 
-        const placeholder = document.getElementById("navbar-placeholder");
-        if (!placeholder) {
-            console.warn("navbar-placeholder not found");
-            return;
-        }
-        placeholder.innerHTML = data;
+            // Existing toggle logic
+            const hamburger = document.getElementById("hamburger");
+            const navbar = document.getElementById("navbar");
+            if (hamburger) {
+                hamburger.addEventListener("click", () => navbar.classList.toggle("active"));
+            }
 
-        // 2. Hamburger Toggle
-        const hamburger = document.getElementById("hamburger");
-        const navbar = document.getElementById("navbar");
-        if (hamburger) {
-            hamburger.addEventListener("click", () => navbar.classList.toggle("active"));
-        }
+            /* -------------------------------
+               INTEGRATE AUTH MANAGER
+            -------------------------------- */
+            
+            const authButtons = document.getElementById("auth-buttons");
+            const userProfile = document.getElementById("user-profile");
+            const nameElement = document.getElementById("user-name");
+            const photoElement = document.getElementById("user-photo");
 
-        // 3. Theme Toggle Logic (Issue #313)
-        const themeToggle = document.getElementById("theme-toggle");
-        const htmlElement = document.documentElement;
+            function updateNavbarUI(user) {
+                if (user && authButtons && userProfile) {
+                    authButtons.style.display = "none";
+                    userProfile.style.display = "flex";
+                    if (nameElement) nameElement.textContent = user.name;
+                    if (photoElement) photoElement.src = user.photo || "";
+                } else if (authButtons && userProfile) {
+                    authButtons.style.display = "flex";
+                    userProfile.style.display = "none";
+                }
+            }
 
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            htmlElement.classList.add('dark');
-        }
+            // Subscribe to AuthManager changes
+            AuthManager.subscribe(updateNavbarUI);
 
-        if (themeToggle) {
-            themeToggle.addEventListener("click", () => {
-                htmlElement.classList.toggle('dark');
-                const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
-                localStorage.setItem('theme', currentTheme);
+            // Initial UI state
+            updateNavbarUI(AuthManager.user);
+
+            /* -------------------------------
+               PROFILE DROPDOWN & LOGOUT
+            -------------------------------- */
+
+            if (userProfile) {
+                userProfile.addEventListener("click", function (e) {
+                    userProfile.classList.toggle("active");
+                    e.stopPropagation();
+                });
+            }
+
+            document.addEventListener("click", () => {
+                if (userProfile) userProfile.classList.remove("active");
             });
-        }
 
-        // 4. Mobile Dropdown Click Support
-        const dropdowns = document.querySelectorAll('.dropdown');
-        dropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector('.dropdown-toggle');
-            if (toggle && window.innerWidth <= 768) {
-                toggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    dropdown.classList.toggle('active');
+            const logoutBtn = document.getElementById("logout-btn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", function () {
+                    // Just call the logout method from AuthManager
+                    AuthManager.logout();
+                    if (typeof firebaseLogout === "function") {
+                        firebaseLogout();
+                    } else {
+                        window.location.href = "/index.html";
+                    }
                 });
             }
         });
-
-    } catch (error) {
-        console.error("Error loading navbar:", error);
-        const placeholder = document.getElementById("navbar-placeholder");
-        if (placeholder) {
-            placeholder.innerHTML = `<div style="padding: 1rem; text-align: center; color: red;">Navbar failed to load. Error: ${error.message}</div>`;
-        }
-    }
 });
