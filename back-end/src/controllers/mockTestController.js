@@ -7,7 +7,7 @@ exports.getTests = async (req, res, next) => {
 
     if (type) filter.type = type;
     if (difficulty) filter.difficulty = difficulty;
-    if (duration) filter.duration_minutes = duration;
+    if (duration !== undefined) filter.duration_minutes = duration;
 
     const tests = await MockTest.findAll({
       where: filter,
