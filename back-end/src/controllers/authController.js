@@ -4,23 +4,24 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
+const { cookieOptions } = require('../config/cookieConfig');
 const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/env');
 
 exports.register = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
-    // If you already added request validation middleware, these presence checks
-    // can be removed. Keeping them here only if validation is not yet centralized.
-    if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Please provide email, password, and name' });
+    const trimmedEmail = email?.trim() || '';
+    const trimmedPassword = password?.trim() || '';
+    const trimmedName = name?.trim() || '';
+
+    if (!trimmedEmail || !trimmedPassword || !trimmedName) {
+      return res.status(400).json({
+        error: 'Email, password, and name are required fields and cannot be empty.'
+      });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
-
-    const existingUser = await User.findOne({ where: { email: normalizedEmail } });
-
-    // Do not reveal whether the email is already registered
+    const existingUser = await User.findOne({ where: { email:trimmedEmail } });
     if (existingUser) {
       return res.status(200).json({
         message: 'If an account can be created, you will receive further instructions.',
@@ -33,8 +34,8 @@ exports.register = async (req, res, next) => {
     const verification_token = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
-      email: normalizedEmail,
-      name,
+      email: trimmedEmail,
+      name: trimmedName,
       password_hash,
       provider: 'email',
       role: 'user',
@@ -85,12 +86,7 @@ exports.login = async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken',refreshToken , cookieOptions);
 
     res.status(200).json({
       message: 'Login successful',
@@ -144,12 +140,7 @@ exports.googleAuth = async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'Google login successful',
@@ -207,12 +198,7 @@ exports.githubAuth = async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'GitHub login successful',
@@ -288,12 +274,8 @@ exports.logout = async (req, res, next) => {
         // Token may already be expired or invalid; continue clearing cookie
       }
     }
-
-    res.clearCookie('refreshToken', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    });
+    
+    res.clearCookie('refreshToken', cookieOptions);
 
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (err) {
