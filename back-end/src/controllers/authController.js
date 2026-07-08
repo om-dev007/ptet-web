@@ -28,7 +28,7 @@ exports.register = async (req, res, next) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    const password_hash = await bcrypt.hash(password, salt);
+    const password_hash = await bcrypt.hash(trimmedPassword, salt);
 
     const verification_token = crypto.randomBytes(32).toString('hex');
 
