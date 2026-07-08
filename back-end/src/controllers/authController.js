@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
+const { cookieOptions } = require('../config/cookieConfig');
 
 exports.register = async (req, res, next) => {
   try {
@@ -86,12 +87,7 @@ exports.login = async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken',refreshToken , cookieOptions);
 
     res.status(200).json({
       message: 'Login successful',
@@ -148,12 +144,7 @@ exports.googleAuth = async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'Google login successful',
@@ -211,12 +202,7 @@ exports.githubAuth = async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'GitHub login successful',
@@ -292,12 +278,8 @@ exports.logout = async (req, res, next) => {
         // Token might already be expired or invalid, just proceed to clear cookie
       }
     }
-
-    res.clearCookie('refreshToken', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    });
+    
+    res.clearCookie('refreshToken', cookieOptions);
 
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (err) {
