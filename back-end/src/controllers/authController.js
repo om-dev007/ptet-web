@@ -9,6 +9,7 @@ exports.register = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
+    
     const trimmedEmail = email?.trim() || '';
     const trimmedPassword = password?.trim() || '';
     const trimmedName = name?.trim() || '';
@@ -19,7 +20,7 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    const existingUser = await User.findOne({ where: { email:trimmedEmail } });
+    const existingUser = await User.findOne({ where: { email: trimmedEmail } });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists with this email' });
     }
