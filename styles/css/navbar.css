@@ -782,3 +782,19 @@
   gap: 8px;
 }
 
+#sun-icon {
+    display: none;
+}
+
+#moon-icon {
+    display: inline-block;
+}
+
+/* Dark Mode active: Sun visible, Moon hidden */
+html.dark #sun-icon {
+    display: inline-block;
+}
+
+html.dark #moon-icon {
+    display: none;
+}
