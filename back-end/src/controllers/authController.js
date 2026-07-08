@@ -56,11 +56,17 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Please provide email and password' });
+    const trimmedEmail = email?.trim() || '';
+    const trimmedPassword = password?.trim() || '';
+
+
+    if (!trimmedEmail || !trimmedPassword) {
+      return res.status(400).json({
+        error: 'Email and password are required and cannot be empty.'
+      });
     }
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email:trimmedEmail } });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -69,7 +75,7 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(trimmedPassword, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
