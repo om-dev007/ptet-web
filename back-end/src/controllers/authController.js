@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
+const { formatUserResponse } = require('../utils/userResponse');
 
 exports.register = async (req, res, next) => {
   try {
@@ -40,12 +41,7 @@ exports.register = async (req, res, next) => {
 
     res.status(200).json({
       message: 'User registered successfully. Please check your email for verification.',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      }
+     user : formatUserResponse(user)
     });
   } catch (err) {
     next(err);
@@ -96,13 +92,7 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       message: 'Login successful',
       accessToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     next(err);
@@ -158,13 +148,7 @@ exports.googleAuth = async (req, res, next) => {
     res.status(200).json({
       message: 'Google login successful',
       accessToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user:formatUserResponse(user),
     });
   } catch (err) {
     if (err.code && err.code.startsWith('auth/')) {
@@ -221,13 +205,7 @@ exports.githubAuth = async (req, res, next) => {
     res.status(200).json({
       message: 'GitHub login successful',
       accessToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     if (err.code && err.code.startsWith('auth/')) {
@@ -309,13 +287,7 @@ exports.getMe = async (req, res, next) => {
   try {
     const user = req.user;
     res.status(200).json({
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     next(err);
@@ -334,13 +306,7 @@ exports.updateMe = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Profile updated successfully',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     next(err);
