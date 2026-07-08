@@ -4,15 +4,16 @@ const authController = require('../controllers/authController');
 const { authenticate } = require('../middleware/authMiddleware');
 
 const { loginLimiter, signupLimiter } = require("../middleware/rateLimit");
-router.post('/register', authController.register);
-router.post('/login', authController.login);
-router.post('/google', authController.googleAuth);
-router.post('/github', authController.githubAuth);
+const {validateRegister, validateLogin, validateSocialAuth, validateUpdateMe} = require("../middleware//authMiddleware");
+router.post('/register', validateRegister ,authController.register);
+router.post('/login', validateLogin ,authController.login);
+router.post('/google', validateSocialAuth ,authController.googleAuth);
+router.post('/github', validateSocialAuth ,authController.githubAuth);
 router.post('/refresh', authController.refresh);
 router.post('/logout', authController.logout);
 
 router.get('/me', authenticate, authController.getMe);
-router.patch('/me', authenticate, authController.updateMe);
+router.patch('/me', authenticate, validateUpdateMe ,authController.updateMe);
 
 
 router.post('/register', signupLimiter, authController.register);
