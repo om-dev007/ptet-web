@@ -5,6 +5,7 @@ const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
 const { formatUserResponse } = require('../utils/userResponse');
+const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/env');
 
 exports.register = async (req, res, next) => {
   try {
@@ -22,7 +23,9 @@ exports.register = async (req, res, next) => {
 
     const existingUser = await User.findOne({ where: { email:trimmedEmail } });
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists with this email' });
+      return res.status(200).json({
+        message: 'If an account can be created, you will receive further instructions.',
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -52,10 +55,6 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Please provide email and password' });
-    }
-
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -72,13 +71,13 @@ exports.login = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
+      JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -102,9 +101,6 @@ exports.login = async (req, res, next) => {
 exports.googleAuth = async (req, res, next) => {
   try {
     const { token } = req.body;
-    if (!token) {
-      return res.status(400).json({ error: 'Please provide Firebase ID token' });
-    }
 
     const decodedToken = await admin.auth().verifyIdToken(token);
     const { email, name, picture } = decodedToken;
@@ -123,18 +119,18 @@ exports.googleAuth = async (req, res, next) => {
         role: 'user'
       });
     } else if (user.provider !== 'google' && user.provider !== 'email') {
-      // Just update provider if needed or let it be. Let's not restrict.
+      // Provider-linking logic can be handled separately if needed
     }
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
+      JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -185,13 +181,13 @@ exports.githubAuth = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret',
+      JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -230,7 +226,7 @@ exports.refresh = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret');
+      decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
     } catch (err) {
       return res.status(403).json({ error: 'Invalid or expired refresh token' });
     }
@@ -242,7 +238,7 @@ exports.refresh = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET || 'fallback_access_secret',
+      JWT_SECRET,
       { expiresIn: '15m' }
     );
 
@@ -260,14 +256,14 @@ exports.logout = async (req, res, next) => {
 
     if (refreshToken) {
       try {
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret');
+        const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
         const expiresIn = decoded.exp - Math.floor(Date.now() / 1000);
 
         if (expiresIn > 0) {
           await redis.set(`bl_token:${refreshToken}`, 'blocked', 'EX', expiresIn);
         }
       } catch (err) {
-        // Token might already be expired or invalid, just proceed to clear cookie
+        // Token may already be expired or invalid; continue clearing cookie
       }
     }
 

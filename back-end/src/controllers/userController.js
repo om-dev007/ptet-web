@@ -758,3 +758,139 @@ exports.updateUserPreferences = async (req, res, next) => {
     next(err);
   }
 };
+exports.getAdminUsers = async (req, res, next) => {
+  try {
+    const { User } = require("../models");
+    const { Op } = require("sequelize");
+
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      role,
+      joinedAfter,
+      joinedBefore,
+    } = req.query;
+
+    const where = {};
+
+    if (search) {
+      where[Op.or] = [
+        {
+          name: {
+            [Op.iLike]: `%${search}%`,
+          },
+        },
+        {
+          email: {
+            [Op.iLike]: `%${search}%`,
+          },
+        },
+      ];
+    }
+
+    if (role) {
+      where.role = role;
+    }
+
+    if (joinedAfter || joinedBefore) {
+      where.created_at = {};
+
+      if (joinedAfter)
+        where.created_at[Op.gte] = new Date(joinedAfter);
+
+      if (joinedBefore)
+        where.created_at[Op.lte] = new Date(joinedBefore);
+    }
+
+    const offset = (page - 1) * limit;
+
+    const { rows, count } = await User.findAndCountAll({
+      where,
+      offset,
+      limit: Number(limit),
+      order: [["created_at", "DESC"]],
+      attributes: {
+        exclude: [
+          "password_hash",
+          "verification_token",
+          "refreshToken",
+        ],
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      total: count,
+      page: Number(page),
+      pages: Math.ceil(count / limit),
+      users: rows,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+exports.updateUserRole = async (req, res, next) => {
+  try {
+    const { User } = require("../models");
+
+    const { id } = req.params;
+
+    const { role } = req.body;
+
+    if (!["admin", "user"].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid role",
+      });
+    }
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    user.role = role;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Role updated successfully",
+      user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const { User } = require("../models");
+
+    const user = await User.findByPk(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    user.isActive = false;
+
+    user.deactivatedAt = new Date();
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "User deactivated successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
