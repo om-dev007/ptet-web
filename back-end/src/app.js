@@ -1,3 +1,7 @@
+const adminUserRoutes = require('./routes/admin/userRoutes');
+const adminQuestionRoutes = require('./routes/admin/questionRoutes');
+const adminTestRoutes = require('./routes/admin/testRoutes');
+const adminAnalyticsRoutes = require('./routes/admin/analyticsRoutes');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -36,6 +40,10 @@ app.use('/api/tips', tipRoutes);
 app.use('/api/tests', mockTestRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/test-attempts', testAttemptRoutes);
+app.use('/api/admin/users', adminUserRoutes);
+app.use('/api/admin/questions', adminQuestionRoutes);
+app.use('/api/admin/tests', adminTestRoutes);
+app.use('/api/admin/analytics', adminAnalyticsRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
