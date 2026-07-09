@@ -32,3 +32,12 @@ exports.validateGetTests = [
 
   handleValidationErrors,
 ];
+
+exports.validateMockTestId = [
+  param('id')
+    .trim()
+    .isUUID()
+    .withMessage('id must be a valid UUID'),
+
+  handleValidationErrors,
+];
