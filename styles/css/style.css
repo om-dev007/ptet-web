@@ -463,6 +463,9 @@ section.reveal:nth-of-type(odd) {
     display: flex;
     width: max-content;
     animation: scroll-reviews 30s linear infinite;
+    gap: 25px;
+    padding-right: 25px;
+    margin: 30px;
 }
 
 #reviews:hover {
@@ -475,9 +478,7 @@ section.reveal:nth-of-type(odd) {
 
 #reviews {
     -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
+    scrollbar-width: none;  
 }
 
 .reviews-slide {
@@ -490,13 +491,9 @@ section.reveal:nth-of-type(odd) {
     min-width: 240px;
     max-width: 260px;
     background: #fff;
-
     padding: 25px;
-
     border-radius: 12px;
-
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-
     transition: all 0.3s ease;
 }
 
