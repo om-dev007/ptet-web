@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
     try {
         // ✅ FIX: Slash (/) hata kar relative path kar diya hai
-        const response = await fetch("components/navbar.html");
+        const navbarPath = window.location.pathname.includes("/pages/")
+            ? "../components/navbar.html"
+            : "components/navbar.html";
+
+        const response = await fetch(navbarPath);
 
         if (!response.ok) throw new Error("Failed to load navbar");
         const data = await response.text();
