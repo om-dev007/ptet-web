@@ -1,81 +1,68 @@
-const { User, MockTest, TestAttempt } = require("../models");
-const { Op, fn, col } = require("sequelize");
+const { Op, fn, col } = require('sequelize');
+const { User, MockTest, TestAttempt } = require('../models');
 
 exports.getAnalytics = async (req, res, next) => {
   try {
-    // Total Users
-    const totalUsers = await User.count();
+    const now = new Date();
+    const startOfDay = new Date(now);
+    startOfDay.setHours(0, 0, 0, 0);
 
-    // Active Users
-    const activeUsers = await User.count({
-      where: {
-        isActive: true,
-      },
-    });
-
-    // Admin Count
-    const adminUsers = await User.count({
-      where: {
-        role: "admin",
-      },
-    });
-
-    // Mock Tests
-    const totalTests = await MockTest.count();
-
-    // Today's Date
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // Tests Taken Today
-    const testsTakenToday = await TestAttempt.count({
-      where: {
-        created_at: {
-          [Op.gte]: today,
+    const [
+      totalUsers,
+      activeUsers,
+      adminUsers,
+      totalTests,
+      testsTakenToday,
+      averageScoreResult,
+      dailyActiveUsers,
+    ] = await Promise.all([
+      User.count(),
+      User.count({
+        where: { is_active: true },
+      }),
+      User.count({
+        where: { role: 'admin' },
+      }),
+      MockTest.count(),
+      TestAttempt.count({
+        where: {
+          created_at: {
+            [Op.gte]: startOfDay,
+          },
         },
-      },
-    });
-
-    // Average Score
-    const averageScore = await TestAttempt.findOne({
-      attributes: [
-        [
-          fn("AVG", col("score")),
-          "averageScore",
-        ],
-      ],
-      raw: true,
-    });
-
-    // Daily Active Users
-    const dau = await TestAttempt.count({
-      distinct: true,
-      col: "user_id",
-      where: {
-        created_at: {
-          [Op.gte]: today,
+      }),
+      TestAttempt.findOne({
+        attributes: [[fn('AVG', col('score')), 'averageScore']],
+        raw: true,
+      }),
+      TestAttempt.count({
+        distinct: true,
+        col: 'user_id',
+        where: {
+          created_at: {
+            [Op.gte]: startOfDay,
+          },
         },
-      },
-    });
+      }),
+    ]);
 
-    res.status(200).json({
+    const averageScore = Number(
+      Number(averageScoreResult?.averageScore || 0).toFixed(2)
+    );
+
+    return res.status(200).json({
       success: true,
-
       data: {
         totalUsers,
         activeUsers,
         adminUsers,
         totalTests,
-        dailyActiveUsers: dau,
         testsTakenToday,
-        averageScore:
-          Number(
-            averageScore.averageScore || 0
-          ).toFixed(2),
-        revenue: 0,
+        dailyActiveUsers,
+        averageScore,
       },
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
-};
+}
