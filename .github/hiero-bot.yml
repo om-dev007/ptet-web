@@ -4,7 +4,7 @@ workflows:
   onboarding:
     enabled: true
     welcome_message: |
-      Welcome to our ptete-web project! 🎉 
+      Welcome to our ptet-web project! 🎉 
       Thanks for contributing. Please read CONTRIBUTING.md before getting started.
 
   pull_request:
