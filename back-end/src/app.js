@@ -31,6 +31,8 @@ const tipRoutes = require('./routes/tipRoutes');
 const mockTestRoutes = require('./routes/mockTestRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const testAttemptRoutes = require('./routes/testAttemptRoutes');
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/materials', materialRoutes);
@@ -40,6 +42,7 @@ app.use('/api/tips', tipRoutes);
 app.use('/api/tests', mockTestRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/test-attempts', testAttemptRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/admin/users', adminUserRoutes);
 app.use('/api/admin/questions', adminQuestionRoutes);
 app.use('/api/admin/tests', adminTestRoutes);
