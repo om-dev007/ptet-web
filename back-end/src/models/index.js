@@ -14,6 +14,7 @@ const MockTestQuestion = require('./MockTestQuestion')(sequelize);
 const TestAttempt = require('./TestAttempt')(sequelize);
 const UserAnswer = require('./UserAnswer')(sequelize);
 const ActivityLog = require('./ActivityLog')(sequelize); // New model for activity tracking
+const SkillScore = require('./SkillScore')(sequelize);
 
 // ==================== USER ASSOCIATIONS ====================
 // User - UserProfile (One-to-One)
@@ -138,6 +139,16 @@ User.hasMany(ActivityLog, {
   as: 'activities',
 });
 
+// ==================== SKILL SCORE ASSOCIATIONS ====================
+SkillScore.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
+User.hasMany(SkillScore, {
+  foreignKey: 'user_id',
+  as: 'skillScores',
+});
+
 // ==================== TIP ASSOCIATIONS ====================
 Tip.belongsTo(User, {
   foreignKey: 'created_by',
@@ -172,4 +183,5 @@ module.exports = {
   TestAttempt,
   UserAnswer,
   ActivityLog,
+  SkillScore,
 };

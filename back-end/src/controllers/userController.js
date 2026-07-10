@@ -1,6 +1,4 @@
-// back-end/src/controllers/userController.js
-
-const { User, UserProfile } = require('../models');
+const { User, UserProfile, SkillScore } = require('../models');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -889,6 +887,42 @@ exports.deleteUser = async (req, res, next) => {
     res.json({
       success: true,
       message: "User deactivated successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==================== GET USER PROGRESS ====================
+exports.getUserProgress = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { days = 30 } = req.query;
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Not authorized to view this data',
+      });
+    }
+
+    const dateLimit = new Date();
+    dateLimit.setDate(dateLimit.getDate() - parseInt(days));
+
+    const progressData = await SkillScore.findAll({
+      where: {
+        user_id: id,
+        recorded_at: {
+          [Op.gte]: dateLimit,
+        },
+      },
+      order: [['recorded_at', 'ASC']],
+      attributes: ['skill', 'score', 'recorded_at'],
+    });
+
+    res.status(200).json({
+      success: true,
+      data: progressData,
     });
   } catch (err) {
     next(err);
