@@ -156,6 +156,12 @@ router.get(
   userController.getUserProgress
 );
 
+// Get user weak areas
+router.get('/:id/weak-areas', authenticate, userController.getWeakAreas);
+
+// Get user stats
+router.get('/:id/stats', authenticate, userController.getUserStats);
+
 // Deactivate account
 router.post(
   '/:id/deactivate',
