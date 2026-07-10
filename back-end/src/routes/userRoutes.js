@@ -143,6 +143,19 @@ router.get(
 // Get dashboard data
 router.get('/:id/dashboard', authenticate, userController.getDashboardData);
 
+// Get user progress
+router.get(
+  '/:id/progress',
+  authenticate,
+  [
+    query('days')
+      .optional()
+      .isInt({ min: 1, max: 365 })
+      .withMessage('Days must be between 1 and 365'),
+  ],
+  userController.getUserProgress
+);
+
 // Deactivate account
 router.post(
   '/:id/deactivate',
