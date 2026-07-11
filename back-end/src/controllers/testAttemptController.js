@@ -2,6 +2,40 @@ const { UserAnswer, Question, TestAttempt } = require('../models');
 const { transcribeAudioUrl } = require('../services/speechToTextService');
 const { evaluateSpeakingAnswer } = require('../services/aiScoringService');
 
+const MAX_ANSWER_LENGTH = 5000;
+const ANSWER_LENGTH_LIMITS = {
+  'mcq': 1000,
+  'multiple_choice': 1000,
+  'true_false': 500,
+  'boolean': 500,
+  'essay': 5000,
+  'descriptive': 5000,
+  'speaking': 5000,
+  'default': 5000
+};
+
+const validateAnswerLength = (answer, questionType) => {
+  if (!answer) return null;
+  
+  let answerText = '';
+  
+  if (typeof answer === 'string') {
+    answerText = answer;
+  } else if (typeof answer === 'object' && answer !== null) {
+    answerText = answer.text || JSON.stringify(answer);
+  } else {
+    answerText = String(answer);
+  }
+
+  const maxLength = ANSWER_LENGTH_LIMITS[questionType] || ANSWER_LENGTH_LIMITS.default;
+  
+  if (answerText.length > maxLength) {
+    return `Answer cannot exceed ${maxLength} characters for ${questionType} questions`;
+  }
+  
+  return null;
+};
+
 const submitAnswer = async (req, res, next) => {
   try {
     const { attemptId } = req.params;
@@ -21,6 +55,14 @@ const submitAnswer = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Question not found' });
     }
 
+    const validationError = validateAnswerLength(answer, question.type);
+    if (validationError) {
+      return res.status(400).json({ 
+        success: false, 
+        message: validationError 
+      });
+    }
+
     let finalAnswer = typeof answer === 'object' && answer !== null ? { ...answer } : { text: answer };
     let userScore = null;
     let userFeedback = null;
@@ -29,6 +71,14 @@ const submitAnswer = async (req, res, next) => {
       try {
         const transcript = await transcribeAudioUrl(finalAnswer.audioUrl);
         finalAnswer.transcript = transcript;
+
+        const transcriptValidation = validateAnswerLength(transcript, 'speaking');
+        if (transcriptValidation) {
+          return res.status(400).json({
+            success: false,
+            message: transcriptValidation
+          });
+        }
 
         try {
           const scoringResult = await evaluateSpeakingAnswer(
