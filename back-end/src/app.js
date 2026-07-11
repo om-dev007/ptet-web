@@ -1,3 +1,7 @@
+const adminUserRoutes = require('./routes/admin/userRoutes');
+const adminQuestionRoutes = require('./routes/admin/questionRoutes');
+const adminTestRoutes = require('./routes/admin/testRoutes');
+const adminAnalyticsRoutes = require('./routes/admin/analyticsRoutes');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -25,6 +29,10 @@ const adminMaterialRoutes = require('./routes/admin/materialRoutes');
 const savedMaterialRoutes = require('./routes/savedMaterialRoutes');
 const tipRoutes = require('./routes/tipRoutes');
 const mockTestRoutes = require('./routes/mockTestRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const testAttemptRoutes = require('./routes/testAttemptRoutes');
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/materials', materialRoutes);
@@ -32,6 +40,13 @@ app.use('/api/admin/materials', adminMaterialRoutes);
 app.use('/api/saved-materials', savedMaterialRoutes);
 app.use('/api/tips', tipRoutes);
 app.use('/api/tests', mockTestRoutes);
+app.use('/api/uploads', uploadRoutes);
+app.use('/api/test-attempts', testAttemptRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/admin/users', adminUserRoutes);
+app.use('/api/admin/questions', adminQuestionRoutes);
+app.use('/api/admin/tests', adminTestRoutes);
+app.use('/api/admin/analytics', adminAnalyticsRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });

@@ -41,10 +41,12 @@ exports.getMaterials = async (req, res, next) => {
 exports.getMaterialById = async (req, res, next) => {
   try {
     const { id } = req.params;
+
     const material = await StudyMaterial.findByPk(id);
     if (!material) {
       return response.error(res, 'Material not found', 404);
     }
+
     return response.success(res, material);
   } catch (err) {
     next(err);
@@ -93,13 +95,13 @@ exports.updateMaterial = async (req, res, next) => {
   try {
     const { id } = req.params;
     const material = await StudyMaterial.findByPk(id);
+
     if (!material) {
       return response.error(res, 'Material not found', 404);
     }
 
     const { title, description, type, skill, content_url, is_premium } = req.body;
 
-    // Update only provided fields
     if (title !== undefined) material.title = title;
     if (description !== undefined) material.description = description;
     if (type !== undefined) material.type = type;
@@ -122,10 +124,11 @@ exports.deleteMaterial = async (req, res, next) => {
   try {
     const { id } = req.params;
     const material = await StudyMaterial.findByPk(id);
+
     if (!material) {
       return response.error(res, 'Material not found', 404);
     }
-
+    
     await material.destroy();
     return response.success(res, null, 'Material deleted successfully');
   } catch (err) {

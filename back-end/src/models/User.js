@@ -1,3 +1,5 @@
+// back-end/src/models/User.js
+
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
@@ -14,10 +16,10 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
         validate: {
-          isEmail: {                   // ✅ Email format check
+          isEmail: {
             msg: "Must be a valid email address",
           },
-          notEmpty: {                  // ✅ Prevents empty strings
+          notEmpty: {
             msg: "Email cannot be empty",
           },
         },
@@ -26,12 +28,22 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {                  // ✅ Prevents empty strings
+          notEmpty: {
             msg: "Name cannot be empty",
           },
-          len: {                       // ✅ Length constraint (min:2, max:50)
+          len: {
             args: [2, 50],
             msg: "Name must be between 2 and 50 characters",
+          },
+        },
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          len: {
+            args: [10, 15],
+            msg: "Phone must be between 10 and 15 characters",
           },
         },
       },
@@ -39,7 +51,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          isUrl: {                     // ✅ URL validation
+          isUrl: {
             msg: "Please provide a valid URL for the photo",
           },
         },
@@ -62,6 +74,36 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: "user",
       },
+      // New fields
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+      deactivatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      passwordChangedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      refreshToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      pendingEmail: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      emailVerificationToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      emailVerificationExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       tableName: "users",
@@ -71,15 +113,15 @@ module.exports = (sequelize) => {
     }
   );
 
-  // ✅ Data Sanitization Hooks
+  // Data Sanitization Hooks
   User.beforeCreate((user) => {
-    if (user.email) user.email = user.email.toLowerCase().trim(); // Normalize email
-    if (user.name) user.name = user.name.trim();                  // Trim whitespace
+    if (user.email) user.email = user.email.toLowerCase().trim();
+    if (user.name) user.name = user.name.trim();
   });
 
   User.beforeUpdate((user) => {
-    if (user.email) user.email = user.email.toLowerCase().trim(); // Normalize email
-    if (user.name) user.name = user.name.trim();                  // Trim whitespace
+    if (user.email) user.email = user.email.toLowerCase().trim();
+    if (user.name) user.name = user.name.trim();
   });
 
   return User;

@@ -1,149 +1,64 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const isSubpage = window.location.pathname.includes("/pages/");
-  const navbarPath = isSubpage
-    ? "../components/navbar.html"
-    : "components/navbar.html";
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        // ✅ FIX: Slash (/) hata kar relative path kar diya hai
+        const navbarPath = window.location.pathname.includes("/pages/")
+            ? "../components/navbar.html"
+            : "components/navbar.html";
 
-  fetch(navbarPath)
-    .then((response) => response.text())
-    .then((data) => {
-      const placeholder = document.getElementById("navbar-placeholder");
-      if (!placeholder) return;
-      placeholder.innerHTML = data;
+        const response = await fetch(navbarPath);
 
-      // ============================
-      // ✅ FIX 1: HAMBURGER MENU
-      // ============================
-      const hamburger = document.getElementById("hamburger");
-      const navbar = document.getElementById("navbar");
+        if (!response.ok) throw new Error("Failed to load navbar");
+        const data = await response.text();
 
-      if (hamburger && navbar) {
-        hamburger.addEventListener("click", function (e) {
-          e.stopPropagation();
-          navbar.classList.toggle("active");
+        const placeholder = document.getElementById("navbar-placeholder");
+        if (!placeholder) {
+            console.warn("navbar-placeholder not found");
+            return;
+        }
+        placeholder.innerHTML = data;
 
-          // Toggle icon: bars ↔ times
-          const icon = hamburger.querySelector("i");
-          if (navbar.classList.contains("active")) {
-            icon.classList.replace("fa-bars", "fa-times");
-          } else {
-            icon.classList.replace("fa-times", "fa-bars");
-          }
-        });
-      }
+        // 2. Hamburger Toggle
+        const hamburger = document.getElementById("hamburger");
+        const navbar = document.getElementById("navbar");
+        if (hamburger) {
+            hamburger.addEventListener("click", () => navbar.classList.toggle("active"));
+        }
 
-      // ============================
-      // ✅ FIX 2: CLOSE MENU ON LINK CLICK
-      // ============================
-      if (navbar) {
-        const navLinks = navbar.querySelectorAll("a:not(.dropdown-toggle)");
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function () {
-            if (window.innerWidth <= 768) {
-              navbar.classList.remove("active");
-              // Reset hamburger icon
-              if (hamburger) {
-                const icon = hamburger.querySelector("i");
-                if (icon && icon.classList.contains("fa-times")) {
-                  icon.classList.replace("fa-times", "fa-bars");
-                }
-              }
-            }
-          });
-        });
-      }
+        // 3. Theme Toggle Logic (Issue #313)
+        const themeToggle = document.getElementById("theme-toggle");
+        const htmlElement = document.documentElement;
 
-      // ============================
-      // ✅ FIX 3: MOBILE DROPDOWN (Click-based Accordion)
-      // ============================
-      if (window.innerWidth <= 768) {
-        const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
-        dropdownToggles.forEach((toggle) => {
-          toggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            const parent = this.closest(".dropdown");
-            const menu = parent.querySelector(".dropdown-menu");
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            htmlElement.classList.add('dark');
+        }
 
-            // Close other open dropdowns
-            document.querySelectorAll(".dropdown.active").forEach((d) => {
-              if (d !== parent) {
-                d.classList.remove("active");
-              }
+        if (themeToggle) {
+            themeToggle.addEventListener("click", () => {
+                htmlElement.classList.toggle('dark');
+                const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+                localStorage.setItem('theme', currentTheme);
             });
+        }
 
-            parent.classList.toggle("active");
-
-            // Toggle chevron rotation
-            const chevron = this.querySelector(".fa-chevron-down");
-            if (chevron) {
-              chevron.style.transform = parent.classList.contains("active")
-                ? "rotate(180deg)"
-                : "rotate(0deg)";
+        // 4. Mobile Dropdown Click Support
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('.dropdown-toggle');
+            if (toggle && window.innerWidth <= 768) {
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                });
             }
-          });
         });
-      }
 
-      // ============================
-      // CHECK LOGIN STATE
-      // ============================
-      const loggedIn = localStorage.getItem("pte_user_logged_in");
-      const authButtons = document.getElementById("auth-buttons");
-      const userProfile = document.getElementById("user-profile");
-
-      if (loggedIn && authButtons && userProfile) {
-        authButtons.style.display = "none";
-        userProfile.style.display = "flex";
-
-        const userName = localStorage.getItem("pte_user_name");
-        const userPhoto = localStorage.getItem("pte_user_photo");
-
-        const photoElement = document.getElementById("user-photo");
-        const nameElement = document.getElementById("user-name");
-
-        if (userName && nameElement) {
-          nameElement.textContent = userName.trim().charAt(0).toUpperCase();
+    } catch (error) {
+        console.error("Error loading navbar:", error);
+        const placeholder = document.getElementById("navbar-placeholder");
+        if (placeholder) {
+            placeholder.innerHTML = `<div style="padding: 1rem; text-align: center; color: red;">Navbar failed to load. Error: ${error.message}</div>`;
         }
-
-        if (photoElement) {
-          photoElement.style.display = "none";
-        }
-      }
-
-      // ============================
-      // PROFILE DROPDOWN
-      // ============================
-      if (userProfile) {
-        userProfile.addEventListener("click", function (e) {
-          this.classList.toggle("active");
-          e.stopPropagation();
-        });
-      }
-
-      document.addEventListener("click", function () {
-        if (userProfile) {
-          userProfile.classList.remove("active");
-        }
-      });
-
-      // ============================
-      // LOGOUT FUNCTION
-      // ============================
-      const logoutBtn = document.getElementById("logout-btn");
-
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", function () {
-          if (typeof firebaseLogout === "function") {
-            firebaseLogout();
-          } else {
-            localStorage.removeItem("pte_user_logged_in");
-            localStorage.removeItem("pte_user_name");
-            localStorage.removeItem("pte_user_email");
-            localStorage.removeItem("pte_user_photo");
-
-            window.location.href = "/index.html";
-          }
-        });
-      }
-    }); // closes .then(data => { ... })
-}); // closes DOMContentLoaded
+    }
+});
