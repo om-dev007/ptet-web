@@ -1092,3 +1092,35 @@ section {
     transform: rotate(45deg);
     background: #6f1a1c;
 }
+
+
+.dest-card-footer .explore-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background-color: var(--accent); /* Red/Teal main brand color */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dest-card-footer .explore-btn:hover {
+    background-color: #6f181a; /* Slightly darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(141, 33, 35, 0.25);
+}
+
+.dest-card-footer .explore-btn i {
+    font-size: 12px;
+    transition: transform 0.25s ease;
+}
+
+.dest-card-footer .explore-btn:hover i {
+    transform: translateX(4px);
+}
