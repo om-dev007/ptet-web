@@ -420,6 +420,48 @@
                 scroll-margin-top: 120px;
             }
         }
+        
+#section-contact .contact-card {
+    background: var(--bg-card, #ffffff);
+    border-radius: 20px;
+    padding: 45px 45px 40px;
+    box-shadow: var(--shadow-soft, 0 8px 24px rgba(0, 0, 0, 0.06));
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.05));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* ❌ Dark red background hata diya, ab card clean white dikhega */
+}
+
+#section-contact .contact-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lift, 0 12px 30px rgba(0, 0, 0, 0.08));
+    border-color: var(--accent, #8d2123);
+}
+
+/* ✅ Ensure text inside the card is clearly visible */
+#section-contact .contact-card .detail-content {
+    color: var(--text-primary, #222);
+}
+
+#section-contact .contact-card .detail-header {
+    margin-bottom: 24px;
+}
+
+#section-contact .contact-card .detail-content ul li a {
+    color: var(--accent, #8d2123);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#section-contact .contact-card .detail-content ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #section-contact .contact-card {
+        padding: 28px 20px;
+    }
+}
     </style>
 </head>
 
@@ -635,47 +677,48 @@
                 </div>
             </div>
         </section>
-
-        <!-- ================= SECTION: CONTACT ================= -->
-        <section class="abouts-detail" id="section-contact">
-            <div class="detail-container">
-                <div class="detail-header">
-                    <div class="icon-box"><i class="fas fa-envelope"></i></div>
-                    <h2>Get in Touch</h2>
-                </div>
-                <div class="detail-content">
-                    <p>
-                        We're here to help! Whether you have questions about test centres, preparation resources,
-                        score reporting, or anything else related to PTE, our support team is ready to assist.
+       <!-- ================= SECTION: CONTACT ================= -->
+<section class="abouts-detail" id="section-contact">
+    <div class="detail-container">
+        <div class="contact-card">
+            <div class="detail-header">
+                <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                <h2>Get in Touch</h2>
+            </div>
+            <div class="detail-content">
+                <p>
+                    We're here to help! Whether you have questions about test centres, preparation resources,
+                    score reporting, or anything else related to PTE, our support team is ready to assist.
+                </p>
+                <p>
+                    You can reach us via email, phone, or visit our training centres. We aim to respond to all
+                    enquiries within 24 hours. For quick answers, check our FAQ page first — many common questions
+                    are already covered there.
+                </p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:support@ptehub.com" style="color: var(--accent, #8d2123);">support@ptehub.com</a> or <a href="mailto:info@ptehub.com" style="color: var(--accent, #8d2123);">info@ptehub.com</a></li>
+                    <li><strong>Phone:</strong> +91 83025XXXXX (Helpdesk) or 1800-PTE-HUB (Toll Free)</li>
+                    <li><strong>Headquarters:</strong> PTE HUB Plaza, Sector 12, Jaipur, Rajasthan, 302015, India</li>
+                </ul>
+                <div class="highlight-box">
+                    <p><i class="fas fa-headset" style="color: var(--accent, #8d2123); margin-right: 10px;"></i>
+                        <strong>24/7 Support:</strong> Our team is available around the clock to ensure you get the
+                        help you need, whenever you need it.
                     </p>
-                    <p>
-                        You can reach us via email, phone, or visit our training centres. We aim to respond to all
-                        enquiries within 24 hours. For quick answers, check our FAQ page first — many common questions
-                        are already covered there.
-                    </p>
-                    <ul>
-                        <li><strong>Email:</strong> <a href="mailto:support@ptehub.com" style="color: var(--accent, #8d2123);">support@ptehub.com</a> or <a href="mailto:info@ptehub.com" style="color: var(--accent, #8d2123);">info@ptehub.com</a></li>
-                        <li><strong>Phone:</strong> +91 83025XXXXX (Helpdesk) or 1800-PTE-HUB (Toll Free)</li>
-                        <li><strong>Headquarters:</strong> PTE HUB Plaza, Sector 12, Jaipur, Rajasthan, 302015, India</li>
-                    </ul>
-                    <div class="highlight-box">
-                        <p><i class="fas fa-headset" style="color: var(--accent, #8d2123); margin-right: 10px;"></i>
-                            <strong>24/7 Support:</strong> Our team is available around the clock to ensure you get the
-                            help you need, whenever you need it.
-                        </p>
-                    </div>
-                </div>
-                <div class="detail-footer">
-                    <a href="contact.html" class="learn-more-link">
-                        Contact Us <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <div class="meta-tags">
-                        <span class="tag"><i class="fas fa-phone-alt"></i> Phone</span>
-                        <span class="tag"><i class="fas fa-map-marker-alt"></i> Jaipur</span>
-                    </div>
                 </div>
             </div>
-        </section>
+            <div class="detail-footer">
+                <a href="contact.html" class="learn-more-link">
+                    Contact Us <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="meta-tags">
+                    <span class="tag"><i class="fas fa-phone-alt"></i> Phone</span>
+                    <span class="tag"><i class="fas fa-map-marker-alt"></i> Jaipur</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- ================= CTA BANNER ================= -->
         <section class="abouts-cta">
