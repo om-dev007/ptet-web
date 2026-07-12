@@ -6,12 +6,13 @@ const admin = require('../config/firebase');
 const redis = require('../config/redis');
 const { cookieOptions } = require('../config/cookieConfig');
 const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/env');
+const normalizeEmail = require("../utils/normalizeEmail");
 
 exports.register = async (req, res, next) => {
   try {
-    const { email, password, name } = req.body;
-
-    const trimmedEmail = email?.trim() || '';
+    const { password, name } = req.body;
+    const email = normalizeEmail(req.body.email)
+ 
     const trimmedPassword = password?.trim() || '';
     const trimmedName = name?.trim() || '';
 
@@ -21,7 +22,7 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    const existingUser = await User.findOne({ where: { email:trimmedEmail } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(200).json({
         message: 'If an account can be created, you will receive further instructions.',
@@ -34,7 +35,7 @@ exports.register = async (req, res, next) => {
     const verification_token = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
-      email: trimmedEmail,
+      email,
       name: trimmedName,
       password_hash,
       provider: 'email',
@@ -58,7 +59,8 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { password } = req.body;
+    const email = normalizeEmail(req.body.email);
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -109,7 +111,8 @@ exports.googleAuth = async (req, res, next) => {
     const { token } = req.body;
 
     const decodedToken = await admin.auth().verifyIdToken(token);
-    const { email, name, picture } = decodedToken;
+    const email = normalizeEmail(decodedToken.email);
+    const { name, picture } = decodedToken;
 
     if (!email) {
       return res.status(400).json({ error: 'No email associated with this token' });
@@ -169,7 +172,8 @@ exports.githubAuth = async (req, res, next) => {
     }
 
     const decodedToken = await admin.auth().verifyIdToken(token);
-    const { email, name, picture } = decodedToken;
+    const email = normalizeEmail(decodedToken.email);
+    const { name, picture } = decodedToken;
 
     if (!email) {
       return res.status(400).json({ error: 'No email associated with this token' });
