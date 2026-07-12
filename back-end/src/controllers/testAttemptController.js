@@ -16,6 +16,24 @@ const submitAnswer = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Test attempt not found' });
     }
 
+    if (
+      attempt.user_id !== req.user.id &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({
+        error: "You are not authorized to modify this test attempt",
+      });
+    }
+
+    const existingAnswer = await UserAnswer.findOne({
+      where: {
+        attempt_id: attemptId,
+        question_id: questionId,
+      },
+    });
+
+    // existing update/create logic...
+
     const question = await Question.findByPk(question_id);
     if (!question) {
       return res.status(404).json({ success: false, message: 'Question not found' });
