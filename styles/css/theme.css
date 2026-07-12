@@ -211,7 +211,6 @@ body {
 
 .navbar-container {
     background: var(--bg-navbar);
-    box-shadow: 0 10px 30px var(--shadow-navbar);
 }
 
 .logo-text {
