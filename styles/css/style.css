@@ -355,15 +355,19 @@ section.reveal:nth-of-type(odd) {
 /* Reviews Section */
 #contact {
     background: #f7f7f7;
-    padding: 80px 20px;
+    padding: 80px 0;
     text-align: center;
+}
+
+.reviews-head {
+    padding: 0 20px;
 }
 
 .reviews-scroll-wrapper {
     overflow: hidden;
     width: 100%;
-    max-width: 1100px;
-    margin: 40px auto;
+    max-width: 100%;
+    margin: 40px 0;
     position: relative;
 }
 
@@ -1011,7 +1015,8 @@ section {
     justify-content: center;
     gap: 8px;
     padding: 10px 24px;
-    background-color: var(--accent); /* Red/Teal main brand color */
+    background-color: var(--accent);
+    /* Red/Teal main brand color */
     color: #ffffff;
     text-decoration: none;
     border-radius: 8px;
@@ -1022,7 +1027,8 @@ section {
 }
 
 .dest-card-footer .explore-btn:hover {
-    background-color: #6f181a; /* Slightly darker red on hover */
+    background-color: #6f181a;
+    /* Slightly darker red on hover */
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(141, 33, 35, 0.25);
 }
