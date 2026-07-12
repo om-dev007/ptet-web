@@ -209,8 +209,10 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-.navbar-container {
+.navbar-wrapper {
     background: var(--bg-navbar);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .logo-text {
