@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const { jwtEmailSecret } = require("../config/jwt");
 
 // ==================== CONFIGURATION ====================
 const BCRYPT_ROUNDS = 12;
@@ -269,8 +270,8 @@ exports.changeEmail = async (req, res, next) => {
     // Generate verification token
     const verificationToken = jwt.sign(
       { userId: id, newEmail },
-      process.env.JWT_EMAIL_SECRET || 'email-secret-key',
-      { expiresIn: '24h' }
+      jwtEmailSecret,
+      { expiresIn: "24h" }
     );
 
     // Store pending email change
@@ -307,7 +308,7 @@ exports.verifyEmailChange = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(
       token,
-      process.env.JWT_EMAIL_SECRET || 'email-secret-key'
+      jwtEmailSecret
     );
     const { userId, newEmail } = decoded;
 
