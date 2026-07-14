@@ -103,3 +103,21 @@ window.firebaseLogout = function () {
         })
         .catch((error) => console.error("Logout error:", error));
 };
+
+/* -----------------------------
+   UI INTERACTIONS
+----------------------------- */
+document.querySelectorAll('.toggle-password').forEach((btn) => {
+    btn.addEventListener('click', function() {
+        const input = this.previousElementSibling;
+        if (input && input.type === 'password') {
+            input.type = 'text';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        } else if (input) {
+            input.type = 'password';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        }
+    });
+});
