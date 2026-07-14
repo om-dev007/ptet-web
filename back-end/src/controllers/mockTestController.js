@@ -7,7 +7,7 @@ exports.getTests = async (req, res, next) => {
 
     if (type) filter.type = type;
     if (difficulty) filter.difficulty = difficulty;
-    if (duration) filter.duration_minutes = duration;
+    if (duration !== undefined) filter.duration_minutes = duration;
 
     const tests = await MockTest.findAll({
       where: filter,
@@ -56,53 +56,47 @@ exports.getTestById = async (req, res, next) => {
 const { MockTest, MockTestQuestion } = require("../models");
 
 exports.createMockTest = async (req, res, next) => {
-  try {
+  const transaction = await sequelize.transaction();
 
+  try {
     const {
       title,
       description,
-      duration_minutes,
-      type,
       difficulty,
-      is_full_test,
-      questionIds = []
+      duration_minutes,
+      questionIds,
     } = req.body;
 
-    const test = await MockTest.create({
+    const mockTest = await MockTest.create(
+      {
+        title,
+        description,
+        difficulty,
+        duration_minutes,
+        total_questions: questionIds.length,
+      },
+      { transaction }
+    );
 
-      title,
-      description,
-      duration_minutes,
-      type,
-      difficulty,
-      is_full_test,
-      total_questions: questionIds.length,
-      created_by: req.user.id
+    const mappings = questionIds.map((questionId) => ({
+      mock_test_id: mockTest.id,
+      question_id: questionId,
+    }));
 
+    await MockTestQuestion.bulkCreate(mappings, {
+      transaction,
     });
 
-    for (let i = 0; i < questionIds.length; i++) {
+    await transaction.commit();
 
-      await MockTestQuestion.create({
-
-        test_id: test.id,
-        question_id: questionIds[i],
-        order_index: i + 1
-
-      });
-
-    }
-
-    res.status(201).json({
-
+    return res.status(201).json({
       success: true,
-      message: "Mock Test created successfully",
-      data: test
-
+      message: "Mock test created successfully",
+      data: mockTest,
     });
-
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    await transaction.rollback();
+    next(error);
   }
 };
 exports.updateMockTest = async (req, res, next) => {
