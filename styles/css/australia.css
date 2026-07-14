@@ -1012,12 +1012,29 @@ section[id] {
     transition: 0.3s;
 }
 
-.faq-question i,
+/* .faq-question i,
 .faq-question span {
     font-size: 16px;
     color: var(--accent);
     transition: 0.3s;
+} */
+
+/* ✅ Fix: Restore the red circle and +/- icon */
+.faq-question span {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    font-size: 18px;
+    transition: 0.3s;
+    flex-shrink: 0;
+    font-weight: 400;
 }
+
 
 .faq-answer {
     max-height: 0;
