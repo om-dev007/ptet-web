@@ -1,10 +1,17 @@
 /* Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Arial', sans-serif;
     background: white;
     color: #1a1a1a;
     overflow-x: hidden;
+    width: 100%;
 }
 
 /* Header */
@@ -1011,7 +1018,8 @@ section {
     justify-content: center;
     gap: 8px;
     padding: 10px 24px;
-    background-color: var(--accent); /* Red/Teal main brand color */
+    background-color: var(--accent);
+    /* Red/Teal main brand color */
     color: #ffffff;
     text-decoration: none;
     border-radius: 8px;
@@ -1022,7 +1030,8 @@ section {
 }
 
 .dest-card-footer .explore-btn:hover {
-    background-color: #6f181a; /* Slightly darker red on hover */
+    background-color: #6f181a;
+    /* Slightly darker red on hover */
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(141, 33, 35, 0.25);
 }
