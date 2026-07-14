@@ -137,8 +137,7 @@ body {
     justify-content: flex-start;
     max-width: 1200px;
     width: 100%;
-    padding: 80px 40px 40px 40px;
-
+    margin: 0 auto;
     padding: 80px 40px 40px 40px;
 }
 
