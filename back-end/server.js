@@ -4,25 +4,21 @@
  */
 
 require('dotenv').config();
-const os = require('os');
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
 const logger = require("./src/utils/serverLogger");
-const packageJson = require('./package.json'); // 🟢 Fixed: Added missing import
-const setupGracefulShutdown = require('./src/utils/gracefulShutdown'); // 🟢 Fixed: Added import for #243
-const { generateHealthStatus }  = require("./src/services/healthService");
+const healthRoutes = require('./src/routes/healthRoutes');
+const setupGracefulShutdown = require('./src/utils/gracefulShutdown'); // 🔥 Fixed: Added missing import
+const { streakJob } = require('./src/jobs/streakJob');
+const validateEnv = require("./src/config/validateEnv");
+
 const PORT = process.env.PORT || 5000;
 
 require('./src/models');
 
-const { streakJob } = require('./src/jobs/streakJob');
-
 // ==================== ENVIRONMENT VALIDATION ====================
-const validateEnv = require("./src/config/validateEnv");
 validateEnv();
-
-const serverStartTime = Date.now();
 
 // ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
 process.on('unhandledRejection', (reason, promise) => {
@@ -34,12 +30,8 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-// ==================== HEALTH CHECK ENDPOINT ====================
-app.get('/health', async (req, res) => {
-  const healthData = await generateHealthStatus(serverStartTime);
-  const statusCode = healthData.status === 'UNHEALTHY' ? 503 : 200;
-  return res.status(statusCode).json(healthData);
-});
+// ==================== ROUTES ====================
+app.use('/health', healthRoutes);
 
 // ==================== START SERVER ====================
 const startServer = async () => {
@@ -50,7 +42,7 @@ const startServer = async () => {
       logger.info(`Server running on port ${PORT}`);
       logger.info(`Health check: http://localhost:${PORT}/health`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
-      streakJob.start(); // Cron job starts here
+      streakJob.start();
       logger.info('Cron jobs started');
     });
 
@@ -61,12 +53,11 @@ const startServer = async () => {
   }
 };
 
-
 // ==================== INITIALIZE SERVER ====================
-// 🟢 Fixed: Removed unused 'serverInstance' variable and added the imported helper
 const initializeServer = async () => {
   const server = await startServer();
-  setupGracefulShutdown(server); // ✅ Duplicate code removed
+  // 🔥 Fixed: Using the imported helper (Issue #243)
+  setupGracefulShutdown(server);
 };
 
 // ==================== START APPLICATION ====================
