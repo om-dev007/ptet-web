@@ -951,8 +951,26 @@ section[id] {
     transition: 0.3s;
 }
 
-.faq-question i,
+/* ✅ FIX: Red circle aur icon restore kar diya */
 .faq-question span {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    /* Red circle background */
+    color: white;
+    /* White '+' icon */
+    border-radius: 50%;
+    /* Make it a perfect circle */
+    font-size: 18px;
+    transition: 0.3s;
+    flex-shrink: 0;
+    font-weight: 400;
+}
+
+.faq-question i {
     font-size: 16px;
     color: var(--accent);
     transition: 0.3s;

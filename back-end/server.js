@@ -4,7 +4,6 @@
  */
 
 require('dotenv').config();
-const os = require('os');
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
@@ -16,13 +15,8 @@ const PORT = process.env.PORT || 5000;
 
 require('./src/models');
 
-const { streakJob } = require('./src/jobs/streakJob');
-
 // ==================== ENVIRONMENT VALIDATION ====================
-const validateEnv = require("./src/config/validateEnv");
 validateEnv();
-
-const serverStartTime = Date.now();
 
 // ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
 process.on('unhandledRejection', (reason, promise) => {
@@ -102,7 +96,9 @@ const startServer = async () => {
       logger.info(`Server running on port ${PORT}`);
       logger.info(`Health check: http://localhost:${PORT}/health`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
-      streakJob.start(); // Cron job starts here
+      streakJob.start();
+      testReminderJob.start();
+      weeklyProgressJob.start();
       logger.info('Cron jobs started');
     });
 
@@ -113,12 +109,11 @@ const startServer = async () => {
   }
 };
 
-
 // ==================== INITIALIZE SERVER ====================
-// 🟢 Fixed: Removed unused 'serverInstance' variable and added the imported helper
 const initializeServer = async () => {
   const server = await startServer();
-  setupGracefulShutdown(server); // ✅ Duplicate code removed
+  // 🔥 Fixed: Using the imported helper (Issue #243)
+  setupGracefulShutdown(server);
 };
 
 // ==================== START APPLICATION ====================

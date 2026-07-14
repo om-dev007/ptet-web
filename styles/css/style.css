@@ -1,10 +1,17 @@
 /* Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Arial', sans-serif;
     background: white;
     color: #1a1a1a;
     overflow-x: hidden;
+    width: 100%;
 }
 
 /* Header */
@@ -130,8 +137,7 @@ body {
     justify-content: flex-start;
     max-width: 1200px;
     width: 100%;
-    padding: 80px 40px 40px 40px;
-
+    margin: 0 auto;
     padding: 80px 40px 40px 40px;
 }
 
@@ -242,160 +248,86 @@ section.reveal:nth-of-type(odd) {
 
 
 /* Cards Section */
-/* ===== TEST CARDS SECTION IMPROVEMENTS ===== */
-
 #container {
     max-width: 1200px;
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    padding: 20px;
+}
+
+#container .cards::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    opacity: 0;
+    transition: 0.4s;
+    pointer-events: none;
+}
+
+#container .cards:hover::after {
+    opacity: 1;
 }
 
 #container .cards {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
+    width: 100%;
     background: #ffffff;
-    border-radius: 16px;
-    
-    overflow: hidden;
+
+    border-radius: 12px;
+    overflow: visible;
     position: relative;
-    
-    min-height: 470px;
-    
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
-    
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+    transition: all 0.4s ease;
+
     text-align: center;
+    padding-bottom: 25px;
+}
+
+
+
+#address,
+#address1 {
+    letter-spacing: 0.5px;
 }
 
 #container .cards:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* Image styling with smooth hover */
 #container .cards img {
     width: 100%;
     height: 220px;
+
     object-fit: cover;
-    
-    transition: transform 0.35s ease;
+
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    transition: transform 0.4s ease;
 }
 
 #container .cards:hover img {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
-/* Heading styling */
 #container .cards h3 {
-    margin: 22px 20px 12px;
-    font-size: 22px;
-    font-weight: 700;
+    margin-top: 20px;
+    font-size: 20px;
     color: #1a1a1a;
 }
 
-/* Paragraph with flex-grow for equal heights */
 #container .cards p {
-    padding: 0 24px;
+    padding: 0 20px;
     color: #555;
-    line-height: 1.7;
-    
-    flex-grow: 1;
-    margin: 0;
+    line-height: 1.5;
 }
 
-/* Book Now Button - Class based (not ID) */
-.book-now-btn {
-    margin: 25px 0 28px;
-    padding: 12px 30px;
-    
-    border: none;
-    border-radius: 8px;
-    
-    background: #8d2123;
-    color: white;
-    
-    cursor: pointer;
-    
-    font-weight: 600;
-    font-size: 14px;
-    
-    transition: all 0.3s ease;
-    
-    position: relative;
-    z-index: 10;
-}
-
-.book-now-btn:hover {
-    background: #6f181a;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(141, 33, 35, 0.35);
-}
-
-.book-now-btn:active {
-    transform: translateY(0);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    #container {
-        grid-template-columns: 1fr;
-        padding: 15px;
-    }
-    
-    #container .cards {
-        min-height: auto;
-        max-width: 100%;
-    }
-    
-    #container .cards h3 {
-        font-size: 20px;
-        margin: 18px 15px 10px;
-    }
-    
-    #container .cards p {
-        padding: 0 18px;
-        font-size: 15px;
-    }
-    
-    .book-now-btn {
-        margin: 20px 0 24px;
-        padding: 10px 25px;
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-    #container {
-        gap: 20px;
-        padding: 10px;
-    }
-    
-    #container .cards img {
-        height: 180px;
-    }
-    
-    #container .cards h3 {
-        font-size: 18px;
-        margin: 15px 12px 8px;
-    }
-    
-    #container .cards p {
-        padding: 0 14px;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-    
-    .book-now-btn {
-        padding: 10px 22px;
-        font-size: 13px;
-        margin: 18px 0 20px;
-    }
+#container .cards button {
+    margin-top: 15px;
 }
 
 /* Book Now Button */
@@ -429,15 +361,19 @@ section.reveal:nth-of-type(odd) {
 /* Reviews Section */
 #contact {
     background: #f7f7f7;
-    padding: 80px 20px;
+    padding: 80px 0;
     text-align: center;
+}
+
+.reviews-head {
+    padding: 0 20px;
 }
 
 .reviews-scroll-wrapper {
     overflow: hidden;
     width: 100%;
-    max-width: 1100px;
-    margin: 40px auto;
+    max-width: 100%;
+    margin: 40px 0;
     position: relative;
 }
 
@@ -1076,4 +1012,38 @@ section {
 .faq-item.active .faq-question span {
     transform: rotate(45deg);
     background: #6f1a1c;
+}
+
+
+.dest-card-footer .explore-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background-color: var(--accent);
+    /* Red/Teal main brand color */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dest-card-footer .explore-btn:hover {
+    background-color: #6f181a;
+    /* Slightly darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(141, 33, 35, 0.25);
+}
+
+.dest-card-footer .explore-btn i {
+    font-size: 12px;
+    transition: transform 0.25s ease;
+}
+
+.dest-card-footer .explore-btn:hover i {
+    transform: translateX(4px);
 }

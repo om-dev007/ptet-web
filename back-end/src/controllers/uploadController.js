@@ -6,6 +6,14 @@ const uploadAudio = async (req, res, next) => {
       return res.status(400).json({ error: 'No audio file provided' });
     }
 
+    const MAX_AUDIO_SIZE = 10 * 1024 * 1024;
+
+    if (req.file.size > MAX_AUDIO_SIZE) {
+      return res.status(413).json({
+        error: 'File size exceeds 10MB limit.',
+      });
+    }
+
     const { buffer, originalname, mimetype } = req.file;
 
     if (!['audio/webm', 'video/webm', 'audio/mp4', 'video/mp4'].includes(mimetype)) {
