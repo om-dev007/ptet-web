@@ -4,13 +4,15 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
-const { findOrCreateSocialUser } = require('../services/socialAuthService');
+const { formatUserResponse } = require('../utils/userResponse');
+const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/env');
 
 exports.register = async (req, res, next) => {
   try {
     const { password, name } = req.body;
     const email = normalizeEmail(req.body.email)
 
+    const trimmedEmail = email?.trim() || '';
     const trimmedPassword = password?.trim() || '';
     const trimmedName = name?.trim() || '';
 
@@ -20,7 +22,7 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email:trimmedEmail } });
     if (existingUser) {
       return res.status(200).json({
         message: 'If an account can be created, you will receive further instructions.',
@@ -33,7 +35,7 @@ exports.register = async (req, res, next) => {
     const verification_token = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
-      email,
+      email: trimmedEmail,
       name: trimmedName,
       password_hash,
       provider: 'email',
@@ -41,16 +43,9 @@ exports.register = async (req, res, next) => {
       verification_token
     });
 
-    await sendWelcomeEmail(user.email, user.name, user.verification_token);
-
-    return res.status(200).json({
-      message: 'If an account can be created, you will receive further instructions.',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      }
+    res.status(200).json({
+      message: 'User registered successfully. Please check your email for verification.',
+     user : formatUserResponse(user)
     });
   } catch (err) {
     next(err);
@@ -93,13 +88,7 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       message: 'Login successful',
       accessToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     next(err);
@@ -131,13 +120,7 @@ exports.googleAuth = async (req, res, next) => {
     res.status(200).json({
       message: 'Google login successful',
       accessToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user:formatUserResponse(user),
     });
   } catch (err) {
     if (err.code && err.code.startsWith('auth/')) {
@@ -175,13 +158,7 @@ exports.githubAuth = async (req, res, next) => {
     res.status(200).json({
       message: 'GitHub login successful',
       accessToken,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     if (err.code && err.code.startsWith('auth/')) {
@@ -255,13 +232,7 @@ exports.getMe = async (req, res, next) => {
   try {
     const user = req.user;
     res.status(200).json({
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     next(err);
@@ -280,13 +251,7 @@ exports.updateMe = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Profile updated successfully',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        photo_url: user.photo_url
-      }
+      user: formatUserResponse(user),
     });
   } catch (err) {
     next(err);
