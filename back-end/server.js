@@ -4,24 +4,21 @@
  */
 
 require('dotenv').config();
-const os = require('os');
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
 const mongoose = require('mongoose');
 const logger = require("./src/utils/serverLogger");
 const packageJson = require('./package.json'); // 🟢 Fixed: Added missing import
 const setupGracefulShutdown = require('./src/utils/gracefulShutdown'); // 🟢 Fixed: Added import for #243
+const { formatMemory } = require('./src/utils/memoryFormatter');
 const PORT = process.env.PORT || 5000;
 
 require('./src/models');
 
 const { streakJob } = require('./src/jobs/streakJob');
-
+const { logServerStartup } = require('./src/utils/serverStartupLogger')
 // ==================== ENVIRONMENT VALIDATION ====================
-const validateEnv = require("./src/config/validateEnv");
 validateEnv();
-
-const serverStartTime = Date.now();
 
 // ==================== UNHANDLED REJECTIONS & EXCEPTIONS ====================
 process.on('unhandledRejection', (reason, promise) => {
@@ -73,10 +70,10 @@ app.get('/health', async (req, res) => {
     },
     system: {
       memory: {
-        rss: (memoryUsage.rss / 1024 / 1024).toFixed(2) + ' MB',
-        heapTotal: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2) + ' MB',
-        heapUsed: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2) + ' MB',
-        external: (memoryUsage.external / 1024 / 1024).toFixed(2) + ' MB',
+        rss: formatMemory(memoryUsage.rss),
+        heapTotal: formatMemory(memoryUsage.heapTotal),
+        heapUsed: formatMemory(memoryUsage.heapUsed),
+        external: formatMemory(memoryUsage.external),
       },
       platform: os.platform(),
       arch: os.arch(),
@@ -98,11 +95,9 @@ const startServer = async () => {
     await connectDB();
 
     const server = app.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT}`);
-      logger.info(`Health check: http://localhost:${PORT}/health`);
-      logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      const env = process.env.NODE_ENV || 'development';
+      logServerStartup(PORT, env, 'started');
       streakJob.start(); // Cron job starts here
-      logger.info('Cron jobs started');
     });
 
     return server;
@@ -112,12 +107,11 @@ const startServer = async () => {
   }
 };
 
-
 // ==================== INITIALIZE SERVER ====================
-// 🟢 Fixed: Removed unused 'serverInstance' variable and added the imported helper
 const initializeServer = async () => {
   const server = await startServer();
-  setupGracefulShutdown(server); // ✅ Duplicate code removed
+  // 🔥 Fixed: Using the imported helper (Issue #243)
+  setupGracefulShutdown(server);
 };
 
 // ==================== START APPLICATION ====================

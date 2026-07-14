@@ -10,9 +10,10 @@
     display: flex;
     justify-content: center;
     z-index: 1000;
-    background: #ffffff;
+    background: transparent;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+
+        box-shadow: 0 10px 30px var(--shadow-navbar);
 }
 
 /* ============================
@@ -164,7 +165,7 @@
     background: #8d2123 !important;
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(141, 33, 35, 0.2);
+    /* box-shadow: 0 6px 20px rgba(141, 33, 35, 0.2); */
 }
 
 /* Register Button - No background */
@@ -191,7 +192,7 @@
     background: #2f855a !important;
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(47, 133, 90, 0.3);
+    /* box-shadow: 0 8px 25px rgba(47, 133, 90, 0.3); */
 }
 
 /* ============================
@@ -265,7 +266,8 @@
     list-style: none;
     padding: 6px 0;
     min-width: 200px;
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+    /* ✅ Fixed: Soft matching shadow */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -381,7 +383,8 @@
     right: 0;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+    /* ✅ Fixed: Soft matching shadow */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     min-width: 170px;
     display: none;
     flex-direction: column;
@@ -475,7 +478,7 @@
         padding: 14px 16px;
         display: none;
         gap: 2px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        /* box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12); */
         border: 1px solid rgba(0, 0, 0, 0.04);
         z-index: 1001;
         max-height: calc(100vh - 100px);
@@ -782,3 +785,20 @@
   gap: 8px;
 }
 
+
+#sun-icon {
+    display: none;
+}
+
+#moon-icon {
+    display: inline-block;
+}
+
+/* Dark Mode active: Sun visible, Moon hidden */
+html.dark #sun-icon {
+    display: inline-block;
+}
+
+html.dark #moon-icon {
+    display: none;
+}
