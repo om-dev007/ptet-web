@@ -7,10 +7,27 @@ const { Question } = require("../models");
 
 exports.createQuestion = async (req, res, next) => {
   try {
-    const question = await Question.create({
-      ...req.body,
-      created_by: req.user.id,
-    });
+    const {
+      question_text,
+      options,
+      correct_answer,
+      difficulty,
+      marks,
+      explanation,
+      category,
+    } = req.body;
+
+    const questionData = {
+      question_text,
+      options,
+      correct_answer,
+      difficulty,
+      marks,
+      explanation,
+      category,
+    };
+
+    const question = await Question.create(questionData);
 
     res.status(201).json({
       success: true,
@@ -38,7 +55,27 @@ exports.updateQuestion = async (req, res, next) => {
       });
     }
 
-    await question.update(req.body);
+    const {
+      question_text,
+      options,
+      correct_answer,
+      difficulty,
+      marks,
+      explanation,
+      category,
+    } = req.body;
+
+    const questionData = {
+      question_text,
+      options,
+      correct_answer,
+      difficulty,
+      marks,
+      explanation,
+      category,
+    };
+
+    await question.update(questionData);
 
     res.status(200).json({
       success: true,

@@ -24,23 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             hamburger.addEventListener("click", () => navbar.classList.toggle("active"));
         }
 
-        // 3. Theme Toggle Logic (Issue #313)
-        const themeToggle = document.getElementById("theme-toggle");
-        const htmlElement = document.documentElement;
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            htmlElement.classList.add('dark');
-        }
-
-        if (themeToggle) {
-            themeToggle.addEventListener("click", () => {
-                htmlElement.classList.toggle('dark');
-                const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
-                localStorage.setItem('theme', currentTheme);
-            });
-        }
+        // Removed redundant theme toggle logic (handled by scripts/js/theme.js)
 
         // 4. Mobile Dropdown Click Support
         const dropdowns = document.querySelectorAll('.dropdown');

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const questionController = require("../../controllers/questionController");
+const {validateQuestion} = require("../../middleware/validators/question.validator");
 
 const {
   authenticate,
@@ -12,6 +13,7 @@ router.post(
   "/",
   authenticate,
   authorize("admin"),
+  validateQuestion,
   questionController.createQuestion
 );
 
@@ -19,6 +21,7 @@ router.patch(
   "/:id",
   authenticate,
   authorize("admin"),
+  validateQuestion,
   questionController.updateQuestion
 );
 

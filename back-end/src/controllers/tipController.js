@@ -34,8 +34,24 @@ const getDailyTip = async (req, res, next) => {
         category: "General",
       };
       // Cache the fallback for the day to avoid repeated DB checks
-      await redis.setex(cacheKey, getSecondsUntilMidnight(), JSON.stringify(fallback));
-      return response.success(res, fallback, 'Daily tip (fallback)');
+      try {
+        await redis.setex(
+          cacheKey,
+          getSecondsUntilMidnight(),
+          JSON.stringify(fallback)
+        );
+      } catch (redisErr) {
+        console.warn(
+          "Failed to cache fallback daily tip:",
+          redisErr.message
+        );
+      }
+
+      return response.success(
+        res,
+        fallback,
+        "Daily tip (fallback)"
+      );
     }
 
     // 3. Deterministic selection based on the date
