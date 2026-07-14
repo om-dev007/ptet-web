@@ -4,10 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
-const { cookieOptions } = require('../config/cookieConfig');
-const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/env');
-const normalizeEmail = require("../utils/normalizeEmail");
-const { sendWelcomeEmail, sendPasswordResetEmail } = require('../utils/email');
+const { generateAccessToken, generateRefreshToken } = require('../utils/tokenUtils');
 
 exports.register = async (req, res, next) => {
   try {
@@ -88,17 +85,8 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
+   const accessToken = generateAccessToken(user);
+   const refreshToken = generateRefreshToken(user);
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -143,17 +131,9 @@ exports.googleAuth = async (req, res, next) => {
       // Provider-linking logic can be handled separately if needed
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+   
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -202,17 +182,8 @@ exports.githubAuth = async (req, res, next) => {
       });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -260,11 +231,7 @@ exports.refresh = async (req, res, next) => {
       return res.status(401).json({ error: 'User not found' });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
+    const accessToken = generateAccessToken(user);
 
     res.status(200).json({
       accessToken
