@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const admin = require('../config/firebase');
 const redis = require('../config/redis');
-const { generateAccessToken, generateRefreshToken } = require('../utils/tokenUtils');
+const { findOrCreateSocialUser } = require('../services/socialAuthService');
 
 exports.register = async (req, res, next) => {
   try {
@@ -114,22 +114,13 @@ exports.googleAuth = async (req, res, next) => {
     const email = normalizeEmail(decodedToken.email);
     const { name, picture } = decodedToken;
 
-    if (!email) {
-      return res.status(400).json({ error: 'No email associated with this token' });
-    }
-
-    let user = await User.findOne({ where: { email } });
-    if (!user) {
-      user = await User.create({
-        email,
-        name: name || 'Google User',
-        photo_url: picture,
-        provider: 'google',
-        role: 'user'
-      });
-    } else if (user.provider !== 'google' && user.provider !== 'email') {
-      // Provider-linking logic can be handled separately if needed
-    }
+   const user = await findOrCreateSocialUser({
+     email,
+     name,
+     picture,
+     provider: 'google',
+     defaultName: 'Google User'  
+   })
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
@@ -167,20 +158,14 @@ exports.githubAuth = async (req, res, next) => {
     const email = normalizeEmail(decodedToken.email);
     const { name, picture } = decodedToken;
 
-    if (!email) {
-      return res.status(400).json({ error: 'No email associated with this token' });
-    }
 
-    let user = await User.findOne({ where: { email } });
-    if (!user) {
-      user = await User.create({
-        email,
-        name: name || 'GitHub User',
-        photo_url: picture,
-        provider: 'github',
-        role: 'user'
-      });
-    }
+    const user = await findOrCreateSocialUser({
+      email,
+      name,
+      picture,
+      provider: 'github',
+      defaultName: 'GitHub User'
+    });
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
