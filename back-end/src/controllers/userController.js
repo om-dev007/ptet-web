@@ -1,10 +1,9 @@
-// back-end/src/controllers/userController.js
-
-const { User, UserProfile } = require('../models');
+const { User, UserProfile, SkillScore, UserAnswer, TestAttempt, Question, sequelize } = require('../models');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const { jwtEmailSecret } = require("../config/jwt");
 
 // ==================== CONFIGURATION ====================
 const BCRYPT_ROUNDS = 12;
@@ -271,8 +270,8 @@ exports.changeEmail = async (req, res, next) => {
     // Generate verification token
     const verificationToken = jwt.sign(
       { userId: id, newEmail },
-      process.env.JWT_EMAIL_SECRET || 'email-secret-key',
-      { expiresIn: '24h' }
+      jwtEmailSecret,
+      { expiresIn: "24h" }
     );
 
     // Store pending email change
@@ -309,7 +308,7 @@ exports.verifyEmailChange = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(
       token,
-      process.env.JWT_EMAIL_SECRET || 'email-secret-key'
+      jwtEmailSecret
     );
     const { userId, newEmail } = decoded;
 
@@ -889,6 +888,224 @@ exports.deleteUser = async (req, res, next) => {
     res.json({
       success: true,
       message: "User deactivated successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==================== GET USER PROGRESS ====================
+exports.getUserProgress = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { days = 30 } = req.query;
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Not authorized to view this data',
+      });
+    }
+
+    const dateLimit = new Date();
+    dateLimit.setDate(dateLimit.getDate() - parseInt(days));
+
+    const progressData = await SkillScore.findAll({
+      where: {
+        user_id: id,
+        recorded_at: {
+          [Op.gte]: dateLimit,
+        },
+      },
+      order: [['recorded_at', 'ASC']],
+      attributes: ['skill', 'score', 'recorded_at'],
+    });
+
+    res.status(200).json({
+      success: true,
+      data: progressData,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==================== GET WEAK AREAS ====================
+exports.getWeakAreas = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Not authorized to view this data',
+      });
+    }
+
+    const weakAreas = await UserAnswer.findAll({
+      attributes: [
+        [sequelize.col('question.subtype'), 'subtype'],
+        [sequelize.col('question.type'), 'type'],
+        [sequelize.fn('AVG', sequelize.col('UserAnswer.score')), 'average_score'],
+      ],
+      include: [
+        {
+          model: TestAttempt,
+          as: 'attempt',
+          attributes: [],
+          where: { user_id: id },
+        },
+        {
+          model: Question,
+          as: 'question',
+          attributes: [],
+        },
+      ],
+      where: {
+        score: {
+          [Op.not]: null,
+        },
+      },
+      group: [
+        sequelize.col('question.subtype'),
+        sequelize.col('question.type')
+      ],
+      order: [
+        [sequelize.fn('AVG', sequelize.col('UserAnswer.score')), 'ASC']
+      ],
+      limit: 3,
+      raw: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: weakAreas,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==================== GET USER STATS ====================
+exports.getUserStats = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (req.user.id !== id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Not authorized to view this data',
+      });
+    }
+
+    const testStats = await TestAttempt.findOne({
+      where: { user_id: id, status: 'completed' },
+      attributes: [
+        [sequelize.fn('COUNT', sequelize.col('id')), 'testsCompleted'],
+        [sequelize.fn('AVG', sequelize.col('total_score')), 'averageScore'],
+        [sequelize.fn('MAX', sequelize.col('total_score')), 'bestScore'],
+      ],
+      raw: true,
+    });
+
+    const testsCompleted = parseInt(testStats?.testsCompleted || 0);
+    const averageScore = parseFloat(testStats?.averageScore || 0);
+    const bestScore = parseFloat(testStats?.bestScore || 0);
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const sixtyDaysAgo = new Date();
+    sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+
+    const recentStats = await TestAttempt.findOne({
+      where: {
+        user_id: id,
+        status: 'completed',
+        submitted_at: { [Op.gte]: thirtyDaysAgo },
+      },
+      attributes: [[sequelize.fn('AVG', sequelize.col('total_score')), 'avgScore']],
+      raw: true,
+    });
+
+    const previousStats = await TestAttempt.findOne({
+      where: {
+        user_id: id,
+        status: 'completed',
+        submitted_at: {
+          [Op.gte]: sixtyDaysAgo,
+          [Op.lt]: thirtyDaysAgo,
+        },
+      },
+      attributes: [[sequelize.fn('AVG', sequelize.col('total_score')), 'avgScore']],
+      raw: true,
+    });
+
+    const recentAvg = parseFloat(recentStats?.avgScore || averageScore);
+    const previousAvg = parseFloat(previousStats?.avgScore || 0);
+    let improvementDelta = 0;
+    if (previousAvg > 0) {
+      improvementDelta = recentAvg - previousAvg;
+    } else if (testsCompleted > 0 && recentAvg > 0) {
+      improvementDelta = recentAvg;
+    }
+
+    const accuracyRaw = await UserAnswer.findAll({
+      attributes: [
+        [sequelize.col('question.type'), 'type'],
+        'is_correct',
+        [sequelize.fn('COUNT', sequelize.col('UserAnswer.id')), 'count'],
+      ],
+      include: [
+        {
+          model: TestAttempt,
+          as: 'attempt',
+          attributes: [],
+          where: { user_id: id },
+        },
+        {
+          model: Question,
+          as: 'question',
+          attributes: [],
+        },
+      ],
+      group: [sequelize.col('question.type'), 'is_correct'],
+      raw: true,
+    });
+
+    const typeStats = {
+      speaking: { correct: 0, total: 0 },
+      writing: { correct: 0, total: 0 },
+      reading: { correct: 0, total: 0 },
+      listening: { correct: 0, total: 0 },
+    };
+
+    accuracyRaw.forEach((row) => {
+      const type = row.type;
+      const isCorrect = row.is_correct === true || row.is_correct === 1 || row.is_correct === '1';
+      const count = parseInt(row.count) || 0;
+
+      if (typeStats[type]) {
+        typeStats[type].total += count;
+        if (isCorrect) {
+          typeStats[type].correct += count;
+        }
+      }
+    });
+
+    const accuracyByQuestionType = Object.keys(typeStats).map((type) => ({
+      type,
+      accuracy: typeStats[type].total > 0 ? (typeStats[type].correct / typeStats[type].total) * 100 : 0,
+    }));
+
+    res.status(200).json({
+      success: true,
+      data: {
+        testsCompleted,
+        averageScore: Number(averageScore.toFixed(2)),
+        bestScore: Number(bestScore.toFixed(2)),
+        improvementDelta: Number(improvementDelta.toFixed(2)),
+        accuracyByQuestionType,
+      },
     });
   } catch (err) {
     next(err);

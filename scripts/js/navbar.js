@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
     try {
         // ✅ FIX: Slash (/) hata kar relative path kar diya hai
-        const response = await fetch("components/navbar.html");
+        const navbarPath = window.location.pathname.includes("/pages/")
+            ? "../components/navbar.html"
+            : "components/navbar.html";
+
+        const response = await fetch(navbarPath);
 
         if (!response.ok) throw new Error("Failed to load navbar");
         const data = await response.text();
@@ -20,23 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             hamburger.addEventListener("click", () => navbar.classList.toggle("active"));
         }
 
-        // 3. Theme Toggle Logic (Issue #313)
-        const themeToggle = document.getElementById("theme-toggle");
-        const htmlElement = document.documentElement;
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            htmlElement.classList.add('dark');
-        }
-
-        if (themeToggle) {
-            themeToggle.addEventListener("click", () => {
-                htmlElement.classList.toggle('dark');
-                const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
-                localStorage.setItem('theme', currentTheme);
-            });
-        }
+        // Removed redundant theme toggle logic (handled by scripts/js/theme.js)
 
         // 4. Mobile Dropdown Click Support
         const dropdowns = document.querySelectorAll('.dropdown');

@@ -8,9 +8,9 @@ const { findOrCreateSocialUser } = require('../services/socialAuthService');
 
 exports.register = async (req, res, next) => {
   try {
-    const { email, password, name } = req.body;
+    const { password, name } = req.body;
+    const email = normalizeEmail(req.body.email)
 
-    const trimmedEmail = email?.trim() || '';
     const trimmedPassword = password?.trim() || '';
     const trimmedName = name?.trim() || '';
 
@@ -20,7 +20,7 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    const existingUser = await User.findOne({ where: { email:trimmedEmail } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(200).json({
         message: 'If an account can be created, you will receive further instructions.',
@@ -33,13 +33,15 @@ exports.register = async (req, res, next) => {
     const verification_token = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
-      email: trimmedEmail,
+      email,
       name: trimmedName,
       password_hash,
       provider: 'email',
       role: 'user',
       verification_token
     });
+
+    await sendWelcomeEmail(user.email, user.name, user.verification_token);
 
     return res.status(200).json({
       message: 'If an account can be created, you will receive further instructions.',
@@ -59,7 +61,17 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const trimmedEmail = email?.trim() || '';
+    const trimmedPassword = password?.trim() || '';
+
+
+    if (!trimmedEmail || !trimmedPassword) {
+      return res.status(400).json({
+        error: 'Email and password are required and cannot be empty.'
+      });
+    }
+
+    const user = await User.findOne({ where: { email:trimmedEmail } });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -68,24 +80,15 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(trimmedPassword, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
+   const accessToken = generateAccessToken(user);
+   const refreshToken = generateRefreshToken(user);
 
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    res.cookie('refreshToken',refreshToken , cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       message: 'Login successful',
@@ -108,7 +111,8 @@ exports.googleAuth = async (req, res, next) => {
     const { token } = req.body;
 
     const decodedToken = await admin.auth().verifyIdToken(token);
-    const { email, name, picture } = decodedToken;
+    const email = normalizeEmail(decodedToken.email);
+    const { name, picture } = decodedToken;
 
    const user = await findOrCreateSocialUser({
      email,
@@ -118,17 +122,9 @@ exports.googleAuth = async (req, res, next) => {
      defaultName: 'Google User'  
    })
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+   
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -159,7 +155,8 @@ exports.githubAuth = async (req, res, next) => {
     }
 
     const decodedToken = await admin.auth().verifyIdToken(token);
-    const { email, name, picture } = decodedToken;
+    const email = normalizeEmail(decodedToken.email);
+    const { name, picture } = decodedToken;
 
 
     const user = await findOrCreateSocialUser({
@@ -170,17 +167,8 @@ exports.githubAuth = async (req, res, next) => {
       defaultName: 'GitHub User'
     });
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -228,11 +216,7 @@ exports.refresh = async (req, res, next) => {
       return res.status(401).json({ error: 'User not found' });
     }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '15m' }
-    );
+    const accessToken = generateAccessToken(user);
 
     res.status(200).json({
       accessToken
@@ -258,7 +242,7 @@ exports.logout = async (req, res, next) => {
         // Token may already be expired or invalid; continue clearing cookie
       }
     }
-    
+
     res.clearCookie('refreshToken', cookieOptions);
 
     res.status(200).json({ message: 'Logged out successfully' });
@@ -304,6 +288,93 @@ exports.updateMe = async (req, res, next) => {
         photo_url: user.photo_url
       }
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.verifyEmail = async (req, res, next) => {
+  try {
+    const { token } = req.query;
+
+    if (!token) {
+      return res.status(400).json({ error: 'Verification token is required' });
+    }
+
+    const user = await User.findOne({ where: { verification_token: token } });
+
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid or expired verification token' });
+    }
+
+    user.isActive = true;
+    user.verification_token = null;
+    await user.save();
+
+    res.status(200).json({ message: 'Email verified successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.forgotPassword = async (req, res, next) => {
+  try {
+    const email = normalizeEmail(req.body.email);
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    user.passwordResetToken = resetToken;
+    user.passwordResetExpires = resetExpires;
+    await user.save();
+
+    await sendPasswordResetEmail(user.email, resetToken);
+
+    res.status(200).json({ message: 'Password reset email sent' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!token || !password) {
+      return res.status(400).json({ error: 'Token and new password are required' });
+    }
+
+    const user = await User.findOne({
+      where: {
+        passwordResetToken: token,
+      }
+    });
+
+    if (!user || user.passwordResetExpires < new Date()) {
+      return res.status(400).json({ error: 'Invalid or expired password reset token' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const password_hash = await bcrypt.hash(password, salt);
+
+    user.password_hash = password_hash;
+    user.passwordResetToken = null;
+    user.passwordResetExpires = null;
+    user.passwordChangedAt = new Date();
+    await user.save();
+
+    res.status(200).json({ message: 'Password has been reset successfully' });
   } catch (err) {
     next(err);
   }
