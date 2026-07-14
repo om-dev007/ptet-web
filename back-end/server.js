@@ -11,6 +11,8 @@ const logger = require("./src/utils/serverLogger");
 const healthRoutes = require('./src/routes/healthRoutes');
 const setupGracefulShutdown = require('./src/utils/gracefulShutdown'); // 🔥 Fixed: Added missing import
 const { streakJob } = require('./src/jobs/streakJob');
+const { testReminderJob } = require('./src/jobs/testReminderJob');
+const { weeklyProgressJob } = require('./src/jobs/weeklyProgressJob');
 const validateEnv = require("./src/config/validateEnv");
 
 const PORT = process.env.PORT || 5000;
@@ -43,6 +45,8 @@ const startServer = async () => {
       logger.info(`Health check: http://localhost:${PORT}/health`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
       streakJob.start();
+      testReminderJob.start();
+      weeklyProgressJob.start();
       logger.info('Cron jobs started');
     });
 
